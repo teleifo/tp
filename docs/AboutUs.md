@@ -31,12 +31,12 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ### Johnny Doe
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/gwhrg.png" width="200px">
 
-[[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
+[[github](http://github.com/gwhrg)]
 
-* Role: Developer
-* Responsibilities: Data
+* Role: Code Quality
+* Responsibilities: Looks after code quality, ensures adherence to coding standards, etc.
 
 ### Jean Doe
 
