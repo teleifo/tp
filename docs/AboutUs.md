@@ -13,7 +13,6 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 <img src="images/cyledge.png" width="200px">
 
 [[github](https://github.com/cyledge)]
-[[portfolio](team/johndoe.md)]
 
 * Role: Deliverables and deadlines
 * Responsibilities: Ensure project deliverables are done on time and in the right format.
