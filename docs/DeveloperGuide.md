@@ -265,13 +265,24 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
-* prefer desktop apps over other types
-* can type fast
-* prefers typing to mouse interactions
-* is reasonably comfortable using CLI apps
+Clinic staff who manage patient and vendor information as part of daily clinic operations
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+* Registering patients
+* Managing contact information (patients, vendors, etc.)
+* Retrieving and updating records quickly
+
+**Value proposition**: 
+
+- Digitises paper-based records
+- Faster information retrieval
+- Reduced human error (illegible handwriting, duplicate entries, etc.)
+- Easy to learn and use, designed for staff with basic computer skills
+- Lightweight and cost effective (minimal resources and no complex setup)
+- Speed up patient registration during busy hours
+- Improve data consistency across patient and vendor records
+- Decrease dependency on individual staff memory
+- Improve traceability of record changes over time
+- Support quicker onboarding of new staff
 
 ### User stories
 
@@ -320,7 +331,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *` | System Administrator | Register a new doctor                                                                                      | They can access the clinic system with the appropriate permissions. |
 | `* * *` | System Administrator | Register a new pharmacist                                                                                  | They can access the clinic system with the appropriate permissions. |
 | `* * *` | Registration staff   | Search for patients by name, NRIC, or phone number                                                         | I can retrieve records quickly                                      |
-
 
 ### Use cases
 
