@@ -149,7 +149,7 @@ public class EditCommand extends Command {
             setName(toCopy.name);
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
-            setAddress(toCopy.clinic);
+            setAddress(toCopy.address);
             setTags(toCopy.tags);
         }
 
@@ -185,7 +185,7 @@ public class EditCommand extends Command {
         }
 
         public void setAddress(Address address) {
-            this.clinic = address;
+            this.address = address;
         }
 
         public Optional<Address> getAddress() {
@@ -224,7 +224,7 @@ public class EditCommand extends Command {
             return Objects.equals(name, otherEditPersonDescriptor.name)
                     && Objects.equals(phone, otherEditPersonDescriptor.phone)
                     && Objects.equals(email, otherEditPersonDescriptor.email)
-                    && Objects.equals(address, otherEditPersonDescriptor.clinic)
+                    && Objects.equals(address, otherEditPersonDescriptor.address)
                     && Objects.equals(tags, otherEditPersonDescriptor.tags);
         }
 

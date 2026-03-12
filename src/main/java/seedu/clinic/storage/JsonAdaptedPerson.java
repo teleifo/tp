@@ -40,7 +40,7 @@ class JsonAdaptedPerson {
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.clinic = address;
+        this.address = address;
         if (tags != null) {
             this.tags.addAll(tags);
         }

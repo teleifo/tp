@@ -33,7 +33,7 @@ public class Person {
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.clinic = address;
+        this.address = address;
         this.tags.addAll(tags);
     }
 
@@ -93,7 +93,7 @@ public class Person {
         return name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
-                && address.equals(otherPerson.clinic)
+                && address.equals(otherPerson.address)
                 && tags.equals(otherPerson.tags);
     }
 
