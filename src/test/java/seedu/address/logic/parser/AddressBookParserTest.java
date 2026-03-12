@@ -1,11 +1,11 @@
-package seedu.address.logic.parser;
+package seedu.clinic.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.clinic.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.clinic.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.clinic.testutil.Assert.assertThrows;
+import static seedu.clinic.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,21 +13,21 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.AddCommand;
-import seedu.address.logic.commands.ClearCommand;
-import seedu.address.logic.commands.DeleteCommand;
-import seedu.address.logic.commands.EditCommand;
-import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
-import seedu.address.logic.commands.ExitCommand;
-import seedu.address.logic.commands.FindCommand;
-import seedu.address.logic.commands.HelpCommand;
-import seedu.address.logic.commands.ListCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
-import seedu.address.model.person.Person;
-import seedu.address.testutil.EditPersonDescriptorBuilder;
-import seedu.address.testutil.PersonBuilder;
-import seedu.address.testutil.PersonUtil;
+import seedu.clinic.logic.commands.AddCommand;
+import seedu.clinic.logic.commands.ClearCommand;
+import seedu.clinic.logic.commands.DeleteCommand;
+import seedu.clinic.logic.commands.EditCommand;
+import seedu.clinic.logic.commands.EditCommand.EditPersonDescriptor;
+import seedu.clinic.logic.commands.ExitCommand;
+import seedu.clinic.logic.commands.FindCommand;
+import seedu.clinic.logic.commands.HelpCommand;
+import seedu.clinic.logic.commands.ListCommand;
+import seedu.clinic.logic.parser.exceptions.ParseException;
+import seedu.clinic.model.person.NameContainsKeywordsPredicate;
+import seedu.clinic.model.person.Person;
+import seedu.clinic.testutil.EditPersonDescriptorBuilder;
+import seedu.clinic.testutil.PersonBuilder;
+import seedu.clinic.testutil.PersonUtil;
 
 public class AddressBookParserTest {
 

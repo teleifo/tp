@@ -1,25 +1,25 @@
-package seedu.address.logic.commands;
+package seedu.clinic.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.clinic.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.clinic.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.clinic.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.clinic.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.clinic.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.clinic.testutil.Assert.assertThrows;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.AddressBook;
-import seedu.address.model.Model;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
-import seedu.address.model.person.Person;
-import seedu.address.testutil.EditPersonDescriptorBuilder;
+import seedu.clinic.commons.core.index.Index;
+import seedu.clinic.logic.commands.exceptions.CommandException;
+import seedu.clinic.model.AddressBook;
+import seedu.clinic.model.Model;
+import seedu.clinic.model.person.NameContainsKeywordsPredicate;
+import seedu.clinic.model.person.Person;
+import seedu.clinic.testutil.EditPersonDescriptorBuilder;
 
 /**
  * Contains helper methods for testing commands.

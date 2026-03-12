@@ -1,14 +1,14 @@
-package seedu.address.logic;
+package seedu.clinic.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
-import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
-import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalPersons.AMY;
+import static seedu.clinic.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
+import static seedu.clinic.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.clinic.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
+import static seedu.clinic.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
+import static seedu.clinic.logic.commands.CommandTestUtil.NAME_DESC_AMY;
+import static seedu.clinic.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
+import static seedu.clinic.testutil.Assert.assertThrows;
+import static seedu.clinic.testutil.TypicalPersons.AMY;
 
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
@@ -18,20 +18,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import seedu.address.logic.commands.AddCommand;
-import seedu.address.logic.commands.CommandResult;
-import seedu.address.logic.commands.ListCommand;
-import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.UserPrefs;
-import seedu.address.model.person.Person;
-import seedu.address.storage.JsonAddressBookStorage;
-import seedu.address.storage.JsonUserPrefsStorage;
-import seedu.address.storage.StorageManager;
-import seedu.address.testutil.PersonBuilder;
+import seedu.clinic.logic.commands.AddCommand;
+import seedu.clinic.logic.commands.CommandResult;
+import seedu.clinic.logic.commands.ListCommand;
+import seedu.clinic.logic.commands.exceptions.CommandException;
+import seedu.clinic.logic.parser.exceptions.ParseException;
+import seedu.clinic.model.Model;
+import seedu.clinic.model.ModelManager;
+import seedu.clinic.model.ReadOnlyAddressBook;
+import seedu.clinic.model.UserPrefs;
+import seedu.clinic.model.person.Person;
+import seedu.clinic.storage.JsonAddressBookStorage;
+import seedu.clinic.storage.JsonUserPrefsStorage;
+import seedu.clinic.storage.StorageManager;
+import seedu.clinic.testutil.PersonBuilder;
 
 public class LogicManagerTest {
     private static final IOException DUMMY_IO_EXCEPTION = new IOException("dummy IO exception");
