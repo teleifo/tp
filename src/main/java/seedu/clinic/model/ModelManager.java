@@ -14,7 +14,7 @@ import seedu.clinic.commons.core.LogsCenter;
 import seedu.clinic.model.person.Person;
 
 /**
- * Represents the in-memory model of the address book data.
+ * Represents the in-memory model of clinic book data.
  */
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
@@ -29,7 +29,7 @@ public class ModelManager implements Model {
     public ModelManager(ReadOnlyClinicBook clinicBook, ReadOnlyUserPrefs userPrefs) {
         requireAllNonNull(clinicBook, userPrefs);
 
-        logger.fine("Initializing with address book: " + clinicBook + " and user prefs " + userPrefs);
+        logger.fine("Initializing with clinic book: " + clinicBook + " and user prefs " + userPrefs);
 
         this.clinicBook = new ClinicBook(clinicBook);
         this.userPrefs = new UserPrefs(userPrefs);

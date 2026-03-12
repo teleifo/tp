@@ -10,7 +10,7 @@ import seedu.clinic.model.person.Person;
 import seedu.clinic.model.person.UniquePersonList;
 
 /**
- * Wraps all data at the address-book level
+ * Wraps all data at the clinicbook level
  * Duplicates are not allowed (by .isSamePerson comparison)
  */
 public class ClinicBook implements ReadOnlyClinicBook {
@@ -60,7 +60,7 @@ public class ClinicBook implements ReadOnlyClinicBook {
     //// person-level operations
 
     /**
-     * Returns true if a person with the same identity as {@code person} exists in the address book.
+     * Returns true if a person with the same identity as {@code person} exists in the clinic book.
      */
     public boolean hasPerson(Person person) {
         requireNonNull(person);
@@ -68,8 +68,8 @@ public class ClinicBook implements ReadOnlyClinicBook {
     }
 
     /**
-     * Adds a person to the address book.
-     * The person must not already exist in the address book.
+     * Adds a person to clinic book.
+     * The person must not already exist in clinic book.
      */
     public void addPerson(Person p) {
         persons.add(p);
@@ -77,8 +77,8 @@ public class ClinicBook implements ReadOnlyClinicBook {
 
     /**
      * Replaces the given person {@code target} in the list with {@code editedPerson}.
-     * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
+     * {@code target} must exist in clinic book.
+     * The person identity of {@code editedPerson} must not be the same as another existing person in clinic book.
      */
     public void setPerson(Person target, Person editedPerson) {
         requireNonNull(editedPerson);
@@ -88,7 +88,7 @@ public class ClinicBook implements ReadOnlyClinicBook {
 
     /**
      * Removes {@code key} from this {@code ClinicBook}.
-     * {@code key} must exist in the address book.
+     * {@code key} must exist in clinic book.
      */
     public void removePerson(Person key) {
         persons.remove(key);
