@@ -295,40 +295,51 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**  
 1.  User requests to add a new patient.
-2.  AddressBook requests for patient details.
+2.  ClinicBook requests for patient details.
 3.  User enters the patient's details.
 4.  User submits the details.
-5.  AddressBook shows the details for confirmation.
+5.  ClinicBook shows the details for confirmation.
 6.  User confirms.
-7.  AddressBook adds the record.
+7.  ClinicBook adds the record.
     Use case ends.  
 
 **Extensions**
-* 4a. AddressBook find a duplicate record with the same name or NRIC
-    * 4a1. AddressBook show the potential duplicate record.
-    * Use Case resumes at Step 6.
+* 4a. ClinicBook finds a duplicate record with the same NRIC
+    * 4a1. ClinicBook shows the potential duplicate record.
+    * Use case ends.
 
-* 4b. Invalid input
-    * 5b1. AddressBook shows an error message indicating a correct input format.
-    * Use Case resumes at Step 2.
+* 4b. ClinicBook find a duplicate record with the same name or phone number
+    * 4b1. ClinicBook shows the potential duplicate record.
+    * 4b2. ClinicBook requests for confirmation.
+    * 4b3. User amends if needed.
+    * 4b4. User confirms.
+    * Use case resumes at Step 7.
 
-* 5a. User want to edit or don't want to add this record anymore
-    * 5a1. User retract the submission
-    * Use Case resumes at Step 2
+* 4c. Invalid input
+    * 4c1. ClinicBook shows an error message indicating a correct input format.
+    * Use case resumes at Step 2.
+
+* 5a. User wants to edit
+    * 5a1. User retracts the submission
+    * Use case resumes at Step 2
+ 
+* 5b. User doesn't want to add this record anymore
+    * 5b1. User cancels the submission
+    * Use case ends.
 
 **Use case: UC2 - Get Patient's Medical History**
 
 **MSS**
 1.  User requests to view patient's medical history.
-2.  AddressBook requests for patient's information, NRIC / name.
+2.  ClinicBook requests for patient's information, NRIC / name.
 3.  User provides patient's NRIC / Name.
-4.  AddressBook shows the medical history of this user.
+4.  ClinicBook shows the medical history of this user.
     Use case ends.
 
 **Extensions**
-* 2a. AddressBook cannot find the record
-    * 2a1. AddressBook notifies the user that no record is found.
-    * Use Case end.
+* 2a. ClinicBook cannot find the record
+    * 2a1. ClinicBook notifies the user that no record is found.
+    * Use case end.
 
 
 ### Non-Functional Requirements
@@ -344,7 +355,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Patient Record**: A record with Patient's particular and can be found using patient's name or ID
+* **Patient Record**: A record containing a patient's medical history that can be identified using the patient's NRIC
 * **Duplicate Record**: A record with the same NRIC / Name / Phone Number
 
 --------------------------------------------------------------------------------------------------------------------
