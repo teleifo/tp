@@ -34,7 +34,7 @@ public class Person {
 
     /**
      * Every field must be present and not null.
-     * ID will be assigned by 
+     * ID will be assigned by
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, int id) {
         requireAllNonNull(name, phone, email, address, tags);
@@ -48,7 +48,7 @@ public class Person {
 
     /**
      * constructor for Person without ID assignment
-     * ID will then be assigned by the 
+     * ID will then be assigned by the
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
