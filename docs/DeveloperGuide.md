@@ -464,9 +464,8 @@ Use case ends.
   *a2. System Administrator confirms
   Use case ends.
 
-*{More to be added}*
 
-**Use case: UC3 - Search for Patient by Name, NRIC, or Phone Number**
+**Use case: UC5 - Search for Patient by Name, NRIC, or Phone Number**
 
 **Actor:** Registration Staff
 
@@ -476,28 +475,35 @@ Use case ends.
 
 1. Registration Staff requests to search for a patient.
 2. ClinicBook requests a search keyword.
-3. Registration Staff enters the patient's name, NRIC, or phone number.
-4. ClinicBook displays a list of matching patient records.
+3. Registration Staff enters a patient's name, NRIC, or phone number.
+4. ClinicBook validates the search keyword.
+5. ClinicBook searches for patient records matching the keyword.
+6. ClinicBook displays a list of matching patient records.
 
 Use case ends.
 
 **Extensions**
 
-* 3a. Registration Staff enters an empty or invalid search keyword.
+* 3a. Registration Staff enters an empty search keyword.
   * 3a1. ClinicBook shows an error message.
   * 3a2. Registration Staff enters a valid search keyword.
-  Use case resumes at step 4.
+  * Use case resumes at step 4.
 
-* 4a. No matching patient records are found.
-  * 4a1. ClinicBook informs Registration Staff that no matching records were found.
-  Use case ends.
+* 4a. The search keyword is not in a valid name, NRIC, or phone number format.
+  * 4a1. ClinicBook shows an error message.
+  * 4a2. Registration Staff enters a valid search keyword.
+  * Use case resumes at step 4.
+
+* 5a. No patient records match the search keyword.
+  * 5a1. ClinicBook informs Registration Staff that no matching records were found.
+  * Use case ends.
 
 * *a. At any time, Registration Staff chooses to cancel the search.
-  * *a1. ClinicBook cancels the operation.
-  Use case ends.
+  * *a1. ClinicBook cancels the search request.
+  * Use case ends.
 
 
-**Use case: UC4 - Register a New Pharmacist**
+**Use case: UC6 - Register a New Pharmacist**
 
 **Actor:** System Administrator
 
@@ -516,7 +522,7 @@ Use case ends.
 
 **Extensions**
 
-* 3a. Some compulsory fields are missing.
+* 3a. At least one of the fields (name, NRIC, contact number) are empty.
   * 3a1. ClinicBook shows an error message indicating the missing fields.
   * 3a2. System Administrator enters the missing information.
   Steps 3a1–3a2 are repeated until all compulsory fields are provided.
@@ -536,6 +542,12 @@ Use case ends.
   * *a2. System Administrator confirms.
   Use case ends.
 
+
+
+
+*{More to be added}*
+
+
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
@@ -544,11 +556,10 @@ Use case ends.
 4.  All operations should complete within 2 seconds
 5.  The system supports only one user accessing the data at a time.
 6.  Data should persist unless the user deletes the data file.
-4. The system should be able to recover gracefully from unexpected shutdowns without data loss for committed transactions.
-5. The application should handle invalid or malformed data files without crashing and provide appropriate error messages.
-7. The system should enforce role-based access control so that users can only perform actions permitted by their assigned roles (e.g., only System Administrators can register pharmacists).
-9. The system should validate user input such as NRIC, phone numbers, and names before storing them to prevent invalid data.
-10. The system should prevent duplicate records for system users based on unique identifiers such as NRIC.
+7. The system should be able to recover gracefully from unexpected shutdowns without data loss for committed transactions.
+8. The application should handle invalid or malformed data files without crashing and provide appropriate error messages.
+9. The system should enforce role-based access control so that users can only perform actions permitted by their assigned roles (e.g., only System Administrators can register pharmacists).
+10. The system should validate user input such as NRIC, phone numbers, and names before storing them to prevent invalid data.
 
 
 ### Glossary
