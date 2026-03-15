@@ -21,6 +21,10 @@ public class PersonMatchesFindCriteriaPredicateTest {
                 Collections.singletonList("first"), Optional.empty());
         PersonMatchesFindCriteriaPredicate secondPredicate = new PersonMatchesFindCriteriaPredicate(
                 Arrays.asList("first", "second"), Optional.of(new Phone("12345678")));
+        PersonMatchesFindCriteriaPredicate sameNameDifferentPhone = new PersonMatchesFindCriteriaPredicate(
+                Collections.singletonList("first"), Optional.of(new Phone("12345678")));
+        PersonMatchesFindCriteriaPredicate differentNameSamePhone = new PersonMatchesFindCriteriaPredicate(
+                Collections.singletonList("second"), Optional.empty());
 
         assertTrue(firstPredicate.equals(firstPredicate));
 
@@ -31,6 +35,8 @@ public class PersonMatchesFindCriteriaPredicateTest {
         assertFalse(firstPredicate.equals(1));
         assertFalse(firstPredicate.equals(null));
         assertFalse(firstPredicate.equals(secondPredicate));
+        assertFalse(firstPredicate.equals(sameNameDifferentPhone));
+        assertFalse(firstPredicate.equals(differentNameSamePhone));
     }
 
     @Test
