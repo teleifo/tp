@@ -367,13 +367,13 @@ Use case ends.
 
 **Extensions**
 
-* 4a. The name, NRIC or contact number fields are empty
+* 4a. At least one of the fields (name, NRIC, contact number) are empty
   4a1. ClinicBook requests for values for these fields
   4a2. Admin enters data for the missing fields
   Steps 4a1 - 4a2 are repeated until the missing fields are filled
   Use case resumes at step 4.
 
-* 4b. ClinicBook finds a duplicate doctor with the same NRIC or phone number
+* 4b. ClinicBook finds a duplicate doctor with the same NRIC
   4b1. ClinicBook shows the duplicate record
   Use case ends.
 
@@ -392,9 +392,8 @@ Use case ends.
 1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 2. Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4. Data should be validated and sanitized before storage to prevent data corruption.
-5. The system should be able to recover gracefully from unexpected shutdowns without data loss for committed transactions.
-6. The application should handle invalid or malformed data files without crashing and provide appropriate error messages.
+4. The system should be able to recover gracefully from unexpected shutdowns without data loss for committed transactions.
+5. The application should handle invalid or malformed data files without crashing and provide appropriate error messages.
 
 ### Glossary
 
