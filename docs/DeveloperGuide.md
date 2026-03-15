@@ -334,42 +334,78 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 (For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Delete a person**
+**Use case: UC1 - Add New Patient Record**
 
-**MSS**
 
-1. User requests to list persons
-2. AddressBook shows a list of persons
-3. User requests to delete a specific person in the list
-4. AddressBook deletes the person
-
-   Use case ends.
+**MSS**  
+1.  User requests to add a new patient.
+2.  ClinicBook requests for patient details.
+3.  User enters the patient's details.
+4.  User submits the details.
+5.  ClinicBook shows the details for confirmation.
+6.  User confirms.
+7.  ClinicBook adds the record.
+    Use case ends.  
 
 **Extensions**
+* 4a. ClinicBook finds a duplicate record with the same NRIC
+    * 4a1. ClinicBook shows the potential duplicate record.
+    * Use case ends.
 
-* 2a. The list is empty.
+* 4b. ClinicBook find a duplicate record with the same name or phone number
+    * 4b1. ClinicBook shows the potential duplicate record.
+    * 4b2. ClinicBook requests for confirmation.
+    * 4b3. User amends if needed.
+    * 4b4. User confirms.
+    * Use case resumes at Step 7.
 
-  Use case ends.
-* 3a. The given index is invalid.
+* 4c. Invalid input
+    * 4c1. ClinicBook shows an error message indicating a correct input format.
+    * Use case resumes at Step 2.
 
+* 5a. User wants to edit
+    * 5a1. User retracts the submission
+    * Use case resumes at Step 2
+ 
+* 5b. User doesn't want to add this record anymore
+    * 5b1. User cancels the submission
+    * Use case ends.
+
+**Use case: UC2 - Get Patient's Medical History**
+
+**MSS**
+1.  User requests to view patient's medical history.
+2.  ClinicBook requests for patient's information, NRIC / name.
+3.  User provides patient's NRIC / Name.
+4.  ClinicBook shows the medical history of this user.
+    Use case ends.
+
+**Extensions**
+* 2a. ClinicBook cannot find the record
+    * 2a1. ClinicBook notifies the user that no record is found.
+   Use case ends.
+
+* 3a. The given NRIC / Name is invalid.
   * 3a1. AddressBook shows an error message.
-
     Use case resumes at step 2.
 
 *{More to be added}*
 
 ### Non-Functional Requirements
 
-1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2. Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
+2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+4.  All operations should complete within 2 seconds
+5.  The system supports only one user accessing the data at a time.
+6.  Data should persist unless the user deletes the data file.
 
-*{More to be added}*
 
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
+* **Patient Record**: A record containing a patient's medical history that can be identified using the patient's NRIC
+* **Duplicate Record**: A record with the same NRIC / Name / Phone Number
 
 ---
 

@@ -1,18 +1,34 @@
-[![CI Status](https://github.com/se-edu/addressbook-level3/workflows/Java%20CI/badge.svg)](https://github.com/se-edu/addressbook-level3/actions)[![codecov](https://codecov.io/gh/AY2526S2-CS2103-T11-3/tp/branch/master/graph/badge.svg?token=J0Z88PIFYG)](https://codecov.io/gh/AY2526S2-CS2103-T11-3/tp)
-
-```
-[![codecov](https://codecov.io/gh/AY2526S2-CS2103-T11-3/tp/branch/master/graph/badge.svg?token=J0Z88PIFYG)](https://codecov.io/gh/AY2526S2-CS2103-T11-3/tp)
-```
+[![CI Status](https://github.com/AY2526S2-CS2103-T11-3/tp/workflows/Java%20CI/badge.svg)](https://github.com/AY2526S2-CS2103-T11-3/tp/actions) [![codecov](https://codecov.io/gh/AY2526S2-CS2103-T11-3/tp/branch/master/graph/badge.svg?token=J0Z88PIFYG)](https://codecov.io/gh/AY2526S2-CS2103-T11-3/tp)
 
 ![Ui](docs/images/Ui.png)
 
-* This is **a sample project for Software Engineering (SE) students**.`<br>`
-  Example usages:
-  * as a starting point of a course project (as opposed to writing everything from scratch)
-  * as a case study
-* The project simulates an ongoing software project for a desktop application (called _AddressBook_) used for managing contact details.
-  * It is **written in OOP fashion**. It provides a **reasonably well-written** code base **bigger** (around 6 KLoC) than what students usually write in beginner-level SE modules, without being overwhelmingly big.
-  * It comes with a **reasonable level of user and developer documentation**.
-* It is named `AddressBook Level 3` (`AB3` for short) because it was initially created as a part of a series of `AddressBook` projects (`Level 1`, `Level 2`, `Level 3` ...).
-* For the detailed documentation of this project, see the **[Address Book Product Website](https://se-education.org/addressbook-level3)**.
-* This project is a **part of the se-education.org** initiative. If you would like to contribute code to this project, see [se-education.org](https://se-education.org/#contributing-to-se-edu) for more info.
+# ClinicBook
+
+___
+
+**ClinicBook** is a desktop CLI application with GUI elements designed to help
+clinic staff manage patient information efficiently as part of daily clinic operations.
+
+The system allows clinic staff to store, update, and retrieve medical records, including
+patient details, doctor information, diagnoses, and prescriptions. ClinicBook aims to
+simplify clinic workflows by providing a lightweight and easy-to-learn system for managing
+clinic data efficiently.
+
+## Installation
+
+___
+
+1. Ensure that **Java 17 or later** is installed on your computer.<br>
+   **Mac users:** Make sure you install the exact JDK version specified [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+2. Download the latest `.jar` release from the [releases page](https://github.com/AY2526S2-CS2103-T11-3/tp/releases).
+3. Copy the downloaded `.jar` file to the folder you want to use as the application's home directory.
+4. Open a command terminal and navigate to that folder using `cd`.
+5. Run the following command to start the application: `java -jar clinicbook.jar`.
+
+The application's GUI should appear after a few seconds.
+
+## Acknowledgements
+
+___
+
+This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
