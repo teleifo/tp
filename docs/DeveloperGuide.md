@@ -37,7 +37,7 @@ Given below is a quick overview of main components and how they interact with ea
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [`Main`](https://github.com/AY2526S2-CS2103-T11-3/tp/tree/master/src/main/java/seedu/clinic/Main.java) and [`MainApp`](https://github.com/AY2526S2-CS2103-T11-3/tp/tree/master/src/main/java/seedu/clinic/MainApp.java)) is in charge of the app launch and shut down.
 
 * At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 * At shut down, it shuts down the other components and invokes cleanup methods where necessary.
@@ -70,13 +70,13 @@ The sections below give more details of each component.
 
 ### UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
+The **API** of this component is specified in [`Ui.java`](https://github.com/AY2526S2-CS2103-T11-3/tp/tree/master/src/main/java/seedu/clinic/ui/Ui.java)
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
-The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
+The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2526S2-CS2103-T11-3/tp/tree/master/src/main/java/seedu/clinic/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2526S2-CS2103-T11-3/tp/tree/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
@@ -87,7 +87,7 @@ The `UI` component,
 
 ### Logic component
 
-**API** : [`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
+**API** : [`Logic.java`](https://github.com/AY2526S2-CS2103-T11-3/tp/tree/master/src/main/java/seedu/clinic/logic/Logic.java)
 
 Here's a (partial) class diagram of the `Logic` component:
 
@@ -102,7 +102,7 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 
 How the `Logic` component works:
 
-1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
+1. When `Logic` is called upon to execute a command, it is passed to an `ClinicBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
 2. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which is executed by the `LogicManager`.
 3. The command can communicate with the `Model` when it is executed (e.g. to delete a person).`<br>`
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
@@ -114,23 +114,23 @@ Here are the other classes in `Logic` (omitted from the class diagram above) tha
 
 How the parsing works:
 
-* When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
+* When called upon to parse a user command, the `ClinicBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `ClinicBookParser` returns back as a `Command` object.
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
 
-**API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2526S2-CS2103-T11-3/tp/tree/master/src/main/java/seedu/clinic/model/Model.java)
 
 <img src="images/ModelClassDiagram.png" width="450" />
 
 The `Model` component,
 
-* stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
+* stores the clinic book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
 * stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
+<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `ClinicBook`, which `Person` references. This allows `ClinicBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
 
 <img src="images/BetterModelClassDiagram.png" width="450" />
 
@@ -138,19 +138,19 @@ The `Model` component,
 
 ### Storage component
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2526S2-CS2103-T11-3/tp/tree/master/src/main/java/seedu/clinic/storage/Storage.java)
 
 <img src="images/StorageClassDiagram.png" width="550" />
 
 The `Storage` component,
 
-* can save both address book data and user preference data in JSON format, and read them back into corresponding objects.
-* inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
+* can save both clinic book data and user preference data in JSON format, and read them back into corresponding objects.
+* inherits from both `ClinicBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
 
 ### Common classes
 
-Classes used by multiple components are in the `seedu.address.commons` package.
+Classes used by multiple components are in the `seedu.clinic.commons` package.
 
 ---
 
@@ -162,37 +162,37 @@ This section describes some noteworthy details on how certain features are imple
 
 #### Proposed Implementation
 
-The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
+The proposed undo/redo mechanism is facilitated by `VersionedClinicBook`. It extends `ClinicBook` with an undo/redo history, stored internally as an `clinicBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
 
-* `VersionedAddressBook#commit()` — Saves the current address book state in its history.
-* `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
-* `VersionedAddressBook#redo()` — Restores a previously undone address book state from its history.
+* `VersionedClinicBook#commit()` — Saves the current clinic book state in its history.
+* `VersionedClinicBook#undo()` — Restores the previous clinic book state from its history.
+* `VersionedClinicBook#redo()` — Restores a previously undone clinic book state from its history.
 
-These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
+These operations are exposed in the `Model` interface as `Model#commitClinicBook()`, `Model#undoClinicBook()` and `Model#redoClinicBook()` respectively.
 
 Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
 
-Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
+Step 1. The user launches the application for the first time. The `VersionedClinicBook` will be initialized with the initial clinic book state, and the `currentStatePointer` pointing to that single clinic book state.
 
 ![UndoRedoState0](images/UndoRedoState0.png)
 
-Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
+Step 2. The user executes `delete 5` command to delete the 5th person in the clinic book. The `delete` command calls `Model#commitClinicBook()`, causing the modified state of the clinic book after the `delete 5` command executes to be saved in the `clinicBookStateList`, and the `currentStatePointer` is shifted to the newly inserted clinic book state.
 
 ![UndoRedoState1](images/UndoRedoState1.png)
 
-Step 3. The user executes `add n/David …` to add a new person. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
+Step 3. The user executes `add n/David …` to add a new person. The `add` command also calls `Model#commitClinicBook()`, causing another modified clinic book state to be saved into the `clinicBookStateList`.
 
 ![UndoRedoState2](images/UndoRedoState2.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If a command fails its execution, it will not call `Model#commitAddressBook()`, so the address book state will not be saved into the `addressBookStateList`.
+<div markdown="span" class="alert alert-info">:information_source: **Note:** If a command fails its execution, it will not call `Model#commitClinicBook()`, so the clinic book state will not be saved into the `clinicBookStateList`.
 
 </div>
 
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
+Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoClinicBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous clinic book state, and restores the clinic book to that state.
 
 ![UndoRedoState3](images/UndoRedoState3.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather
+<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial ClinicBook state, then there are no previous ClinicBook states to restore. The `undo` command uses `Model#canUndoClinicBook()` to check if this is the case. If so, it will return an error to the user rather
 than attempting to perform the undo.
 
 </div>
@@ -209,17 +209,17 @@ Similarly, how an undo operation goes through the `Model` component is shown bel
 
 ![UndoSequenceDiagram](images/UndoSequenceDiagram-Model.png)
 
-The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
+The `redo` command does the opposite — it calls `Model#redoClinicBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the clinic book to that state.
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index `addressBookStateList.size() - 1`, pointing to the latest address book state, then there are no undone AddressBook states to restore. The `redo` command uses `Model#canRedoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
+<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index `clinicBookStateList.size() - 1`, pointing to the latest clinic book state, then there are no undone ClinicBook states to restore. The `redo` command uses `Model#canRedoClinicBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
 
 </div>
 
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
+Step 5. The user then decides to execute the command `list`. Commands that do not modify the clinic book, such as `list`, will usually not call `Model#commitClinicBook()`, `Model#undoClinicBook()` or `Model#redoClinicBook()`. Thus, the `clinicBookStateList` remains unchanged.
 
 ![UndoRedoState4](images/UndoRedoState4.png)
 
-Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …` command. This is the behavior that most modern desktop applications follow.
+Step 6. The user executes `clear`, which calls `Model#commitClinicBook()`. Since the `currentStatePointer` is not pointing at the end of the `clinicBookStateList`, all clinic book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …` command. This is the behavior that most modern desktop applications follow.
 
 ![UndoRedoState5](images/UndoRedoState5.png)
 
@@ -231,7 +231,7 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 **Aspect: How undo & redo executes:**
 
-* **Alternative 1 (current choice):** Saves the entire address book.
+* **Alternative 1 (current choice):** Saves the entire clinic book.
 
   * Pros: Easy to implement.
   * Cons: May have performance issues in terms of memory usage.
@@ -332,66 +332,67 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `ClinicBook` and the **Actor** is the `user`, unless specified otherwise)
 
 **Use case: UC1 - Add New Patient Record**
 
+**MSS**
 
-**MSS**  
-1.  User requests to add a new patient.
-2.  ClinicBook requests for patient details.
-3.  User enters the patient's details.
-4.  User submits the details.
-5.  ClinicBook shows the details for confirmation.
-6.  User confirms.
-7.  ClinicBook adds the record.
-    Use case ends.  
+1. User requests to add a new patient.
+2. ClinicBook requests for patient details.
+3. User enters the patient's details.
+4. User submits the details.
+5. ClinicBook shows the details for confirmation.
+6. User confirms.
+7. ClinicBook adds the record.
+   Use case ends.
 
 **Extensions**
+
 * 4a. ClinicBook finds a duplicate record with the same NRIC
-    * 4a1. ClinicBook shows the potential duplicate record.
-    * Use case ends.
 
+  * 4a1. ClinicBook shows the potential duplicate record.
+  * Use case ends.
 * 4b. ClinicBook find a duplicate record with the same name or phone number
-    * 4b1. ClinicBook shows the potential duplicate record.
-    * 4b2. ClinicBook requests for confirmation.
-    * 4b3. User amends if needed.
-    * 4b4. User confirms.
-    * Use case resumes at Step 7.
 
+  * 4b1. ClinicBook shows the potential duplicate record.
+  * 4b2. ClinicBook requests for confirmation.
+  * 4b3. User amends if needed.
+  * 4b4. User confirms.
+  * Use case resumes at Step 7.
 * 4c. Invalid input
-    * 4c1. ClinicBook shows an error message indicating a correct input format.
-    * Use case resumes at Step 2.
 
+  * 4c1. ClinicBook shows an error message indicating a correct input format.
+  * Use case resumes at Step 2.
 * 5a. User wants to edit
-    * 5a1. User retracts the submission
-    * Use case resumes at Step 2
- 
+
+  * 5a1. User retracts the submission
+  * Use case resumes at Step 2
 * 5b. User doesn't want to add this record anymore
-    * 5b1. User cancels the submission
-    * Use case ends.
 
-
+  * 5b1. User cancels the submission
+  * Use case ends.
 
 **Use case: UC2 - Get Patient's Medical History**
 
 **MSS**
-1.  User requests to view patient's medical history.
-2.  ClinicBook requests for patient's information, NRIC / name.
-3.  User provides patient's NRIC / Name.
-4.  ClinicBook shows the medical history of this user.
-    Use case ends.
 
-**Extensions**
-* 2a. ClinicBook cannot find the record
-   * 2a1. ClinicBook notifies the user that no records were found.
+1. User requests to view patient's medical history.
+2. ClinicBook requests for patient's information, NRIC / name.
+3. User provides patient's NRIC / Name.
+4. ClinicBook shows the medical history of this user.
    Use case ends.
 
+**Extensions**
+
+* 2a. ClinicBook cannot find the record
+
+  * 2a1. ClinicBook notifies the user that no records were found.
+    Use case ends.
 * 3a. The patient's NRIC / Name is invalid.
-  * 3a1. AddressBook shows an error message.
-   Use case resumes at step 2.
 
-
+  * 3a1. ClinicBook shows an error message.
+    Use case resumes at step 2.
 
 **Use case: UC3 - Create patient diagnosis and prescription**
 
@@ -401,7 +402,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1. Doctor <u>gets a patient's medical history (UC2)</u>
+1. Doctor `<u>`gets a patient's medical history (UC2)`</u>`
 2. Doctor requests to create a new diagnosis
 3. ClinicBook requests for diagnosis details
 4. Doctor enters diagnosis, prescription details
@@ -413,18 +414,15 @@ Use case ends.
 
 **Extensions**
 
-* 5a. The diagnosis field is empty
-  5a1. ClinicBook requests for a diagnosis and prescription
-  5a2. Doctor enters data for the missing fields
-  Steps 5a1 - 5a2 are repeated until the missing fields are filled
+* 4a. The diagnosis field is empty
+  4a1. ClinicBook requests for a diagnosis and prescription
+  4a2. Doctor enters data for the missing fields
+  Steps 4a1 - 4a2 are repeated until the missing fields are filled
   Use case resumes at step 5
-
 * *a. At any time, doctor chooses to cancel the diagnosis logging
   *a1. ClinicBook requests to confirm cancellation.
   *a2. Doctor confirms
   Use case ends.
-
-
 
 **Use case: UC4 - Register a new doctor**
 
@@ -440,7 +438,7 @@ Use case ends.
 4. ClinicBook requests for confirmation on registering the new doctor
 5. System Administrator confirms
 6. ClinicBook registers new doctor
-Use case ends.
+   Use case ends.
 
 **Extensions**
 
@@ -449,16 +447,13 @@ Use case ends.
   3a2. System Administrator enters data for the missing fields
   Steps 3a1 - 3a2 are repeated until the missing fields are filled
   Use case resumes at step 4.
-
 * 3b. ClinicBook finds a duplicate doctor with the same NRIC
   3b1. ClinicBook shows the duplicate record
   Use case ends.
-
 * 3c. System Administrator enters invalid input.
 * 3c1. ClinicBook shows an error message indicating the correct input format.
 * 3c2. System Administrator re-enters the particulars.
   Use case resumes at step 4.
-
 * *a. At any time, System Administrator chooses to cancel the doctor registration
   *a1. ClinicBook requests to confirm cancellation.
   *a2. System Administrator confirms
