@@ -24,8 +24,8 @@ public class PrescriptionTest {
 
     @Test
     public void constructor_invalidField_throwsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class,
-                () -> new Prescription("Paracetamol", "", "Daily", DEFAULT_PHARMACIST));
+        assertThrows(IllegalArgumentException.class, ()
+            -> new Prescription("Paracetamol", "", "Daily", DEFAULT_PHARMACIST));
     }
 
     @Test
