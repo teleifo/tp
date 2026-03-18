@@ -126,9 +126,10 @@ Format: `find [n/NAME_KEYWORDS] [p/PHONE]`
 
 Examples:
 * `find n/John` returns `john` and `John Doe`
-* `find p/98765432` returns the person with phone number `98765432`
-* `find n/alex david p/91234567` returns persons matching any supplied name keyword or the phone number<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+* `find p/98765432` returns persons with phone number `98765432`
+* `find n/alex david p/91234567` returns persons whose names contain any of the supplied keywords or whose phone number match `91234567`<br>
+
+  <!-- ![result for 'find alex david'](images/findAlexDavidResult.png) -->
 
 ### Deleting a person : `delete`
 
