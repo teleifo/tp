@@ -21,6 +21,9 @@ import seedu.clinic.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final String MESSAGE_INVALID_HISTORY_NRIC =
+            "Invalid NRIC format. Expected 1 letter + 7 digits + 1 letter. E.g. T1234567Z";
+    private static final String HISTORY_NRIC_REGEX = "[A-Z]\\d{7}[A-Z]";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -120,5 +123,20 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses a {@code String nric} for get-history command into a normalized uppercase NRIC string.
+     * Leading and trailing whitespaces are trimmed.
+     *
+     * @throws ParseException if the given {@code nric} does not match the command's accepted NRIC format.
+     */
+    public static String parseNricForHistory(String nric) throws ParseException {
+        requireNonNull(nric);
+        String normalized = nric.trim().toUpperCase();
+        if (!normalized.matches(HISTORY_NRIC_REGEX)) {
+            throw new ParseException(MESSAGE_INVALID_HISTORY_NRIC);
+        }
+        return normalized;
     }
 }
