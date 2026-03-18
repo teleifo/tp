@@ -745,27 +745,27 @@ Use case ends.
 1. Doctor requests to generate a medical certificate for a patient.
 2. ClinicBook requests the medical certificate details (date of visit, period of rest, remarks, etc.).
 3. Doctor enters the medical certificate details.
-4. ClinicBook displays the entered details for confirmation. 
-5. Doctor confirms the details. 
-6. ClinicBook generates a medical certificate as a `.pdf` file. 
+4. ClinicBook displays the entered details for confirmation.
+5. Doctor confirms the details.
+6. ClinicBook generates a medical certificate as a `.pdf` file.
 7. ClinicBook displays the generated medical certificate and provides the option to download or print it.
 
 Use case ends.
 
 **Extensions**
 
-* 3a. Doctor enters incomplete medical certificate details. 
-  * 3a1. ClinicBook shows an error message indicating the missing information. 
-  * 3a2. Doctor enters the missing details. 
-  * Steps 3a1–3a2 are repeated until all compulsory fields are provided. 
-  * Use case resumes at step 4. 
-* 3b. Doctor enters invalid input (invalid dates, rest period, etc.). 
-  * 3b1. ClinicBook shows an error message indicating the correct input format. 
+* 3a. Doctor enters incomplete medical certificate details.
+  * 3a1. ClinicBook shows an error message indicating the missing information.
+  * 3a2. Doctor enters the missing details.
+  * Steps 3a1–3a2 are repeated until all compulsory fields are provided.
+  * Use case resumes at step 4.
+* 3b. Doctor enters invalid input (invalid dates, rest period, etc.).
+  * 3b1. ClinicBook shows an error message indicating the correct input format.
   * 3b2. Doctor re-enters the medical certificate details.
-  * Use case resumes at step 4. 
-* 6a. ClinicBook fails to generate the medical certificate file. 
-  * 6a1. ClinicBook shows an error message indicating that the certificate could not be generated. 
-  * 6a2. Doctor may retry generating the certificate. 
+  * Use case resumes at step 4.
+* 6a. ClinicBook fails to generate the medical certificate file.
+  * 6a1. ClinicBook shows an error message indicating that the certificate could not be generated.
+  * 6a2. Doctor may retry generating the certificate.
   * Use case resumes at step 2.
 
 **Use case: UC14 - Schedule Follow-up Appointment**
@@ -776,31 +776,31 @@ Use case ends.
 
 **MSS**
 
-1. Doctor requests to schedule a follow-up appointment for a patient. 
-2. ClinicBook requests the appointment details (date, time, and notes). 
-3. Doctor enters the follow-up appointment details. 
-4. ClinicBook checks the doctor’s schedule for availability. 
-5. ClinicBook displays the entered appointment details for confirmation. 
-6. Doctor confirms the appointment. 
-7. ClinicBook schedules the follow-up appointment and updates the system schedule. 
+1. Doctor requests to schedule a follow-up appointment for a patient.
+2. ClinicBook requests the appointment details (date, time, and notes).
+3. Doctor enters the follow-up appointment details.
+4. ClinicBook checks the doctor’s schedule for availability.
+5. ClinicBook displays the entered appointment details for confirmation.
+6. Doctor confirms the appointment.
+7. ClinicBook schedules the follow-up appointment and updates the system schedule.
 8. ClinicBook displays a confirmation of the scheduled appointment.
 
 Use case ends.
 
 **Extensions:**
 
-* 3a. Doctor enters incomplete appointment details. 
-  * 3a1. ClinicBook shows an error message indicating the missing fields. 
-  * 3a2. Doctor enters the missing information. 
-  * Steps 3a1–3a2 are repeated until all compulsory fields are provided. 
+* 3a. Doctor enters incomplete appointment details.
+  * 3a1. ClinicBook shows an error message indicating the missing fields.
+  * 3a2. Doctor enters the missing information.
+  * Steps 3a1–3a2 are repeated until all compulsory fields are provided.
   * Use case resumes at step 4.
-* 3b. Doctor enters an invalid date or time format. 
-  * 3b1. ClinicBook shows an error message indicating the correct format. 
-  * 3b2. Doctor re-enters the appointment details. 
-  * Use case resumes at step 4. 
-* 4a. The selected time slot is unavailable. 
-  * 4a1. ClinicBook informs the Doctor that the selected slot is unavailable. 
-  * 4a2. Doctor enters a different appointment time. 
+* 3b. Doctor enters an invalid date or time format.
+  * 3b1. ClinicBook shows an error message indicating the correct format.
+  * 3b2. Doctor re-enters the appointment details.
+  * Use case resumes at step 4.
+* 4a. The selected time slot is unavailable.
+  * 4a1. ClinicBook informs the Doctor that the selected slot is unavailable.
+  * 4a2. Doctor enters a different appointment time.
   * Use case resumes at step 4.
 
 **Use case: UC15 - Schedule Appointment**
@@ -811,31 +811,31 @@ Use case ends.
 
 **MSS**
 
-1. Patient requests to schedule an appointment. 
-2. ClinicBook requests the appointment details (preferred doctor, date, and time). 
-3. Patient enters the appointment details. 
-4. ClinicBook checks the selected doctor’s availability. 
-5. ClinicBook displays the entered appointment details for confirmation. 
-6. Patient confirms the appointment. 
-7. ClinicBook schedules the appointment and updates the system schedule. 
+1. Patient requests to schedule an appointment.
+2. ClinicBook requests the appointment details (preferred doctor, date, and time).
+3. Patient enters the appointment details.
+4. ClinicBook checks the selected doctor’s availability.
+5. ClinicBook displays the entered appointment details for confirmation.
+6. Patient confirms the appointment.
+7. ClinicBook schedules the appointment and updates the system schedule.
 8. ClinicBook displays a confirmation of the scheduled appointment.
 
 Use case ends.
 
 **Extensions:**
 
-* 3a. Patient enters incomplete appointment details. 
-  * 3a1. ClinicBook shows an error message indicating the missing fields. 
-  * 3a2. Patient enters the missing information. 
-  * Steps 3a1–3a2 are repeated until all compulsory fields are provided. 
-  * Use case resumes at step 4. 
-* 3b. Patient enters an invalid date or time format. 
-  * 3b1. ClinicBook shows an error message indicating the correct format. 
-  * 3b2. Patient re-enters the appointment details. 
-  * Use case resumes at step 4. 
-* 4a. The selected time slot is unavailable. 
-  * 4a1. ClinicBook informs the patient that the selected slot is unavailable. 
-  * 4a2. Patient selects another available time slot. 
+* 3a. Patient enters incomplete appointment details.
+  * 3a1. ClinicBook shows an error message indicating the missing fields.
+  * 3a2. Patient enters the missing information.
+  * Steps 3a1–3a2 are repeated until all compulsory fields are provided.
+  * Use case resumes at step 4.
+* 3b. Patient enters an invalid date or time format.
+  * 3b1. ClinicBook shows an error message indicating the correct format.
+  * 3b2. Patient re-enters the appointment details.
+  * Use case resumes at step 4.
+* 4a. The selected time slot is unavailable.
+  * 4a1. ClinicBook informs the patient that the selected slot is unavailable.
+  * 4a2. Patient selects another available time slot.
   * Use case resumes at step 4.
 
 **Use case: UC16 - Update Contact Information**
@@ -846,30 +846,28 @@ Use case ends.
 
 **MSS**
 
-1. Patient requests to update their contact information. 
-2. ClinicBook displays the patient’s current contact information. 
-3. Patient enters the updated contact information. 
-4. ClinicBook validates the entered information. 
-5. ClinicBook displays the updated information for confirmation. 
-6. Patient confirms the changes. 
-7. ClinicBook updates the patient’s contact information in the system. 
+1. Patient requests to update their contact information.
+2. ClinicBook displays the patient’s current contact information.
+3. Patient enters the updated contact information.
+4. ClinicBook validates the entered information.
+5. ClinicBook displays the updated information for confirmation.
+6. Patient confirms the changes.
+7. ClinicBook updates the patient’s contact information in the system.
 8. ClinicBook displays a confirmation message indicating the update was successful.
 
 Use case ends.
 
 **Extensions:**
 
-* 3a. Patient leaves required fields (e.g., phone number) empty. 
-  * 3a1. ClinicBook shows an error message indicating the missing fields. 
-  * 3a2. Patient enters the missing information. 
-  * Steps 3a1–3a2 are repeated until all compulsory fields are provided. 
-  * Use case resumes at step 4. 
-* 3b. Patient enters invalid contact information (e.g., invalid phone number format). 
-  * 3b1. ClinicBook shows an error message indicating the correct format. 
-  * 3b2. Patient re-enters the contact information. 
+* 3a. Patient leaves required fields (e.g., phone number) empty.
+  * 3a1. ClinicBook shows an error message indicating the missing fields.
+  * 3a2. Patient enters the missing information.
+  * Steps 3a1–3a2 are repeated until all compulsory fields are provided.
   * Use case resumes at step 4.
-
-
+* 3b. Patient enters invalid contact information (e.g., invalid phone number format).
+  * 3b1. ClinicBook shows an error message indicating the correct format.
+  * 3b2. Patient re-enters the contact information.
+  * Use case resumes at step 4.
 
 ### Non-Functional Requirements
 
