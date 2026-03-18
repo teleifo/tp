@@ -77,3 +77,4 @@ public class FindCommandParserTest {
         assertParseFailure(parser, " p/12345678 p/98765432", getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
     }
 }
+

@@ -34,9 +34,9 @@ public class FindCommandTest {
     @Test
     public void equals() {
         PersonMatchesFindCriteriaPredicate firstPredicate =
-                new PersonMatchesFindCriteriaPredicate(Collections.singletonList("first"), Optional.empty());
+            new PersonMatchesFindCriteriaPredicate(Collections.singletonList("first"), Optional.empty());
         PersonMatchesFindCriteriaPredicate secondPredicate =
-                new PersonMatchesFindCriteriaPredicate(Collections.singletonList("second"), Optional.empty());
+            new PersonMatchesFindCriteriaPredicate(Collections.singletonList("second"), Optional.empty());
 
         FindCommand findFirstCommand = new FindCommand(firstPredicate);
         FindCommand findSecondCommand = new FindCommand(secondPredicate);
