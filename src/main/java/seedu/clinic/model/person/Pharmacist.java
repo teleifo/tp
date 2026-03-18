@@ -42,7 +42,7 @@ public class Pharmacist extends Person {
     }
 
     /**
-     * Dispenses a prescription to a patient.
+     * Mark a prescription as dispensed.
      */
     public void dispensePrescription(Prescription prescription) {
         // TODO: Implement prescription dispensing logic

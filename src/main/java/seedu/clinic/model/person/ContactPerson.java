@@ -1,7 +1,6 @@
 package seedu.clinic.model.person;
 
 import java.util.Collections;
-import java.util.Objects;
 import java.util.Set;
 
 import seedu.clinic.commons.util.ToStringBuilder;

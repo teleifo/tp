@@ -3,12 +3,14 @@ package seedu.clinic.model.person;
 import static seedu.clinic.commons.util.AppUtil.checkArgument;
 import static seedu.clinic.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Objects;
+
 import seedu.clinic.commons.util.ToStringBuilder;
 
 /**
  * Represents a prescription for medication.
  *
- * TODO: Add isFulfilled boolean flag for prescription status
+ * TODO: Add dispensePrescription() to update prescription status
  * TODO: Implement dispensePrescription() to mark fulfilled prescriptions
  * TODO: Implement getSummary() method for prescription slip
  */
@@ -21,12 +23,22 @@ public class Prescription {
     private final String medicationName;
     private final String dosage;
     private final String frequency;
+    private final Doctor prescribedBy;
     private final Pharmacist dispensedBy;
+    private final boolean isDispensed;
 
     /**
      * Constructs a {@code Prescription}.
      */
     public Prescription(String medicationName, String dosage, String frequency, Pharmacist dispensedBy) {
+        this(medicationName, dosage, frequency, null, dispensedBy);
+    }
+
+    /**
+     * Constructs a {@code Prescription}.
+     */
+    public Prescription(String medicationName, String dosage, String frequency,
+            Doctor prescribedBy, Pharmacist dispensedBy) {
         requireAllNonNull(medicationName, dosage, frequency, dispensedBy);
         checkArgument(isValidField(medicationName), MESSAGE_CONSTRAINTS);
         checkArgument(isValidField(dosage), MESSAGE_CONSTRAINTS);
@@ -34,7 +46,9 @@ public class Prescription {
         this.medicationName = medicationName;
         this.dosage = dosage;
         this.frequency = frequency;
+        this.prescribedBy = prescribedBy;
         this.dispensedBy = dispensedBy;
+        this.isDispensed = false;
     }
 
     /**
@@ -57,8 +71,22 @@ public class Prescription {
         return frequency;
     }
 
+    /**
+     * Returns the doctor who prescribed this prescription, if available.
+     */
+    public Doctor getPrescribedBy() {
+        return prescribedBy;
+    }
+
     public Pharmacist getDispensedBy() {
         return dispensedBy;
+    }
+
+    /**
+     * Returns whether this prescription has been dispensed.
+     */
+    public boolean isDispensed() {
+        return isDispensed;
     }
 
     @Override
@@ -67,7 +95,9 @@ public class Prescription {
                 .add("medicationName", medicationName)
                 .add("dosage", dosage)
                 .add("frequency", frequency)
+                .add("prescribedBy", prescribedBy)
                 .add("dispensedBy", dispensedBy)
+                .add("isDispensed", isDispensed)
                 .toString();
     }
 
@@ -85,11 +115,13 @@ public class Prescription {
         return medicationName.equals(otherPrescription.medicationName)
                 && dosage.equals(otherPrescription.dosage)
                 && frequency.equals(otherPrescription.frequency)
-                && dispensedBy.equals(otherPrescription.dispensedBy);
+                && Objects.equals(prescribedBy, otherPrescription.prescribedBy)
+                && dispensedBy.equals(otherPrescription.dispensedBy)
+                && isDispensed == otherPrescription.isDispensed;
     }
 
     @Override
     public int hashCode() {
-        return java.util.Objects.hash(medicationName, dosage, frequency, dispensedBy);
+        return Objects.hash(medicationName, dosage, frequency, prescribedBy, dispensedBy, isDispensed);
     }
 }
