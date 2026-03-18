@@ -10,7 +10,7 @@ import seedu.clinic.commons.util.StringUtil;
 import seedu.clinic.commons.util.ToStringBuilder;
 
 /**
- * Tests that a {@code Person}'s name or phone matches the supplied find criteria.
+ * Checks whether a {@code Person}'s name or phone matches the supplied find criteria.
  */
 public class PersonMatchesFindCriteriaPredicate implements Predicate<Person> {
     private final List<String> nameKeywords;
@@ -19,8 +19,8 @@ public class PersonMatchesFindCriteriaPredicate implements Predicate<Person> {
     /**
      * Creates a predicate that matches persons by name keywords or phone number.
      *
-     * @param nameKeywords Name keywords to match against a person's name.
-     * @param phone Phone number to match exactly.
+     * @param nameKeywords Name keywords to match against a person's name. May be empty if name matching is not requested.
+     * @param phone Phone number to match exactly. May be empty if phone matching is not requested.
      */
     public PersonMatchesFindCriteriaPredicate(List<String> nameKeywords, Optional<Phone> phone) {
         requireNonNull(nameKeywords);
