@@ -2,7 +2,6 @@ package seedu.clinic.model.person;
 
 import static seedu.clinic.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 import seedu.clinic.commons.util.ToStringBuilder;
@@ -16,7 +15,6 @@ public class EmergencyContact {
 
     private final ContactPerson contactPerson;
     private final String relationship;
-    private final LocalDate dateAdded;
 
     /**
      * Constructs an EmergencyContact with required fields.
@@ -25,7 +23,6 @@ public class EmergencyContact {
         requireAllNonNull(contactPerson, relationship);
         this.contactPerson = contactPerson;
         this.relationship = relationship;
-        this.dateAdded = LocalDate.now();
     }
 
     public ContactPerson getContactPerson() {
@@ -34,10 +31,6 @@ public class EmergencyContact {
 
     public String getRelationship() {
         return relationship;
-    }
-
-    public LocalDate getDateAdded() {
-        return dateAdded;
     }
 
     /**
@@ -68,13 +61,12 @@ public class EmergencyContact {
 
         EmergencyContact otherEmergencyContact = (EmergencyContact) other;
         return contactPerson.equals(otherEmergencyContact.contactPerson)
-                && relationship.equals(otherEmergencyContact.relationship)
-                && dateAdded.equals(otherEmergencyContact.dateAdded);
+                && relationship.equals(otherEmergencyContact.relationship);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(contactPerson, relationship, dateAdded);
+        return Objects.hash(contactPerson, relationship);
     }
 
     @Override
@@ -82,7 +74,6 @@ public class EmergencyContact {
         return new ToStringBuilder(this)
                 .add("contactPerson", contactPerson)
                 .add("relationship", relationship)
-                .add("dateAdded", dateAdded)
                 .toString();
     }
 }

@@ -1,6 +1,5 @@
 package seedu.clinic.model.person;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
@@ -15,15 +14,11 @@ import seedu.clinic.model.tag.Tag;
  * TODO: NOT INTEGRATED
  */
 public class ContactPerson extends Person {
-
-    private final LocalDate dateAdded;
-
     /**
      * Constructs a ContactPerson with all fields.
      */
     public ContactPerson(Name name, Phone phone, Email email) {
         super(name, phone, email, new Address("N/A"), Collections.emptySet());
-        this.dateAdded = LocalDate.now();
     }
 
     /**
@@ -31,7 +26,6 @@ public class ContactPerson extends Person {
      */
     public ContactPerson(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         super(name, phone, email, address, tags);
-        this.dateAdded = LocalDate.now();
     }
 
     /**
@@ -39,11 +33,6 @@ public class ContactPerson extends Person {
      */
     public ContactPerson(Name name, Phone phone, Email email, Address address, Set<Tag> tags, int id) {
         super(name, phone, email, address, tags, id);
-        this.dateAdded = LocalDate.now();
-    }
-
-    public LocalDate getDateAdded() {
-        return dateAdded;
     }
 
     /**
@@ -68,13 +57,12 @@ public class ContactPerson extends Person {
         ContactPerson otherContactPerson = (ContactPerson) other;
         return getName().equals(otherContactPerson.getName())
                 && getPhone().equals(otherContactPerson.getPhone())
-                && getEmail().equals(otherContactPerson.getEmail())
-                && dateAdded.equals(otherContactPerson.dateAdded);
+                && getEmail().equals(otherContactPerson.getEmail());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getPhone(), getEmail(), dateAdded);
+        return Objects.hash(getName(), getPhone(), getEmail());
     }
 
     @Override
@@ -83,7 +71,6 @@ public class ContactPerson extends Person {
                 .add("name", getName())
                 .add("phone", getPhone())
                 .add("email", getEmail())
-                .add("dateAdded", dateAdded)
                 .toString();
     }
 }
