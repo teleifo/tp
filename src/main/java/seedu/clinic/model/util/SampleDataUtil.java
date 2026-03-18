@@ -1,5 +1,6 @@
 package seedu.clinic.model.util;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -8,7 +9,9 @@ import seedu.clinic.model.ClinicBook;
 import seedu.clinic.model.ReadOnlyClinicBook;
 import seedu.clinic.model.person.Address;
 import seedu.clinic.model.person.Email;
+import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Name;
+import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
 import seedu.clinic.model.person.Phone;
 import seedu.clinic.model.tag.Tag;
@@ -34,6 +37,12 @@ public class SampleDataUtil {
             new Person(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
                 new Address("Blk 47 Tampines Street 20, #17-35"),
                 getTagSet("classmates")),
+            new Patient(new Name("Nadia Tan"), new Phone("93456789"), new Email("nadiatan@example.com"),
+                new Address("Blk 10 Bedok North Ave 2, #03-12"),
+                getTagSet("patient"), new NRIC("S1234567D"), LocalDate.of(1992, 4, 12), "Amir Tan"),
+            new Patient(new Name("Timothy Goh"), new Phone("94567890"), new Email("timothyg@example.com"),
+                new Address("Blk 21 Jurong East St 24, #05-88"),
+                getTagSet("patient"), new NRIC("T1234567J"), LocalDate.of(1988, 9, 3), "Rachel Goh"),
             new Person(new Name("Roy Balakrishnan"), new Phone("92624417"), new Email("royb@example.com"),
                 new Address("Blk 45 Aljunied Street 85, #11-31"),
                 getTagSet("colleagues"))
