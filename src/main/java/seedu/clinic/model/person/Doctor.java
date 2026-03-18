@@ -79,24 +79,6 @@ public class Doctor extends Person {
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        if (!(other instanceof Doctor)) {
-            return false;
-        }
-
-        return super.equals(other);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode());
-    }
-
-    @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("name", getName())

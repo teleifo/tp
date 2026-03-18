@@ -32,15 +32,13 @@ public class Diagnosis {
     /**
      * Constructs a {@code Diagnosis}.
      *
+     * If no visit date is provided, the current date is used as the visit date.
+     * 
      * @param diagnosis A valid diagnosis description.
      * @param diagnosedBy Doctor who gave this diagnosis.
      */
     public Diagnosis(String diagnosis, Doctor diagnosedBy) {
-        requireAllNonNull(diagnosis, diagnosedBy);
-        checkArgument(isValidDiagnosis(diagnosis), MESSAGE_CONSTRAINTS);
-        description = diagnosis;
-        visitDate = null;
-        this.diagnosedBy = diagnosedBy;
+        this(diagnosis, LocalDate.now(), diagnosedBy);
     }
 
     /**
