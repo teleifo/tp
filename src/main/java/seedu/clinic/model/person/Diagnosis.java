@@ -33,7 +33,7 @@ public class Diagnosis {
      * Constructs a {@code Diagnosis}.
      *
      * If no visit date is provided, the current date is used as the visit date.
-     * 
+    *
      * @param diagnosis A valid diagnosis description.
      * @param diagnosedBy Doctor who gave this diagnosis.
      */

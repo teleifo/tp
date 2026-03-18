@@ -25,10 +25,10 @@ import seedu.clinic.model.tag.Tag;
  */
 public class Patient extends ContactPerson {
 
-    // TODO: Implement patientId field
-    // This constant will be used to initialize patientId field
     private static final int DEFAULT_PATIENT_ID = 0;
+    private static int nextPatientId = DEFAULT_PATIENT_ID + 1;
 
+    private final int patientId;
     private final NRIC nric;
     private final LocalDate dateOfBirth;
     private final String emergencyContact;
@@ -41,6 +41,7 @@ public class Patient extends ContactPerson {
             NRIC nric, LocalDate dateOfBirth, String emergencyContact) {
         super(name, phone, email, address, tags);
         requireAllNonNull(nric, dateOfBirth, emergencyContact);
+        this.patientId = getNextPatientId();
         this.nric = nric;
         this.dateOfBirth = dateOfBirth;
         this.emergencyContact = emergencyContact;
@@ -53,6 +54,7 @@ public class Patient extends ContactPerson {
             NRIC nric, LocalDate dateOfBirth, String emergencyContact, int id) {
         super(name, phone, email, address, tags, id);
         requireAllNonNull(nric, dateOfBirth, emergencyContact);
+        this.patientId = getNextPatientId();
         this.nric = nric;
         this.dateOfBirth = dateOfBirth;
         this.emergencyContact = emergencyContact;
@@ -63,12 +65,22 @@ public class Patient extends ContactPerson {
      */
     public Patient(Person person, NRIC nric, LocalDate dob, String emergencyContact) {
         this(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), person.getTags(),
-                nric, dob, emergencyContact);
+                nric, dob, emergencyContact, person.getId());
     }
 
-    @Override
+    private static int getNextPatientId() {
+        return nextPatientId++;
+    }
+
     public NRIC getNric() {
         return nric;
+    }
+
+    /**
+     * Returns the auto-generated patient identifier.
+     */
+    public int getPatientId() {
+        return patientId;
     }
 
     public LocalDate getDateOfBirth() {
@@ -118,6 +130,7 @@ public class Patient extends ContactPerson {
 
         Patient otherPatient = (Patient) other;
         return super.equals(otherPatient)
+                && patientId == otherPatient.patientId
                 && nric.equals(otherPatient.nric)
                 && dateOfBirth.equals(otherPatient.dateOfBirth)
                 && emergencyContact.equals(otherPatient.emergencyContact)
@@ -126,6 +139,6 @@ public class Patient extends ContactPerson {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), nric, dateOfBirth, emergencyContact, diagnoses);
+        return Objects.hash(super.hashCode(), patientId, nric, dateOfBirth, emergencyContact, diagnoses);
     }
 }

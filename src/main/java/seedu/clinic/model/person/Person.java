@@ -25,12 +25,12 @@ public class Person {
 
     // TODO: Move this to Staff/Patient subclasses
     private static final int DEFAULT_ID = 0;
+    private static int nextPersonId = DEFAULT_ID + 1;
     // TODO: Implement ID_FORMAT usage in automatic ID assignment (e.g., P001, P002)
     // This format will be used when generating IDs from DEFAULT_ID or similar constants
     private static final String ID_FORMAT = "P%03d";
 
     private final Name name;
-    private final NRIC nric;
     private final Phone phone;
     private final Email email;
     private int id;
@@ -49,43 +49,30 @@ public class Person {
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, int id) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
-        this.nric = null;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
         this.id = id;
+        if (id >= nextPersonId) {
+            nextPersonId = id + 1;
+        }
     }
 
     /**
-     * constructor for Person without ID assignment
-     * ID will then be assigned by ClinicBook
+     * Constructor for Person with automatic ID assignment.
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        this(name, phone, email, address, tags, DEFAULT_ID);
+        this(name, phone, email, address, tags, getNextPersonId());
     }
 
-    /**
-     * Every field must be present and not null.
-     */
-    public Person(Name name, NRIC nric, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, nric, phone, email, address, tags);
-        this.name = name;
-        this.nric = nric;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
-        this.tags.addAll(tags);
-        this.id = DEFAULT_ID;
+    private static int getNextPersonId() {
+        return nextPersonId++;
     }
 
 
     public Name getName() {
         return name;
-    }
-
-    public NRIC getNric() {
-        return nric;
     }
 
     public Phone getPhone() {
@@ -106,6 +93,9 @@ public class Person {
 
     public void setId(int id) {
         this.id = id;
+        if (id >= nextPersonId) {
+            nextPersonId = id + 1;
+        }
     }
 
 

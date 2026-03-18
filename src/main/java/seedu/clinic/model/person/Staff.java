@@ -11,6 +11,7 @@ import seedu.clinic.commons.util.ToStringBuilder;
 public abstract class Staff extends ContactPerson {
 
     private static final int DEFAULT_STAFF_ID = 0;
+    private static int nextStaffId = DEFAULT_STAFF_ID + 1;
 
     private final int staffId;
 
@@ -20,6 +21,9 @@ public abstract class Staff extends ContactPerson {
     public Staff(Name name, Phone phone, Email email, int staffId) {
         super(name, phone, email);
         this.staffId = staffId;
+        if (staffId >= nextStaffId) {
+            nextStaffId = staffId + 1;
+        }
     }
 
     /**
@@ -28,7 +32,11 @@ public abstract class Staff extends ContactPerson {
      */
     public Staff(Name name, Phone phone, Email email) {
         super(name, phone, email);
-        this.staffId = DEFAULT_STAFF_ID;
+        this.staffId = getNextStaffId();
+    }
+
+    private static int getNextStaffId() {
+        return nextStaffId++;
     }
 
     public int getStaffId() {
