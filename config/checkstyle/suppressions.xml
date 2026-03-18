@@ -8,5 +8,4 @@
   <suppress checks="JavadocType" files=".*Test\.java"/>
   <suppress checks="MissingJavadocMethodCheck" files=".*Test\.java"/>
   <suppress checks="AbbreviationAsWordInName" files=".*NRIC\.java"/>
-  <suppress checks="AbbreviationAsWordInName" files=".*NRICTest\.java"/>
 </suppressions>
