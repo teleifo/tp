@@ -132,13 +132,11 @@ public class Patient extends ContactPerson {
         return super.equals(otherPatient)
                 && patientId == otherPatient.patientId
                 && nric.equals(otherPatient.nric)
-                && dateOfBirth.equals(otherPatient.dateOfBirth)
-                && emergencyContact.equals(otherPatient.emergencyContact)
-                && diagnoses.equals(otherPatient.diagnoses);
+                && dateOfBirth.equals(otherPatient.dateOfBirth);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), patientId, nric, dateOfBirth, emergencyContact, diagnoses);
+        return Objects.hash(super.hashCode(), patientId, nric, dateOfBirth);
     }
 }
