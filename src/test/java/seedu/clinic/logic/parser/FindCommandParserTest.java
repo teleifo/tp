@@ -1,15 +1,21 @@
 package seedu.clinic.logic.parser;
 
 import static seedu.clinic.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.clinic.logic.Messages.getErrorMessageForDuplicatePrefixes;
+import static seedu.clinic.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.clinic.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.clinic.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.clinic.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.clinic.logic.commands.FindCommand;
-import seedu.clinic.model.person.NameContainsKeywordsPredicate;
+import seedu.clinic.model.person.PersonMatchesFindCriteriaPredicate;
+import seedu.clinic.model.person.Phone;
 
 public class FindCommandParserTest {
 
@@ -21,14 +27,53 @@ public class FindCommandParserTest {
     }
 
     @Test
-    public void parse_validArgs_returnsFindCommand() {
-        // no leading and trailing whitespaces
-        FindCommand expectedFindCommand =
-                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("Alice", "Bob")));
-        assertParseSuccess(parser, "Alice Bob", expectedFindCommand);
-
-        // multiple whitespaces between keywords
-        assertParseSuccess(parser, " \n Alice \n \t Bob  \t", expectedFindCommand);
+    public void parse_missingPrefixes_throwsParseException() {
+        assertParseFailure(parser, "Alice Bob",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
     }
 
+    @Test
+    public void parse_nonEmptyPreamble_throwsParseException() {
+        assertParseFailure(parser, " Alice n/Bob",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_validNameArgs_returnsFindCommand() {
+        FindCommand expectedFindCommand = new FindCommand(
+                new PersonMatchesFindCriteriaPredicate(Arrays.asList("Alice", "Bob"), Optional.empty()));
+        assertParseSuccess(parser, " n/Alice Bob", expectedFindCommand);
+        assertParseSuccess(parser, " \n n/Alice \n \t Bob  \t", expectedFindCommand);
+    }
+
+    @Test
+    public void parse_validPhoneArgs_returnsFindCommand() {
+        FindCommand expectedFindCommand =
+                new FindCommand(new PersonMatchesFindCriteriaPredicate(Collections.emptyList(),
+                        Optional.of(new Phone("98765432"))));
+        assertParseSuccess(parser, " p/98765432", expectedFindCommand);
+    }
+
+    @Test
+    public void parse_validNameAndPhoneArgs_returnsFindCommand() {
+        FindCommand expectedFindCommand = new FindCommand(new PersonMatchesFindCriteriaPredicate(
+                Arrays.asList("Alice", "Bob"), Optional.of(new Phone("98765432"))));
+        assertParseSuccess(parser, " n/Alice Bob p/98765432", expectedFindCommand);
+    }
+
+    @Test
+    public void parse_emptyNameValue_throwsParseException() {
+        assertParseFailure(parser, " n/   ", String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidPhoneValue_throwsParseException() {
+        assertParseFailure(parser, " p/abc", Phone.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_duplicatePrefixes_throwsParseException() {
+        assertParseFailure(parser, " n/Alice n/Bob", getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
+        assertParseFailure(parser, " p/12345678 p/98765432", getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
+    }
 }

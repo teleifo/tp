@@ -110,23 +110,26 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
-### Locating persons by name: `find`
+### Locating persons by name or phone: `find`
 
-Finds persons whose names contain any of the given keywords.
+Finds persons whose names contain any of the given keywords or whose phone numbers match exactly.
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Format: `find [n/NAME_KEYWORDS] [p/PHONE]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* At least one of `n/` or `p/` must be provided.
+* Prefixes are required. `find Alice` is invalid; use `find n/Alice`.
+* Name search is case-insensitive. e.g `n/hans` will match `Hans`
+* The order of the name keywords does not matter. e.g. `n/Hans Bo` will match `Bo Hans`
+* Only full words in the name will be matched e.g. `n/Han` will not match `Hans`
+* Phone search requires an exact match. e.g. `p/9876` will not match `98765432`
+* If both `n/` and `p/` are provided, persons matching either field will be returned.
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+* `find n/John` returns `john` and `John Doe`
+* `find p/98765432` returns persons with phone number `98765432`
+* `find n/alex david p/91234567` returns all persons who match any field, i.e. name keyword or phone number<br>
+
+  <!-- ![result for 'find alex david'](images/findAlexDavidResult.png) -->
 
 ### Deleting a person : `delete`
 
@@ -140,7 +143,7 @@ Format: `delete INDEX`
 
 Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the clinic book.
-* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+* `find n/Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
 ### Clearing all entries : `clear`
 
@@ -195,6 +198,6 @@ Action | Format, Examples
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Find** | `find [n/NAME_KEYWORDS] [p/PHONE]`<br> e.g., `find n/James Jake p/98765432`
 **List** | `list`
 **Help** | `help`

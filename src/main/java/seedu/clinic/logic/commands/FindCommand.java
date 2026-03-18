@@ -5,24 +5,25 @@ import static java.util.Objects.requireNonNull;
 import seedu.clinic.commons.util.ToStringBuilder;
 import seedu.clinic.logic.Messages;
 import seedu.clinic.model.Model;
-import seedu.clinic.model.person.NameContainsKeywordsPredicate;
+import seedu.clinic.model.person.PersonMatchesFindCriteriaPredicate;
 
 /**
- * Finds and lists all persons in clinic book whose name contains any of the argument keywords.
- * Keyword matching is case insensitive.
+ * Finds and lists all persons in clinic book whose names contain any of the
+ * specified keywords (case-insensitive) or whose phone numbers match exactly.
  */
 public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names contain any of "
-            + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " alice bob charlie";
+            + "the specified keywords (case-insensitive) or whose phone numbers match exactly, and displays them "
+            + "as a list with index numbers.\n"
+            + "Parameters: [n/NAME_KEYWORDS] [p/PHONE]\n"
+            + "Example: " + COMMAND_WORD + " n/alice bob p/98765432";
 
-    private final NameContainsKeywordsPredicate predicate;
+    private final PersonMatchesFindCriteriaPredicate predicate;
 
-    public FindCommand(NameContainsKeywordsPredicate predicate) {
+    public FindCommand(PersonMatchesFindCriteriaPredicate predicate) {
         this.predicate = predicate;
     }
 
