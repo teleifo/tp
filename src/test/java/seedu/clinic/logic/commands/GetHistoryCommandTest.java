@@ -17,13 +17,11 @@ import seedu.clinic.model.ModelManager;
 import seedu.clinic.model.UserPrefs;
 import seedu.clinic.model.person.Address;
 import seedu.clinic.model.person.Diagnosis;
-import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Email;
 import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Name;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
-import seedu.clinic.model.person.Pharmacist;
 import seedu.clinic.model.person.Phone;
 import seedu.clinic.model.person.Prescription;
 
@@ -57,11 +55,11 @@ public class GetHistoryCommandTest {
                 + "Date of birth: 1990-01-01" + lineSep
                 + "Emergency contact: 91230000" + lineSep
                 + "Diagnoses:" + lineSep
-                + "  1. Hypertension (Visit date: 2024-05-20, Diagnosed by: Dr Koh)" + lineSep
+            + "  1. Hypertension (Visit date: 2024-05-20, Diagnosed by ID: 3)" + lineSep
                 + "     Symptoms: headache, dizziness" + lineSep
                 + "     Prescriptions:" + lineSep
-                + "       - Amlodipine, dosage: 5mg, frequency: once daily, prescribed by: Dr Koh, dispensed by: "
-                + "Phar Lim";
+            + "       - Amlodipine, dosage: 5mg, frequency: once daily, prescribed by ID: N/A, "
+            + "dispensed by ID: 4";
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
@@ -91,25 +89,10 @@ public class GetHistoryCommandTest {
             "91230000",
             1);
 
-        Doctor doctor = new Doctor(
-            new Name("Dr Koh"),
-            new Phone("95550000"),
-            new Email("drkoh@example.com"),
-            new Address("1 Medical Drive"),
-            Set.of(),
-            3);
-        Pharmacist pharmacist = new Pharmacist(
-            new Name("Phar Lim"),
-            new Phone("96660000"),
-            new Email("pharlim@example.com"),
-            new Address("2 Pharmacy Lane"),
-            Set.of(),
-            4);
-
-        Diagnosis diagnosis = new Diagnosis("Hypertension", LocalDate.of(2024, 5, 20), doctor);
+        Diagnosis diagnosis = new Diagnosis("Hypertension", LocalDate.of(2024, 5, 20), 3);
         diagnosis.addSymptom("headache");
         diagnosis.addSymptom("dizziness");
-        diagnosis.addPrescription(new Prescription("Amlodipine", "5mg", "once daily", doctor, pharmacist));
+        diagnosis.addPrescription(new Prescription("Amlodipine", "5mg", "once daily", 4));
         alice.addDiagnosis(diagnosis);
 
         clinicBook.addPerson(alice);

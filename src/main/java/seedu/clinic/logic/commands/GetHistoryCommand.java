@@ -91,11 +91,11 @@ public class GetHistoryCommand extends Command {
         for (int index = 0; index < diagnoses.size(); index++) {
             Diagnosis diagnosis = diagnoses.get(index);
             result.append(System.lineSeparator());
-            result.append(String.format("  %d. %s (Visit date: %s, Diagnosed by: %s)",
+            result.append(String.format("  %d. %s (Visit date: %s, Diagnosed by ID: %d)",
                     index + 1,
                     diagnosis.getDescription(),
                     diagnosis.getVisitDate(),
-                    diagnosis.getDiagnosedBy().getName()));
+                diagnosis.getDiagnosedBy()));
 
             if (diagnosis.getSymptoms().isEmpty()) {
                 result.append(System.lineSeparator());
@@ -124,16 +124,16 @@ public class GetHistoryCommand extends Command {
     }
 
     private String formatPrescription(Prescription prescription) {
-        String prescribedBy = prescription.getPrescribedBy() == null
-                ? "N/A"
-                : prescription.getPrescribedBy().getName().toString();
+        String prescribedBy = prescription.getPrescribedBy() == 0
+            ? "N/A"
+            : String.valueOf(prescription.getPrescribedBy());
 
-        return String.format("%s, dosage: %s, frequency: %s, prescribed by: %s, dispensed by: %s",
+        return String.format("%s, dosage: %s, frequency: %s, prescribed by ID: %s, dispensed by ID: %d",
                 prescription.getMedicationName(),
                 prescription.getDosage(),
                 prescription.getFrequency(),
                 prescribedBy,
-                prescription.getDispensedBy().getName());
+            prescription.getDispensedBy());
     }
 
     @Override
