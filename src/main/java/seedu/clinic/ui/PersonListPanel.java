@@ -1,8 +1,11 @@
 package seedu.clinic.ui;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
@@ -30,13 +33,31 @@ public class PersonListPanel extends UiPart<Region> {
     public PersonListPanel(ObservableList<Person> personList, ObservableList<Doctor> doctorList) {
         super(FXML);
 
-        combinedList.clear();
-        combinedList.addAll(personList);
-        combinedList.addAll(doctorList);
-
+        combinedList = createCombinedList(personList, doctorList);
         personListView.setItems(combinedList);
         personListView.setCellFactory(listView -> new PersonListViewCell());
     }
+
+    static ObservableList<Person> createCombinedList(ObservableList<Person> personList,
+                                                     ObservableList<Doctor> doctorList) {
+        requireNonNull(personList);
+        requireNonNull(doctorList);
+
+        ObservableList<Person> combinedList = FXCollections.observableArrayList();
+        Runnable refreshCombinedList = () -> {
+            combinedList.setAll(personList);
+            combinedList.addAll(doctorList);
+        };
+
+        ListChangeListener<Person> personListListener = change -> refreshCombinedList.run();
+        ListChangeListener<Doctor> doctorListListener = change -> refreshCombinedList.run();
+
+        personList.addListener(personListListener);
+        doctorList.addListener(doctorListListener);
+        refreshCombinedList.run();
+        return combinedList;
+    }
+
 
     /**
      * Custom {@code ListCell} that displays the graphics of a {@code Person} or {@code Doctor}

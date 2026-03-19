@@ -4,6 +4,8 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
+import javax.print.Doc;
+
 import javafx.collections.ObservableList;
 import seedu.clinic.commons.util.ToStringBuilder;
 import seedu.clinic.model.person.Doctor;
@@ -31,8 +33,8 @@ public class ClinicBook implements ReadOnlyClinicBook {
      *   among constructors.
      */
     {
-        persons = new UniquePersonList();
-        doctors = new UniquePersonList();
+        persons = new UniquePersonList<Person>();
+        doctors = new UniquePersonList<Doctor>();
     }
 
     public ClinicBook() {}
@@ -216,6 +218,7 @@ public class ClinicBook implements ReadOnlyClinicBook {
         return persons.asUnmodifiableObservableList();
     }
 
+    @Override
     public ObservableList<Doctor> getDoctorList() {
         return doctors.asUnmodifiableObservableList();
     }
