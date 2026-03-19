@@ -1,5 +1,6 @@
 package seedu.clinic.storage;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +15,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import seedu.clinic.commons.exceptions.IllegalValueException;
 import seedu.clinic.model.person.Address;
 import seedu.clinic.model.person.Email;
+import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Name;
+import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
 import seedu.clinic.model.person.Phone;
 import seedu.clinic.model.tag.Tag;
@@ -32,9 +35,17 @@ import seedu.clinic.model.tag.Tag;
 class JsonAdaptedPerson {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Person's %s field is missing!";
+    public static final String MISSING_PATIENT_FIELD_MESSAGE_FORMAT = "Patient's %s field is missing!";
+    public static final String MESSAGE_INVALID_PERSON_TYPE = "Unsupported person type: %s";
+    private static final String TYPE_PATIENT = "patient";
+    private static final String TYPE_PERSON = "person";
 
     private final int id;
+    private final String type;
     private final String name;
+    private final String nric;
+    private final String dateOfBirth;
+    private final String emergencyContact;
     private final String phone;
     private final String email;
     private final String address;
@@ -43,12 +54,19 @@ class JsonAdaptedPerson {
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
      */
     @JsonCreator
-    public JsonAdaptedPerson(@JsonProperty("id") int id, @JsonProperty("name") String name,
+    public JsonAdaptedPerson(@JsonProperty("id") int id, @JsonProperty("type") String type,
+             @JsonProperty("name") String name, @JsonProperty("nric") String nric,
+             @JsonProperty("dateOfBirth") String dateOfBirth,
+             @JsonProperty("emergencyContact") String emergencyContact,
              @JsonProperty("phone") String phone,
              @JsonProperty("email") String email, @JsonProperty("address") String address,
              @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.id = id;
+        this.type = type;
         this.name = name;
+        this.nric = nric;
+        this.dateOfBirth = dateOfBirth;
+        this.emergencyContact = emergencyContact;
         this.phone = phone;
         this.email = email;
         this.address = address;
@@ -58,11 +76,23 @@ class JsonAdaptedPerson {
     }
 
     /**
+     * Compatibility constructor for plain person records in tests.
+     */
+    public JsonAdaptedPerson(int id, String name, String phone, String email, String address,
+            List<JsonAdaptedTag> tags) {
+        this(id, null, name, null, null, null, phone, email, address, tags);
+    }
+
+    /**
      * Converts a given {@code Person} into this class for Jackson use.
      */
     public JsonAdaptedPerson(Person source) {
         id = source.getId();
+        type = source instanceof Patient ? TYPE_PATIENT : null;
         name = source.getName().fullName;
+        nric = source instanceof Patient ? ((Patient) source).getNric().value : null;
+        dateOfBirth = source instanceof Patient ? ((Patient) source).getDateOfBirth().toString() : null;
+        emergencyContact = source instanceof Patient ? ((Patient) source).getEmergencyContact() : null;
         phone = source.getPhone().value;
         email = source.getEmail().value;
         address = source.getAddress().value;
@@ -120,7 +150,42 @@ class JsonAdaptedPerson {
         final Address modelAddress = new Address(address);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelId);
+        Person modelPerson = new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelId);
+
+        if (type == null || TYPE_PERSON.equalsIgnoreCase(type)) {
+            return modelPerson;
+        }
+
+        if (!TYPE_PATIENT.equalsIgnoreCase(type)) {
+            throw new IllegalValueException(String.format(MESSAGE_INVALID_PERSON_TYPE, type));
+        }
+
+        if (nric == null) {
+            throw new IllegalValueException(String.format(MISSING_PATIENT_FIELD_MESSAGE_FORMAT, "NRIC"));
+        }
+        String normalizedNric = nric.toUpperCase();
+        if (!NRIC.isValidNric(normalizedNric)) {
+            throw new IllegalValueException(NRIC.MESSAGE_CONSTRAINTS);
+        }
+
+        if (dateOfBirth == null) {
+            throw new IllegalValueException(String.format(MISSING_PATIENT_FIELD_MESSAGE_FORMAT, "dateOfBirth"));
+        }
+
+        if (emergencyContact == null) {
+            throw new IllegalValueException(
+                    String.format(MISSING_PATIENT_FIELD_MESSAGE_FORMAT, "emergencyContact"));
+        }
+
+        final NRIC modelNric = new NRIC(normalizedNric);
+        final LocalDate modelDateOfBirth;
+        try {
+            modelDateOfBirth = LocalDate.parse(dateOfBirth);
+        } catch (RuntimeException e) {
+            throw new IllegalValueException("Patient's dateOfBirth is not a valid date!");
+        }
+
+        return new Patient(modelPerson, modelNric, modelDateOfBirth, emergencyContact);
     }
 
 }

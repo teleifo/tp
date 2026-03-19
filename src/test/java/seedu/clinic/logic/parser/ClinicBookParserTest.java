@@ -26,6 +26,7 @@ import seedu.clinic.logic.commands.GetHistoryCommand;
 import seedu.clinic.logic.commands.HelpCommand;
 import seedu.clinic.logic.commands.ListCommand;
 import seedu.clinic.logic.parser.exceptions.ParseException;
+import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Person;
 import seedu.clinic.model.person.PersonMatchesFindCriteriaPredicate;
 import seedu.clinic.model.person.Phone;
@@ -77,14 +78,22 @@ public class ClinicBookParserTest {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
         FindCommand command = (FindCommand) parser.parseCommand(
                 FindCommand.COMMAND_WORD + " n/" + keywords.stream().collect(Collectors.joining(" ")));
-        assertEquals(new FindCommand(new PersonMatchesFindCriteriaPredicate(keywords, Optional.empty())), command);
+        assertEquals(new FindCommand(new PersonMatchesFindCriteriaPredicate(
+                keywords, Optional.empty(), Optional.empty())), command);
     }
 
     @Test
     public void parseCommand_findByPhone() throws Exception {
         FindCommand command = (FindCommand) parser.parseCommand(FindCommand.COMMAND_WORD + " p/98765432");
         assertEquals(new FindCommand(new PersonMatchesFindCriteriaPredicate(List.of(),
-                Optional.of(new Phone("98765432")))), command);
+                Optional.of(new Phone("98765432")), Optional.empty())), command);
+    }
+
+    @Test
+    public void parseCommand_findByNric() throws Exception {
+        FindCommand command = (FindCommand) parser.parseCommand(FindCommand.COMMAND_WORD + " nric/S1234567D");
+        assertEquals(new FindCommand(new PersonMatchesFindCriteriaPredicate(List.of(),
+                Optional.empty(), Optional.of(new NRIC("S1234567D")))), command);
     }
 
     @Test

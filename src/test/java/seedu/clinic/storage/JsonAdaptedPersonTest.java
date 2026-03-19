@@ -2,7 +2,11 @@ package seedu.clinic.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.clinic.storage.JsonAdaptedPerson.MISSING_FIELD_MESSAGE_FORMAT;
+import static seedu.clinic.storage.JsonAdaptedPerson.MISSING_PATIENT_FIELD_MESSAGE_FORMAT;
 import static seedu.clinic.testutil.Assert.assertThrows;
+import static seedu.clinic.testutil.TypicalPatients.NADIA_EMERGENCY_CONTACT;
+import static seedu.clinic.testutil.TypicalPatients.NADIA_NRIC;
+import static seedu.clinic.testutil.TypicalPatients.createNadia;
 import static seedu.clinic.testutil.TypicalPersons.BENSON;
 
 import java.util.ArrayList;
@@ -14,16 +18,20 @@ import org.junit.jupiter.api.Test;
 import seedu.clinic.commons.exceptions.IllegalValueException;
 import seedu.clinic.model.person.Address;
 import seedu.clinic.model.person.Email;
+import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Name;
+import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Phone;
 
 public class JsonAdaptedPersonTest {
     private static final int INVALID_ID = -1;
     private static final String INVALID_NAME = "R@chel";
+    private static final String INVALID_NRIC = "S1234567A";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
+    private static final String INVALID_DATE_OF_BIRTH = "1992-02-30";
 
     private static final int VALID_ID = BENSON.getId();
     private static final String VALID_NAME = BENSON.getName().toString();
@@ -33,11 +41,21 @@ public class JsonAdaptedPersonTest {
     private static final List<JsonAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
             .map(JsonAdaptedTag::new)
             .collect(Collectors.toList());
+    private static final Patient NADIA = createNadia();
 
     @Test
     public void toModelType_validPersonDetails_returnsPerson() throws Exception {
         JsonAdaptedPerson person = new JsonAdaptedPerson(BENSON);
         assertEquals(BENSON, person.toModelType());
+    }
+
+    @Test
+    public void toModelType_validPatientDetails_returnsPatient() throws Exception {
+        JsonAdaptedPerson person = new JsonAdaptedPerson(NADIA);
+        Patient patient = (Patient) person.toModelType();
+        assertEquals(NADIA.getNric(), patient.getNric());
+        assertEquals(NADIA.getDateOfBirth(), patient.getDateOfBirth());
+        assertEquals(NADIA.getEmergencyContact(), patient.getEmergencyContact());
     }
 
     @Test
@@ -111,6 +129,28 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_ID, VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, invalidTags);
         assertThrows(IllegalValueException.class, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_patientMissingNric_throwsIllegalValueException() {
+        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_ID, "patient", VALID_NAME, null, "1992-04-12",
+                NADIA_EMERGENCY_CONTACT, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_TAGS);
+        assertThrows(IllegalValueException.class,
+                String.format(MISSING_PATIENT_FIELD_MESSAGE_FORMAT, "NRIC"), person::toModelType);
+    }
+
+    @Test
+    public void toModelType_patientInvalidNric_throwsIllegalValueException() {
+        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_ID, "patient", VALID_NAME, INVALID_NRIC,
+                "1992-04-12", NADIA_EMERGENCY_CONTACT, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_TAGS);
+        assertThrows(IllegalValueException.class, NRIC.MESSAGE_CONSTRAINTS, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_patientInvalidDateOfBirth_throwsIllegalValueException() {
+        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_ID, "patient", VALID_NAME, NADIA_NRIC,
+                INVALID_DATE_OF_BIRTH, NADIA_EMERGENCY_CONTACT, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_TAGS);
+        assertThrows(IllegalValueException.class, "Patient's dateOfBirth is not a valid date!", person::toModelType);
     }
 
 }

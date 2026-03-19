@@ -50,9 +50,7 @@ public class ClinicBook implements ReadOnlyClinicBook {
      */
     public void setPersons(List<Person> persons) {
         for (Person p : persons) {
-            if (p.getId() == 0) {
-                p.setId(getNextId());
-            }
+            assignIdIfMissing(p);
         }
         this.persons.setPersons(persons);
     }
@@ -109,11 +107,14 @@ public class ClinicBook implements ReadOnlyClinicBook {
     public void setPerson(Person target, Person editedPerson) {
         requireNonNull(editedPerson);
 
-        // assign new patient id if editedPerson has no id
-        if (editedPerson.getId() == 0) {
-            editedPerson.setId(getNextId());
-        }
+        assignIdIfMissing(editedPerson);
         persons.setPerson(target, editedPerson);
+    }
+
+    private void assignIdIfMissing(Person person) {
+        if (person.getId() == 0) {
+            person.setId(getNextId());
+        }
     }
 
     /**

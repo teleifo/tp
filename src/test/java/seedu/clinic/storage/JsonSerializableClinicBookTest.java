@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import seedu.clinic.commons.exceptions.IllegalValueException;
 import seedu.clinic.commons.util.JsonUtil;
 import seedu.clinic.model.ClinicBook;
+import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
 import seedu.clinic.testutil.TypicalPersons;
@@ -20,6 +21,7 @@ public class JsonSerializableClinicBookTest {
 
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonSerializableClinicBookTest");
     private static final Path TYPICAL_PERSONS_FILE = TEST_DATA_FOLDER.resolve("typicalPersonsClinicBook.json");
+    private static final Path TYPICAL_PATIENTS_FILE = TEST_DATA_FOLDER.resolve("typicalPatientsClinicBook.json");
     private static final Path CLINIC_BOOK_WITH_PATIENT_FILE = TEST_DATA_FOLDER.resolve("clinicBookWithPatient.json");
     private static final Path INVALID_PERSON_FILE = TEST_DATA_FOLDER.resolve("invalidPersonClinicBook.json");
     private static final Path DUPLICATE_PERSON_FILE = TEST_DATA_FOLDER.resolve("duplicatePersonClinicBook.json");
@@ -59,6 +61,19 @@ public class JsonSerializableClinicBookTest {
         JsonSerializableClinicBook dataFromFile = JsonUtil.readJsonFile(INVALID_PERSON_FILE,
                 JsonSerializableClinicBook.class).get();
         assertThrows(IllegalValueException.class, dataFromFile::toModelType);
+    }
+
+    @Test
+    public void toModelType_typicalPatientsFile_success() throws Exception {
+        JsonSerializableClinicBook dataFromFile = JsonUtil.readJsonFile(TYPICAL_PATIENTS_FILE,
+                JsonSerializableClinicBook.class).get();
+        ClinicBook clinicBookFromFile = dataFromFile.toModelType();
+        Person patientPerson = clinicBookFromFile.getPersonList().get(1);
+        assertTrue(patientPerson instanceof Patient);
+        Patient patient = (Patient) patientPerson;
+        assertEquals("Nadia Tan", patient.getName().fullName);
+        assertEquals(new NRIC("S1234567D"), patient.getNric());
+        assertEquals("Amir Tan", patient.getEmergencyContact());
     }
 
     @Test

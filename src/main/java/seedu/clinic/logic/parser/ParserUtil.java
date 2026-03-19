@@ -13,6 +13,7 @@ import seedu.clinic.commons.util.StringUtil;
 import seedu.clinic.logic.parser.exceptions.ParseException;
 import seedu.clinic.model.person.Address;
 import seedu.clinic.model.person.Email;
+import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Name;
 import seedu.clinic.model.person.Phone;
 import seedu.clinic.model.person.Prescription;
@@ -70,6 +71,21 @@ public class ParserUtil {
             throw new ParseException(Phone.MESSAGE_CONSTRAINTS);
         }
         return new Phone(trimmedPhone);
+    }
+
+    /**
+     * Parses a {@code String nric} into an {@code NRIC}.
+     * Leading and trailing whitespaces are trimmed and lower-case input is normalized.
+     *
+     * @throws ParseException if the given {@code nric} is invalid.
+     */
+    public static NRIC parseNric(String nric) throws ParseException {
+        requireNonNull(nric);
+        String normalizedNric = nric.trim().toUpperCase();
+        if (!NRIC.isValidNric(normalizedNric)) {
+            throw new ParseException(NRIC.MESSAGE_CONSTRAINTS);
+        }
+        return new NRIC(normalizedNric);
     }
 
     /**
