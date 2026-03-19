@@ -52,13 +52,14 @@ public class GetHistoryCommandTest {
         GetHistoryCommand command = new GetHistoryCommand("S1234567D");
         command.execute(expectedModel);
 
-        String expectedMessage = "Medical history for Alice Tan (NRIC: S1234567D)\n"
-                + "Date of birth: 1990-01-01\n"
-                + "Emergency contact: 91230000\n"
-                + "Diagnoses:\n"
-                + "  1. Hypertension (Visit date: 2024-05-20, Diagnosed by: Dr Koh)\n"
-                + "     Symptoms: headache, dizziness\n"
-                + "     Prescriptions:\n"
+        String lineSep = System.lineSeparator();
+        String expectedMessage = "Medical history for Alice Tan (NRIC: S1234567D)" + lineSep
+                + "Date of birth: 1990-01-01" + lineSep
+                + "Emergency contact: 91230000" + lineSep
+                + "Diagnoses:" + lineSep
+                + "  1. Hypertension (Visit date: 2024-05-20, Diagnosed by: Dr Koh)" + lineSep
+                + "     Symptoms: headache, dizziness" + lineSep
+                + "     Prescriptions:" + lineSep
                 + "       - Amlodipine, dosage: 5mg, frequency: once daily, prescribed by: Dr Koh, dispensed by: "
                 + "Phar Lim";
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
