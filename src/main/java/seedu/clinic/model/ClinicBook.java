@@ -80,9 +80,7 @@ public class ClinicBook implements ReadOnlyClinicBook {
      */
     public void addPerson(Person p) {
         // If ID is 0 (default), assign a new one
-        if (p.getId() == 0) {
-            p.setId(getNextId());
-        }
+        assignIdIfMissing(p);
         persons.add(p);
     }
 

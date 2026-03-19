@@ -141,6 +141,7 @@ public class ModelManager implements Model {
 
     @Override
     public ObservableList<Patient> getFilteredPatientList() {
+        filteredPersons.setPredicate(null);
         return filteredPersons.filtered(p -> p instanceof Patient)
                 .stream()
                 .map(p -> (Patient) p)
@@ -149,6 +150,7 @@ public class ModelManager implements Model {
 
     @Override
     public ObservableList<Doctor> getFilteredDoctorList() {
+        filteredPersons.setPredicate(null);
         return filteredPersons.filtered(p -> p instanceof Doctor)
                 .stream()
                 .map(d -> (Doctor) d)
@@ -157,6 +159,7 @@ public class ModelManager implements Model {
 
     @Override
     public ObservableList<Pharmacist> getFilteredPharmacistList() {
+        filteredPersons.setPredicate(null);
         return filteredPersons.filtered(p -> p instanceof Pharmacist)
                 .stream()
                 .map(p -> (Pharmacist) p)
