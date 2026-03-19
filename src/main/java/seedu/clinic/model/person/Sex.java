@@ -8,7 +8,7 @@ package seedu.clinic.model.person;
 public enum Sex {
     MALE("Male"),
     FEMALE("Female"),
-    OTHER("Other");
+    INTERSEX("Intersex");
 
     private final String displayName;
 
