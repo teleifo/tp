@@ -3,7 +3,7 @@ package seedu.clinic.storage;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-//import seedu.clinic.commons.exceptions.IllegalValueException;
+// import seedu.clinic.commons.exceptions.IllegalValueException;
 // TODO: Enable after PR #52 merges
 // Currently omitted to avoid dependency on unmerged classes
 //import seedu.clinic.model.person.Pharmacist;
@@ -35,10 +35,9 @@ class JsonAdaptedPrescription {
         this.dispensedBy = dispensedBy;
     }
 
-    /*
-    /**
-     * Converts a given {@code Prescription} into this class for Jackson use.
-     */
+    // /**
+    //  * Converts a given {@code Prescription} into this class for Jackson use.
+    //  */
     // TODO: Enable after PR #52 merges
     // Currently omitted to avoid dependency on unmerged classes
 //    public JsonAdaptedPrescription(Prescription source) {
@@ -48,12 +47,11 @@ class JsonAdaptedPrescription {
 //        dispensedBy = source.getDispensedBy().getName();
 //    }
 
-    /*
-    /**
-     * Converts this Jackson-friendly adapted prescription object into the model's {@code Prescription} object.
-     *
-     * @throws IllegalValueException if there were any data constraints violated.
-     */
+    // /**
+    //  * Converts this Jackson-friendly adapted prescription object into the model's {@code Prescription} object.
+    //  *
+    //  * @throws IllegalValueException if there were any data constraints violated.
+    //  */
     // TODO: Enable after PR #52 merges
     // Currently omitted to avoid dependency on unmerged classes
 //    public Prescription toModelType() throws IllegalValueException {

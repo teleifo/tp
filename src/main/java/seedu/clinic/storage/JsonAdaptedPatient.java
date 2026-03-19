@@ -1,19 +1,19 @@
 package seedu.clinic.storage;
 
-//import java.time.LocalDate;
+// import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-//import java.util.stream.Collectors;
+// import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-//import seedu.clinic.commons.exceptions.IllegalValueException;
+// import seedu.clinic.commons.exceptions.IllegalValueException;
 // TODO: Enable after PR #52 merges
 // Currently omitted to avoid dependency on unmerged classes
 //import seedu.clinic.model.person.NRIC;
 //import seedu.clinic.model.person.Patient;
-//import seedu.clinic.model.person.Person;
+// import seedu.clinic.model.person.Person;
 
 /**
  * Jackson-friendly version of {@link `Patient`}.
@@ -44,10 +44,10 @@ class JsonAdaptedPatient {
         this.dateOfBirth = dateOfBirth;
         this.emergencyContact = emergencyContact;
     }
-/*
-    /**
-     * Converts a given {@code Patient} into this class for Jackson use.
-     */
+
+    // /**
+    //  * Converts a given {@code Patient} into this class for Jackson use.
+    //  */
     // TODO: Enable after PR #52 merges
     // Currently omitted to avoid dependency on unmerged classes
 //    public JsonAdaptedPatient(Patient source) {
@@ -62,12 +62,11 @@ class JsonAdaptedPatient {
 //                .collect(Collectors.toList()));
 //    }
 
-    /*
-    /**
-     * Converts this Jackson-friendly adapted patient object into the model's {@code Patient} object.
-     *
-     * @throws IllegalValueException if there were any data constraints violated.
-     */
+    // /**
+    //  * Converts this Jackson-friendly adapted patient object into the model's {@code Patient} object.
+    //  *
+    //  * @throws IllegalValueException if there were any data constraints violated.
+    //  */
     // TODO: Enable after PR #52 merges
     // Currently omitted to avoid dependency on unmerged classes
 //    public Patient toModelType() throws IllegalValueException {
