@@ -12,8 +12,6 @@ import static seedu.clinic.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.clinic.logic.parser.CliSyntax.PREFIX_ADDRESS;
 
 import seedu.clinic.commons.util.ToStringBuilder;
-import seedu.clinic.logic.commands.Command;
-import seedu.clinic.logic.commands.CommandResult;
 import seedu.clinic.logic.commands.exceptions.CommandException;
 import seedu.clinic.model.Model;
 import seedu.clinic.model.person.Patient;
@@ -28,7 +26,7 @@ public class AddPatientCommand extends Command {
             + PREFIX_NRIC + "NRIC "
             + PREFIX_DOB + "DOB "
             + PREFIX_SEX + "SEX "
-            + PREFIX_ALLERGIES + "ALLERGIES "
+            + "[" + PREFIX_ALLERGIES + "ALLERGY]... "
             + PREFIX_EMERGENCY_CONTACT + "EMERGENCY_CONTACT "
             + PREFIX_EMAIL + "EMAIL "
             + PREFIX_PHONE + "PHONE "
@@ -45,7 +43,7 @@ public class AddPatientCommand extends Command {
             + PREFIX_ADDRESS + "123 Marina Terrace ";
 
     public static final String MESSAGE_SUCCESS = "New patient added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PATIENT = "This patient already exists in the address book";
+    public static final String MESSAGE_DUPLICATE_PATIENT = "This patient already exists in clinic book";
     
     private final Patient newPatient;
 
@@ -61,7 +59,10 @@ public class AddPatientCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        if (model.hasPerson(newPatient)) {
+        boolean hasDuplicateNric = model.getClinicBook().getPatientList().stream()
+                .anyMatch(existingPatient -> existingPatient.getNric().equals(newPatient.getNric()));
+
+        if (hasDuplicateNric) {
             throw new CommandException(MESSAGE_DUPLICATE_PATIENT);
         }
 

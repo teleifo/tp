@@ -2,11 +2,14 @@ package seedu.clinic.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.ObservableList;
 import seedu.clinic.commons.util.ToStringBuilder;
 import seedu.clinic.model.person.Person;
+import seedu.clinic.model.person.Doctor;
+import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.UniquePersonList;
 
 /**
@@ -16,6 +19,7 @@ import seedu.clinic.model.person.UniquePersonList;
 public class ClinicBook implements ReadOnlyClinicBook {
 
     private final UniquePersonList persons;
+    private final UniquePersonList patients;
     // id counter for Patient
     private int nextId = 1;
 
@@ -28,6 +32,7 @@ public class ClinicBook implements ReadOnlyClinicBook {
      */
     {
         persons = new UniquePersonList();
+        patients = new UniquePersonList();
     }
 
     public ClinicBook() {}
@@ -62,6 +67,16 @@ public class ClinicBook implements ReadOnlyClinicBook {
         requireNonNull(newData);
 
         setPersons(newData.getPersonList());
+        setPatients(newData.getPatientList());
+    }
+
+    /**
+     * Replaces the contents of the patient list with {@code patients}.
+     */
+    public void setPatients(List<Patient> patients) {
+        requireNonNull(patients);
+        List<Person> personsToSet = new ArrayList<>(patients);
+        this.patients.setPersons(personsToSet);
     }
 
     //// person-level operations
@@ -81,11 +96,22 @@ public class ClinicBook implements ReadOnlyClinicBook {
     public void addPerson(Person p) {
         // If ID is 0 (default), assign a new one
         if (p.getId() == 0) {
-            int newId = getNextId();
-            p = new Person(p.getName(), p.getPhone(), p.getEmail(),
-                    p.getAddress(), p.getTags(), newId);
+            p.setId(getNextId());
         }
         persons.add(p);
+    }
+
+    /**
+     * Adds a Patient to clinic book.
+     * The patient must not already exist in clinic book.
+     */
+    public void addPatient(Patient patient) {
+        requireNonNull(patient);
+        if (patient.getId() == 0) {
+            patient.setId(getNextId());
+        }
+        persons.add(patient);
+        patients.add(patient);
     }
 
     /**
@@ -136,6 +162,11 @@ public class ClinicBook implements ReadOnlyClinicBook {
     @Override
     public ObservableList<Person> getPersonList() {
         return persons.asUnmodifiableObservableList();
+    }
+
+    @Override
+    public ObservableList<Patient> getPatientList() {
+        return patients.asUnmodifiableObservableList();
     }
 
     @Override

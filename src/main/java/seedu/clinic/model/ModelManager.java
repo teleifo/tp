@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.clinic.commons.core.GuiSettings;
 import seedu.clinic.commons.core.LogsCenter;
+import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
 
 /**
@@ -101,6 +102,12 @@ public class ModelManager implements Model {
     @Override
     public void addPerson(Person person) {
         clinicBook.addPerson(person);
+        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    }
+
+    @Override
+    public void addPatient(Patient patient) {
+        clinicBook.addPatient(patient);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 

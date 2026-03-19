@@ -50,7 +50,7 @@ public class AddPatientCommandParser implements Parser<AddPatientCommand> {
 
         if (!arePrefixesPresent(argMultimap,
                 PREFIX_NAME, PREFIX_NRIC, PREFIX_DOB,
-                PREFIX_SEX, PREFIX_ALLERGIES, PREFIX_EMERGENCY_CONTACT,
+                PREFIX_SEX, PREFIX_EMERGENCY_CONTACT,
                 PREFIX_EMAIL, PREFIX_PHONE, PREFIX_ADDRESS)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(
@@ -59,7 +59,9 @@ public class AddPatientCommandParser implements Parser<AddPatientCommand> {
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(
-                PREFIX_NAME, PREFIX_NRIC, PREFIX_EMAIL, PREFIX_PHONE);
+            PREFIX_NAME, PREFIX_NRIC, PREFIX_DOB,
+            PREFIX_SEX, PREFIX_EMERGENCY_CONTACT,
+            PREFIX_EMAIL, PREFIX_PHONE, PREFIX_ADDRESS);
 
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         NRIC nric = parseNric(argMultimap.getValue(PREFIX_NRIC).get());
