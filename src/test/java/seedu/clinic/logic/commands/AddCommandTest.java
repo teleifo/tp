@@ -169,9 +169,9 @@ public class AddCommandTest {
 
         @Override
         public void setDoctor(Doctor target, Doctor editedDoctor) {
-                 throw new AssertionError("This method should not be called.");
+            throw new AssertionError("This method should not be called.");
         }
-      
+
         public void addDiagnosis(Patient target, Diagnosis diagnosis) {
             throw new AssertionError("This method should not be called.");
         }
@@ -195,15 +195,12 @@ public class AddCommandTest {
         public void updateFilteredDoctorList(Predicate<Doctor> predicate) {
             throw new AssertionError("This method should not be called.");
         }
-      
+
+
         public ObservableList<Patient> getFilteredPatientList() {
             throw new AssertionError("This method should not be called.");
         }
 
-        @Override
-        public ObservableList<Doctor> getFilteredDoctorList() {
-            throw new AssertionError("This method should not be called.");
-        }
 
         @Override
         public ObservableList<Pharmacist> getFilteredPharmacistList() {

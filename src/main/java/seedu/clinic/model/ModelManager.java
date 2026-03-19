@@ -143,7 +143,7 @@ public class ModelManager implements Model {
 
         clinicBook.setPerson(target, editedDoctor);
     }
-  
+
     public void addDiagnosis(Patient target, Diagnosis diagnosis) {
         clinicBook.addDiagnosis(target, diagnosis);
     }
@@ -175,7 +175,7 @@ public class ModelManager implements Model {
         requireNonNull(predicate);
         filteredDoctors.setPredicate(predicate);
     }
-  
+
     public ObservableList<Patient> getFilteredPatientList() {
         filteredPersons.setPredicate(null);
         return filteredPersons.filtered(p -> p instanceof Patient)

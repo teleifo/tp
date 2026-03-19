@@ -6,8 +6,8 @@ import java.util.List;
 
 import javafx.collections.ObservableList;
 import seedu.clinic.commons.util.ToStringBuilder;
-import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Diagnosis;
+import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
 import seedu.clinic.model.person.UniquePersonList;
@@ -198,7 +198,7 @@ public class ClinicBook implements ReadOnlyClinicBook {
         doctors.remove(key);
     }
 
-
+    /**
      * Adds a diagnosis to clinic book.
      */
     public void addDiagnosis(Patient target, Diagnosis diagnosis) {

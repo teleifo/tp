@@ -107,6 +107,8 @@ public interface Model {
      */
 
     void setDoctor(Doctor target, Doctor editedDoctor);
+
+    /**
      * Adds the given diagnosis to the target patient.
      * {@code target} must exist in clinic book.
      */

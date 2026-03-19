@@ -9,8 +9,8 @@ import java.util.regex.Pattern;
 
 import seedu.clinic.commons.core.LogsCenter;
 import seedu.clinic.logic.commands.AddCommand;
-import seedu.clinic.logic.commands.AddDoctorCommand;
 import seedu.clinic.logic.commands.AddDiagnosisCommand;
+import seedu.clinic.logic.commands.AddDoctorCommand;
 import seedu.clinic.logic.commands.ClearCommand;
 import seedu.clinic.logic.commands.Command;
 import seedu.clinic.logic.commands.DeleteCommand;

@@ -1,7 +1,5 @@
 package seedu.clinic.storage;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,12 +8,11 @@ import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Email;
 import seedu.clinic.model.person.Name;
 import seedu.clinic.model.person.Phone;
-import seedu.clinic.model.person.Person;
 
 /**
  * Jackson-friendly version of {@link Doctor}.
  */
-class JsonAdaptedDoctor {
+class JsonAdaptedDoctor extends JsonAdaptedPerson {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Person's %s field is missing!";
 
@@ -31,6 +28,7 @@ class JsonAdaptedDoctor {
     public JsonAdaptedDoctor(@JsonProperty("id") int id, @JsonProperty("name") String name,
                              @JsonProperty("phone") String phone,
                              @JsonProperty("email") String email) {
+        super(id, name, phone, email, null, null);
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -41,6 +39,7 @@ class JsonAdaptedDoctor {
      * Converts a given {@code Doctor} into this class for Jackson use.
      */
     public JsonAdaptedDoctor(Doctor source) {
+        super(source);
         id = source.getId();
         name = source.getName().fullName;
         phone = source.getPhone().value;

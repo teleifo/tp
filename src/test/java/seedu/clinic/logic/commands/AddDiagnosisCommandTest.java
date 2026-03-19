@@ -107,8 +107,6 @@ public class AddDiagnosisCommandTest {
                 new Name("Doctor One"),
                 new Phone("92345678"),
                 new Email("doctor@example.com"),
-                new Address("2 Street"),
-                Set.of(),
                 DOCTOR_ID));
         clinicBook.addPerson(new Pharmacist(
                 new Name("Pharmacist One"),
@@ -151,8 +149,6 @@ public class AddDiagnosisCommandTest {
                 new Name("Doctor One"),
                 new Phone("92345678"),
                 new Email("doctor@example.com"),
-                new Address("2 Street"),
-                Set.of(),
                 DOCTOR_ID));
         return new ModelManager(clinicBook, new UserPrefs());
     }

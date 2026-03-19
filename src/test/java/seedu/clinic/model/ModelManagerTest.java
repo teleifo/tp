@@ -119,8 +119,6 @@ public class ModelManagerTest {
                 new Name("Doctor One"),
                 new Phone("92345678"),
                 new Email("doctor@example.com"),
-                new Address("2 Street"),
-                java.util.Set.of(),
                 2);
         Pharmacist pharmacist = new Pharmacist(
                 new Name("Pharmacist One"),

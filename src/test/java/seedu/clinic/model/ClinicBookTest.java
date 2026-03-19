@@ -21,9 +21,9 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Address;
 import seedu.clinic.model.person.Diagnosis;
+import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Email;
 import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Name;
