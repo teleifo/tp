@@ -1,5 +1,6 @@
 {
   "persons": [ {
+    "type": "person",
     "name": "Alice Pauline",
     "id": 1,
     "phone": "94351253",
@@ -7,10 +8,12 @@
     "address": "123, Jurong West Ave 6, #08-111",
     "tags": [ "friends" ]
   }, {
+    "type": "person",
     "name": "Alice Pauline",
     "id": 1,
     "phone": "94351253",
     "email": "pauline@example.com",
     "address": "4th street"
-  } ]
+  } ],
+  "doctors": []
 }

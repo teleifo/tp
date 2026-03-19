@@ -7,10 +7,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import seedu.clinic.model.person.Doctor;
+import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
 
 /**
- * An UI component that displays information of a {@code Person}.
+ * An UI component that displays information of a {@code Person} or {@code Doctor}.
  */
 public class PersonCard extends UiPart<Region> {
 
@@ -29,9 +31,13 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private HBox cardPane;
     @FXML
+    private Label role;
+    @FXML
     private Label name;
     @FXML
     private Label id;
+    @FXML
+    private Label nric;
     @FXML
     private Label phone;
     @FXML
@@ -47,13 +53,36 @@ public class PersonCard extends UiPart<Region> {
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
         this.person = person;
+
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
+        if (person instanceof Patient) {
+            nric.setText("NRIC: " + ((Patient) person).getNric().value);
+        } else {
+            nric.setManaged(false);
+            nric.setVisible(false);
+        }
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
+        role.setText(person.getRole());
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
     }
+
+    /**
+     * Creates a {@code PersonCode} with the given {@code Doctor} and index to display.
+     */
+    public PersonCard(Doctor doctor, int displayedIndex) {
+        super(FXML);
+        this.person = doctor;
+
+        id.setText(displayedIndex + ". ");
+        name.setText(person.getName().fullName);
+        phone.setText(person.getPhone().value);
+        email.setText(person.getEmail().value);
+        role.setText(person.getRole());
+    }
+
 }

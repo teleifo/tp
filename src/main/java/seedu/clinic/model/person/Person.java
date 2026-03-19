@@ -23,6 +23,8 @@ import seedu.clinic.model.tag.Tag;
  */
 public class Person {
 
+    // May change to Person
+    public static final String ROLE = "Patient";
     // TODO: Move this to Staff/Patient subclasses
     private static final int DEFAULT_ID = 0;
     // TODO: Implement ID_FORMAT usage in automatic ID assignment (e.g., P001, P002)
@@ -62,6 +64,9 @@ public class Person {
         this(name, phone, email, address, tags, DEFAULT_ID);
     }
 
+    public String getRole() {
+        return ROLE;
+    }
 
     public Name getName() {
         return name;
