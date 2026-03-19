@@ -1,10 +1,6 @@
 package seedu.clinic.model.person;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import seedu.clinic.commons.util.ToStringBuilder;
-import seedu.clinic.model.tag.Tag;
 
 /**
  * Represents a Doctor in the clinic.
@@ -18,7 +14,7 @@ import seedu.clinic.model.tag.Tag;
 public class Doctor extends Staff {
 
     //private final Set<Tag> tags = new HashSet<>();
-
+    public static final String ROLE = "Doctor";
 
 
     /*
@@ -44,6 +40,9 @@ public class Doctor extends Staff {
     }
 
 
+    public String getRole() {
+        return ROLE;
+    }
 
     /**
      * Records a diagnosis for a patient.

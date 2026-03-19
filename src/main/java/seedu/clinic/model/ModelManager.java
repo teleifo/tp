@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.clinic.commons.core.GuiSettings;
 import seedu.clinic.commons.core.LogsCenter;
+import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Person;
 
 /**
@@ -22,6 +23,7 @@ public class ModelManager implements Model {
     private final ClinicBook clinicBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+    private final FilteredList<Doctor> filteredDoctors;
 
     /**
      * Initializes a ModelManager with the given clinicBook and userPrefs.
@@ -34,6 +36,7 @@ public class ModelManager implements Model {
         this.clinicBook = new ClinicBook(clinicBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.clinicBook.getPersonList());
+        filteredDoctors = new FilteredList<>(this.clinicBook.getDoctorList());
     }
 
     public ModelManager() {
@@ -94,8 +97,19 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasDoctor(Doctor doctor) {
+        requireNonNull(doctor);
+        return clinicBook.hasDoctor(doctor);
+    }
+
+    @Override
     public void deletePerson(Person target) {
         clinicBook.removePerson(target);
+    }
+
+    @Override
+    public void deleteDoctor(Doctor target) {
+        clinicBook.removeDoctor(target);
     }
 
     @Override
@@ -105,10 +119,24 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void addDoctor(Doctor doctor) {
+        clinicBook.addDoctor(doctor);
+        updateFilteredDoctorList(PREDICATE_SHOW_ALL_DOCTORS);
+    }
+
+
+    @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
 
         clinicBook.setPerson(target, editedPerson);
+    }
+
+    @Override
+    public void setDoctor(Doctor target, Doctor editedDoctor) {
+        requireAllNonNull(target, editedDoctor);
+
+        clinicBook.setPerson(target, editedDoctor);
     }
 
     //=========== Filtered Person List Accessors =============================================================
@@ -123,9 +151,20 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public ObservableList<Doctor> getFilteredDoctorList() {
+        return filteredDoctors;
+    }
+
+    @Override
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    @Override
+    public void updateFilteredDoctorList(Predicate<Doctor> predicate) {
+        requireNonNull(predicate);
+        filteredDoctors.setPredicate(predicate);
     }
 
     @Override

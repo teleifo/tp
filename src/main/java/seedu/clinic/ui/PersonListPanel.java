@@ -2,12 +2,14 @@ package seedu.clinic.ui;
 
 import java.util.logging.Logger;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import seedu.clinic.commons.core.LogsCenter;
+import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Person;
 
 /**
@@ -20,17 +22,25 @@ public class PersonListPanel extends UiPart<Region> {
     @FXML
     private ListView<Person> personListView;
 
+    private ObservableList<Person> combinedList = FXCollections.observableArrayList();
+
     /**
      * Creates a {@code PersonListPanel} with the given {@code ObservableList}.
      */
-    public PersonListPanel(ObservableList<Person> personList) {
+    public PersonListPanel(ObservableList<Person> personList, ObservableList<Doctor> doctorList) {
         super(FXML);
-        personListView.setItems(personList);
+
+        combinedList.clear();
+        combinedList.addAll(personList);
+        combinedList.addAll(doctorList);
+
+        personListView.setItems(combinedList);
         personListView.setCellFactory(listView -> new PersonListViewCell());
     }
 
     /**
-     * Custom {@code ListCell} that displays the graphics of a {@code Person} using a {@code PersonCard}.
+     * Custom {@code ListCell} that displays the graphics of a {@code Person} or {@code Doctor}
+     * using a {@code PersonCard}.
      */
     class PersonListViewCell extends ListCell<Person> {
         @Override

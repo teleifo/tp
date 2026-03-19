@@ -1,11 +1,9 @@
 package seedu.clinic.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.clinic.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.clinic.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.clinic.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.clinic.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.clinic.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.clinic.commons.util.ToStringBuilder;
 import seedu.clinic.logic.commands.exceptions.CommandException;
@@ -29,8 +27,6 @@ public class AddDoctorCommand extends Command {
             + PREFIX_NAME + "John Doe "
             + PREFIX_PHONE + "98765432 "
             + PREFIX_EMAIL + "johnd@example.com ";
-            //+ PREFIX_TAG + "senior "
-            //+ PREFIX_TAG + "surgeon";
 
     public static final String MESSAGE_SUCCESS = "New doctor added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This doctor already exists in the address book";

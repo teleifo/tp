@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import seedu.clinic.commons.exceptions.IllegalValueException;
 import seedu.clinic.model.ClinicBook;
 import seedu.clinic.model.ReadOnlyClinicBook;
+import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Person;
 
 /**
@@ -20,15 +21,19 @@ import seedu.clinic.model.person.Person;
 class JsonSerializableClinicBook {
 
     public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
+    public static final String MESSAGE_DUPLICATE_DOCTOR = "Doctors list contains duplicate doctor(s).";
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
+    private final List<JsonAdaptedDoctor> doctors = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonSerializableClinicBook} with the given persons.
      */
     @JsonCreator
-    public JsonSerializableClinicBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons) {
+    public JsonSerializableClinicBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons,
+                                      @JsonProperty("doctors") List<JsonAdaptedDoctor> doctors) {
         this.persons.addAll(persons);
+        this.doctors.addAll(doctors);
     }
 
     /**
@@ -38,6 +43,7 @@ class JsonSerializableClinicBook {
      */
     public JsonSerializableClinicBook(ReadOnlyClinicBook source) {
         persons.addAll(source.getPersonList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
+        doctors.addAll(source.getDoctorList().stream().map(JsonAdaptedDoctor::new).collect(Collectors.toList()));
     }
 
     /**
@@ -53,6 +59,14 @@ class JsonSerializableClinicBook {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
             }
             clinicBook.addPerson(person);
+        }
+
+        for (JsonAdaptedDoctor jsonAdaptedDoctor : doctors) {
+            Doctor doctor = jsonAdaptedDoctor.toModelType();
+            if (clinicBook.hasDoctor(doctor)) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_DOCTOR);
+            }
+            clinicBook.addDoctor(doctor);
         }
         return clinicBook;
     }

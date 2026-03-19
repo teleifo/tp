@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import seedu.clinic.commons.core.GuiSettings;
 import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Person;
-import seedu.clinic.model.person.Staff;
 
 /**
  * The API of the Model component.
@@ -15,6 +14,9 @@ import seedu.clinic.model.person.Staff;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
+
+    /** {@code Predicate} that always evaluate to true */
+    Predicate<Doctor> PREDICATE_SHOW_ALL_DOCTORS = unused -> true;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -60,10 +62,21 @@ public interface Model {
     boolean hasPerson(Person person);
 
     /**
+     * Returns true if a doctor with the same identity as {@code doctor} exists in clinic book.
+     */
+    boolean hasDoctor(Doctor doctor);
+
+    /**
      * Deletes the given person.
      * The person must exist in clinic book.
      */
     void deletePerson(Person target);
+
+    /**
+     * Deletes the given doctor.
+     * The person must exist in clinic book.
+     */
+    void deleteDoctor(Doctor target);
 
     /**
      * Adds the given person.
@@ -84,12 +97,32 @@ public interface Model {
      */
     void setPerson(Person target, Person editedPerson);
 
+    /**
+     * Replaces the given doctor {@code target} with {@code editedDoctor}.
+     * {@code target} must exist in clinic book.
+     * The person identity of {@code editedDoctor} must not be the same as another existing doctor in clinic book.
+     */
+
+    void setDoctor(Doctor target, Doctor editedDoctor);
+
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
+
+    /** Returns an unmodifiable view of the filtered doctor list */
+    ObservableList<Doctor> getFilteredDoctorList();
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+    /**
+     * Updates the filter of the filtered doctor list to filter by the given {@code predicate}.
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredDoctorList(Predicate<Doctor> predicate);
+
+
+
 }

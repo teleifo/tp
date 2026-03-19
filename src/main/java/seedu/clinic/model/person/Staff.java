@@ -11,6 +11,8 @@ import seedu.clinic.commons.util.ToStringBuilder;
 public abstract class Staff extends ContactPerson {
 
     private static final int DEFAULT_STAFF_ID = 0;
+    // have to fix, coz staffId will start with 0 again whenever we re-run the program
+    // maybe handled it by the ClinicBook like Patient ID
     private static int nextStaffId = DEFAULT_STAFF_ID + 1;
 
     private final int staffId;

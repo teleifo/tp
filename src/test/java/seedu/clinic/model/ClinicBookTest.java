@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Person;
 import seedu.clinic.model.person.exceptions.DuplicatePersonException;
 import seedu.clinic.testutil.PersonBuilder;
@@ -29,6 +30,7 @@ public class ClinicBookTest {
     @Test
     public void constructor() {
         assertEquals(Collections.emptyList(), clinicBook.getPersonList());
+        assertEquals(Collections.emptyList(), clinicBook.getDoctorList());
     }
 
     @Test
@@ -85,7 +87,8 @@ public class ClinicBookTest {
 
     @Test
     public void toStringMethod() {
-        String expected = ClinicBook.class.getCanonicalName() + "{persons=" + clinicBook.getPersonList() + "}";
+        String expected = ClinicBook.class.getCanonicalName() + "{persons=" + clinicBook.getPersonList()
+                + ", doctors=" + clinicBook.getDoctorList() + "}";
         assertEquals(expected, clinicBook.toString());
     }
 
@@ -94,14 +97,21 @@ public class ClinicBookTest {
      */
     private static class ClinicBookStub implements ReadOnlyClinicBook {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
+        private final ObservableList<Doctor> doctors = FXCollections.observableArrayList();
 
         ClinicBookStub(Collection<Person> persons) {
             this.persons.setAll(persons);
+            this.doctors.setAll(doctors);
         }
 
         @Override
         public ObservableList<Person> getPersonList() {
             return persons;
+        }
+
+        @Override
+        public ObservableList<Doctor> getDoctorList() {
+            return doctors;
         }
     }
 

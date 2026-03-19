@@ -1,24 +1,18 @@
 package seedu.clinic.logic.parser;
 
 import static seedu.clinic.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.clinic.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.clinic.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.clinic.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.clinic.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.clinic.logic.parser.CliSyntax.PREFIX_TAG;
 
-import java.util.Set;
 import java.util.stream.Stream;
 
-import seedu.clinic.logic.commands.AddCommand;
 import seedu.clinic.logic.commands.AddDoctorCommand;
 import seedu.clinic.logic.parser.exceptions.ParseException;
-import seedu.clinic.model.person.Address;
+import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Email;
 import seedu.clinic.model.person.Name;
-import seedu.clinic.model.person.Person;
 import seedu.clinic.model.person.Phone;
-import seedu.clinic.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new AddDoctorCommand object
@@ -34,7 +28,7 @@ public class AddDoctorCommandParser implements Parser<AddDoctorCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_ADDRESS, PREFIX_PHONE, PREFIX_EMAIL)
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddDoctorCommand.MESSAGE_USAGE));
         }
@@ -43,11 +37,10 @@ public class AddDoctorCommandParser implements Parser<AddDoctorCommand> {
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
-        Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-        Person person = new Person(name, phone, email, address, tagList);
+        Doctor doctor = new Doctor(name, phone, email);
 
-        return new AddDoctorCommand(person);
+        return new AddDoctorCommand(doctor);
     }
 
     /**
