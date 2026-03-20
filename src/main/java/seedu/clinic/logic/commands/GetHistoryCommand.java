@@ -143,6 +143,8 @@ public class GetHistoryCommand extends Command {
                 prescription.getDosage(),
                 prescription.getFrequency(),
                 prescribedBy,
+            prescription.getFrequency(),
+            prescribedBy,
             prescription.getDispensedBy());
     }
 
