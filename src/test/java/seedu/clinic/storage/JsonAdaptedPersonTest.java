@@ -20,7 +20,6 @@ import seedu.clinic.model.person.Phone;
 public class JsonAdaptedPersonTest {
     private static final int INVALID_ID = -1;
     private static final String INVALID_NAME = "R@chel";
-    private static final String INVALID_NRIC = "S1234567A";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
@@ -113,5 +112,4 @@ public class JsonAdaptedPersonTest {
                 new JsonAdaptedPerson(VALID_ID, VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, invalidTags);
         assertThrows(IllegalValueException.class, person::toModelType);
     }
-
 }

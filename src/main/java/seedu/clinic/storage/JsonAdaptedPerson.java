@@ -23,7 +23,7 @@ import seedu.clinic.model.tag.Tag;
  * Jackson-friendly version of {@link Person}.
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY,
-    property = "type", defaultImpl = JsonAdaptedPerson.class)
+        property = "type", defaultImpl = JsonAdaptedPerson.class)
 @JsonSubTypes({
     @JsonSubTypes.Type(value = JsonAdaptedPerson.class, name = "person"),
     @JsonSubTypes.Type(value = JsonAdaptedPatient.class, name = "patient"),
@@ -40,16 +40,17 @@ class JsonAdaptedPerson {
     private final String email;
     private final String address;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
+
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
      */
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("id") int id,
-             @JsonProperty("name") String name,
-             @JsonProperty("phone") String phone,
-             @JsonProperty("email") String email,
-             @JsonProperty("address") String address,
-             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+            @JsonProperty("name") String name,
+            @JsonProperty("phone") String phone,
+            @JsonProperty("email") String email,
+            @JsonProperty("address") String address,
+            @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.id = id;
         this.name = name;
         this.phone = phone;
