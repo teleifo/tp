@@ -29,6 +29,7 @@ import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Name;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
+import seedu.clinic.model.person.Pharmacist;
 import seedu.clinic.model.person.Phone;
 import seedu.clinic.model.person.exceptions.DuplicatePersonException;
 import seedu.clinic.testutil.PersonBuilder;
@@ -41,6 +42,7 @@ public class ClinicBookTest {
     public void constructor() {
         assertEquals(Collections.emptyList(), clinicBook.getPersonList());
         assertEquals(Collections.emptyList(), clinicBook.getDoctorList());
+        assertEquals(Collections.emptyList(), clinicBook.getPharmacistList());
     }
 
     @Test
@@ -108,7 +110,7 @@ public class ClinicBookTest {
     @Test
     public void toStringMethod() {
         String expected = ClinicBook.class.getCanonicalName() + "{persons=" + clinicBook.getPersonList()
-                + ", doctors=" + clinicBook.getDoctorList() + "}";
+                + ", doctors=" + clinicBook.getDoctorList() + ", pharmacists=" + clinicBook.getPharmacistList() + "}";
         assertEquals(expected, clinicBook.toString());
     }
 
@@ -139,10 +141,12 @@ public class ClinicBookTest {
     private static class ClinicBookStub implements ReadOnlyClinicBook {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
         private final ObservableList<Doctor> doctors = FXCollections.observableArrayList();
+        private final ObservableList<Pharmacist> pharmacists = FXCollections.observableArrayList();
 
         ClinicBookStub(Collection<Person> persons) {
             this.persons.setAll(persons);
             this.doctors.setAll(doctors);
+            this.pharmacists.setAll(pharmacists);
         }
 
         @Override
@@ -153,6 +157,11 @@ public class ClinicBookTest {
         @Override
         public ObservableList<Doctor> getDoctorList() {
             return doctors;
+        }
+
+        @Override
+        public ObservableList<Doctor> getPharmacistList() {
+            return pharmacists;
         }
     }
 

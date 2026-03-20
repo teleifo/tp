@@ -133,6 +133,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void addPharmacist(Pharmacist pharmacist) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void setClinicBook(ReadOnlyClinicBook newData) {
             throw new AssertionError("This method should not be called.");
         }
@@ -153,6 +158,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public boolean hasPharmacist(Pharmacist pharmacist) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void deletePerson(Person target) {
             throw new AssertionError("This method should not be called.");
         }
@@ -163,12 +173,22 @@ public class AddCommandTest {
         }
 
         @Override
+        public void deletePharmacist(Pharmacist target) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void setPerson(Person target, Person editedPerson) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public void setDoctor(Doctor target, Doctor editedDoctor) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setPharmacist(Pharmacist target, Pharmacist editedPharmacist) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -186,6 +206,10 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
+        public ObservableList<Pharmacist> getFilteredPharmacistList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
         @Override
         public void updateFilteredPersonList(Predicate<Person> predicate) {
             throw new AssertionError("This method should not be called.");
@@ -200,7 +224,6 @@ public class AddCommandTest {
         public ObservableList<Patient> getFilteredPatientList() {
             throw new AssertionError("This method should not be called.");
         }
-
 
         @Override
         public ObservableList<Pharmacist> getFilteredPharmacistList() {

@@ -31,10 +31,8 @@ public class SampleDataUtil {
             new Patient(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
                 new Address("Blk 11 Ang Mo Kio Street 74, #11-04"), getTagSet("neighbours"),
                 new NRIC("S1786425D"), LocalDate.parse("2002-04-01"), "97654321"),
-            new Pharmacist(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
-                new Address("Blk 436 Serangoon Gardens Street 26, #16-43"), getTagSet("family")),
-            new Pharmacist(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
-                new Address("Blk 47 Tampines Street 20, #17-35"), getTagSet("classmates")),
+            new Pharmacist(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com")),
+            new Pharmacist(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com")),
             new Doctor(new Name("Roy Balakrishnan"), new Phone("92624417"), new Email("royb@example.com"))
         };
     }

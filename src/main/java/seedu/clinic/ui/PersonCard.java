@@ -8,6 +8,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.clinic.model.person.Doctor;
+import seedu.clinic.model.person.Pharmacist;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
 
@@ -77,6 +78,20 @@ public class PersonCard extends UiPart<Region> {
     public PersonCard(Doctor doctor, int displayedIndex) {
         super(FXML);
         this.person = doctor;
+
+        id.setText(displayedIndex + ". ");
+        name.setText(person.getName().fullName);
+        phone.setText(person.getPhone().value);
+        email.setText(person.getEmail().value);
+        role.setText(person.getRole());
+    }
+
+     /**
+     * Creates a {@code PersonCode} with the given {@code Pharmacist} and index to display.
+     */
+    public PersonCard(Pharmacist pharmacist, int displayedIndex) {
+        super(FXML);
+        this.person = pharmacist;
 
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);

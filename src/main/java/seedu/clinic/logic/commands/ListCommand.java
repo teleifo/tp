@@ -3,6 +3,7 @@ package seedu.clinic.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.clinic.model.Model.PREDICATE_SHOW_ALL_DOCTORS;
 import static seedu.clinic.model.Model.PREDICATE_SHOW_ALL_PERSONS;
+import static seedu.clinic.model.Model.PREDICATE_SHOW_ALL_PHARMACISTS;
 
 import seedu.clinic.model.Model;
 
@@ -21,6 +22,7 @@ public class ListCommand extends Command {
         requireNonNull(model);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         model.updateFilteredDoctorList(PREDICATE_SHOW_ALL_DOCTORS);
+        model.updateFilteredPharmacistList(PREDICATE_SHOW_ALL_PHARMACISTS);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }

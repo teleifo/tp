@@ -26,5 +26,6 @@
     "address" : "10th street",
     "tags" : [ "colleagues" ]
   } ],
-  "doctors": []
+  "doctors": [],
+  "pharmacists": []
 }

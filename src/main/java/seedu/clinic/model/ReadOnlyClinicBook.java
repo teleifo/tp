@@ -21,4 +21,10 @@ public interface ReadOnlyClinicBook {
      */
     ObservableList<Doctor> getDoctorList();
 
+    /**
+     * Returns an unmodifiable view of the pharmacist list.
+     * This list will not contain any duplicate pharmacists.
+     */
+    ObservableList<Pharmacist> getPharmacistList();
+
 }

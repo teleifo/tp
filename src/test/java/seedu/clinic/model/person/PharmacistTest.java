@@ -16,8 +16,6 @@ public class PharmacistTest {
                 new Name("Pharmacist One"),
                 new Phone("93456789"),
                 new Email("pharmacist@example.com"),
-                new Address("3 Clinic Road"),
-                Set.of(),
                 3);
 
         Patient patient = new Patient(
