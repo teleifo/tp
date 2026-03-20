@@ -2,7 +2,6 @@ package seedu.clinic.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.clinic.storage.JsonAdaptedPerson.MISSING_FIELD_MESSAGE_FORMAT;
-import static seedu.clinic.storage.JsonAdaptedPerson.MISSING_PATIENT_FIELD_MESSAGE_FORMAT;
 import static seedu.clinic.testutil.Assert.assertThrows;
 import static seedu.clinic.testutil.TypicalPatients.NADIA_NRIC;
 import static seedu.clinic.testutil.TypicalPatients.createNadia;
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import seedu.clinic.commons.exceptions.IllegalValueException;
 import seedu.clinic.model.person.Address;
 import seedu.clinic.model.person.Email;
-import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Name;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Phone;

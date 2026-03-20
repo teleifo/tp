@@ -15,12 +15,14 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import seedu.clinic.logic.commands.AddCommand;
+import seedu.clinic.logic.commands.AddDiagnosisCommand;
 import seedu.clinic.logic.commands.ClearCommand;
 import seedu.clinic.logic.commands.DeleteCommand;
 import seedu.clinic.logic.commands.EditCommand;
 import seedu.clinic.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.clinic.logic.commands.ExitCommand;
 import seedu.clinic.logic.commands.FindCommand;
+import seedu.clinic.logic.commands.GetHistoryCommand;
 import seedu.clinic.logic.commands.HelpCommand;
 import seedu.clinic.logic.commands.ListCommand;
 import seedu.clinic.logic.parser.exceptions.ParseException;
@@ -98,6 +100,20 @@ public class ClinicBookParserTest {
     public void parseCommand_help() throws Exception {
         assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD) instanceof HelpCommand);
         assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD + " 3") instanceof HelpCommand);
+    }
+
+    @Test
+    public void parseCommand_getHistory() throws Exception {
+        assertTrue(parser.parseCommand(GetHistoryCommand.COMMAND_WORD + " nric/S1234567D")
+                instanceof GetHistoryCommand);
+    }
+
+    @Test
+    public void parseCommand_addDiagnosis() throws Exception {
+        String args = " id/1 desc/Flu vd/2026-03-01 diagnosed/2"
+                + " sym/fever med/Paracetamol dose/500mg freq/daily dispensed/3";
+        assertTrue(parser.parseCommand(AddDiagnosisCommand.COMMAND_WORD + args)
+                instanceof AddDiagnosisCommand);
     }
 
     @Test

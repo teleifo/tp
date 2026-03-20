@@ -8,11 +8,13 @@ import java.util.stream.Collectors;
 import seedu.clinic.model.ClinicBook;
 import seedu.clinic.model.ReadOnlyClinicBook;
 import seedu.clinic.model.person.Address;
+import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Email;
 import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Name;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
+import seedu.clinic.model.person.Pharmacist;
 import seedu.clinic.model.person.Phone;
 import seedu.clinic.model.person.Sex;
 import seedu.clinic.model.tag.Tag;
@@ -23,30 +25,18 @@ import seedu.clinic.model.tag.Tag;
 public class SampleDataUtil {
     public static Person[] getSamplePersons() {
         return new Person[] {
-            new Person(new Name("Alex Yeoh"), new Phone("87438807"), new Email("alexyeoh@example.com"),
-                new Address("Blk 30 Geylang Street 29, #06-40"),
-                getTagSet("friends")),
-            new Person(new Name("Bernice Yu"), new Phone("99272758"), new Email("berniceyu@example.com"),
-                new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"),
-                getTagSet("colleagues", "friends")),
-            new Person(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
-                new Address("Blk 11 Ang Mo Kio Street 74, #11-04"),
-                getTagSet("neighbours")),
-            new Person(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
-                new Address("Blk 436 Serangoon Gardens Street 26, #16-43"),
-                getTagSet("family")),
-            new Person(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
-                new Address("Blk 47 Tampines Street 20, #17-35"),
-                getTagSet("classmates")),
-            new Patient(new Name("Nadia Tan"), new Phone("93456789"), new Email("nadiatan@example.com"),
-                new Address("Blk 10 Bedok North Ave 2, #03-12"),
-                getTagSet("patient"), new NRIC("S1234567D"), LocalDate.of(1992, 4, 12), Sex.FEMALE),
-            new Patient(new Name("Timothy Goh"), new Phone("94567890"), new Email("timothyg@example.com"),
-                new Address("Blk 21 Jurong East St 24, #05-88"),
-                getTagSet("patient"), new NRIC("T1234567J"), LocalDate.of(1988, 9, 3), Sex.MALE),
-            new Person(new Name("Roy Balakrishnan"), new Phone("92624417"), new Email("royb@example.com"),
-                new Address("Blk 45 Aljunied Street 85, #11-31"),
-                getTagSet("colleagues"))
+            new Patient(new Name("Alex Yeoh"), new Phone("87438807"), new Email("alexyeoh@example.com"),
+                new Address("Blk 30 Geylang Street 29, #06-40"), getTagSet("friends"),
+                new NRIC("S1166846A"), LocalDate.parse("2002-12-25"), "98765432"),
+            new Doctor(new Name("Bernice Yu"), new Phone("99272758"), new Email("berniceyu@example.com")),
+            new Patient(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
+                new Address("Blk 11 Ang Mo Kio Street 74, #11-04"), getTagSet("neighbours"),
+                new NRIC("S1786425D"), LocalDate.parse("2002-04-01"), "97654321"),
+            new Pharmacist(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
+                new Address("Blk 436 Serangoon Gardens Street 26, #16-43"), getTagSet("family")),
+            new Pharmacist(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
+                new Address("Blk 47 Tampines Street 20, #17-35"), getTagSet("classmates")),
+            new Doctor(new Name("Roy Balakrishnan"), new Phone("92624417"), new Email("royb@example.com"))
         };
     }
 

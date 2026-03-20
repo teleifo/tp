@@ -1,9 +1,6 @@
 package seedu.clinic.model.person;
 
-import java.util.Set;
-
 import seedu.clinic.commons.util.ToStringBuilder;
-import seedu.clinic.model.tag.Tag;
 
 /**
  * Represents a Doctor in the clinic.
@@ -14,21 +11,37 @@ import seedu.clinic.model.tag.Tag;
  * TODO: Implement  prescription management logic
  * TODO: Add patient history retrieval functionality
  */
-public class Doctor extends Person {
+public class Doctor extends Staff {
+
+    //private final Set<Tag> tags = new HashSet<>();
+    public static final String ROLE = "Doctor";
+
+
+    /*
+    public Doctor(Name name, Phone phone, Email email, Set<Tag> tags) {
+        super(name, phone, email);
+        this.tags.addAll(tags);
+    }
+     */
 
     /**
      * Constructs a Doctor with the given details.
      * Every field must be present and not null.
      */
-    public Doctor(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        super(name, phone, email, address, tags);
+    public Doctor(Name name, Phone phone, Email email) {
+        super(name, phone, email);
     }
 
     /**
      * Constructs a Doctor with the given details including ID.
      */
-    public Doctor(Name name, Phone phone, Email email, Address address, Set<Tag> tags, int id) {
-        super(name, phone, email, address, tags, id);
+    public Doctor(Name name, Phone phone, Email email, int id) {
+        super(name, phone, email, id);
+    }
+
+
+    public String getRole() {
+        return ROLE;
     }
 
     /**

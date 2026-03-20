@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import seedu.clinic.commons.exceptions.IllegalValueException;
 import seedu.clinic.model.person.Address;
@@ -24,16 +26,18 @@ import seedu.clinic.model.tag.Tag;
 /**
  * Jackson-friendly version of {@link Person}.
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = JsonAdaptedPerson.class, name = "person"),
+    @JsonSubTypes.Type(value = JsonAdaptedPatient.class, name = "patient"),
+    @JsonSubTypes.Type(value = JsonAdaptedDoctor.class, name = "doctor"),
+    @JsonSubTypes.Type(value = JsonAdaptedPharmacist.class, name = "pharmacist")
+})
 class JsonAdaptedPerson {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Person's %s field is missing!";
-    public static final String MISSING_PATIENT_FIELD_MESSAGE_FORMAT = "Patient's %s field is missing!";
-    public static final String MESSAGE_INVALID_PERSON_TYPE = "Unsupported person type: %s";
-    private static final String TYPE_PATIENT = "patient";
-    private static final String TYPE_PERSON = "person";
 
     private final int id;
-    private final String type;
     private final String name;
     private final String nric;
     private final String dateOfBirth;
@@ -43,7 +47,6 @@ class JsonAdaptedPerson {
     private final String email;
     private final String address;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
-
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
      */
@@ -57,7 +60,6 @@ class JsonAdaptedPerson {
              @JsonProperty("email") String email, @JsonProperty("address") String address,
              @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.id = id;
-        this.type = type;
         this.name = name;
         this.nric = nric;
         this.dateOfBirth = dateOfBirth;
@@ -92,15 +94,14 @@ class JsonAdaptedPerson {
      */
     public JsonAdaptedPerson(Person source) {
         id = source.getId();
-        type = source instanceof Patient ? TYPE_PATIENT : null;
         name = source.getName().fullName;
         nric = source instanceof Patient ? ((Patient) source).getNric().value : null;
         dateOfBirth = source instanceof Patient ? ((Patient) source).getDateOfBirth().toString() : null;
         sex = source instanceof Patient ? ((Patient) source).getSex().name() : null;
-        emergencyContact = null;
+        address = source instanceof Patient ? ((Patient) source).getAddress().value : null;
         phone = source.getPhone().value;
         email = source.getEmail().value;
-        address = source.getAddress().value;
+        
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));

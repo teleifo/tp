@@ -2,6 +2,7 @@ package seedu.clinic.model;
 
 import javafx.collections.ObservableList;
 import seedu.clinic.model.person.Patient;
+import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Person;
 
 /**
@@ -20,4 +21,9 @@ public interface ReadOnlyClinicBook {
      */
     ObservableList<Patient> getPatientList();
 
+    /**
+     * Returns an unmodifiable view of the doctor list.
+     * This list will not contain any duplicate doctors.
+     */
+    ObservableList<Doctor> getDoctorList();
 }

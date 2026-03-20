@@ -21,7 +21,7 @@ import seedu.clinic.testutil.PersonBuilder;
 
 public class UniquePersonListTest {
 
-    private final UniquePersonList uniquePersonList = new UniquePersonList();
+    private final UniquePersonList<Person> uniquePersonList = new UniquePersonList();
 
     @Test
     public void contains_nullPerson_throwsNullPointerException() {

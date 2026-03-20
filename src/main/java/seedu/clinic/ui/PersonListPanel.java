@@ -1,13 +1,18 @@
 package seedu.clinic.ui;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.logging.Logger;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import seedu.clinic.commons.core.LogsCenter;
+import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Person;
 
 /**
@@ -20,17 +25,43 @@ public class PersonListPanel extends UiPart<Region> {
     @FXML
     private ListView<Person> personListView;
 
+    private ObservableList<Person> combinedList = FXCollections.observableArrayList();
+
     /**
      * Creates a {@code PersonListPanel} with the given {@code ObservableList}.
      */
-    public PersonListPanel(ObservableList<Person> personList) {
+    public PersonListPanel(ObservableList<Person> personList, ObservableList<Doctor> doctorList) {
         super(FXML);
-        personListView.setItems(personList);
+
+        combinedList = createCombinedList(personList, doctorList);
+        personListView.setItems(combinedList);
         personListView.setCellFactory(listView -> new PersonListViewCell());
     }
 
+    static ObservableList<Person> createCombinedList(ObservableList<Person> personList,
+                                                     ObservableList<Doctor> doctorList) {
+        requireNonNull(personList);
+        requireNonNull(doctorList);
+
+        ObservableList<Person> combinedList = FXCollections.observableArrayList();
+        Runnable refreshCombinedList = () -> {
+            combinedList.setAll(personList);
+            combinedList.addAll(doctorList);
+        };
+
+        ListChangeListener<Person> personListListener = change -> refreshCombinedList.run();
+        ListChangeListener<Doctor> doctorListListener = change -> refreshCombinedList.run();
+
+        personList.addListener(personListListener);
+        doctorList.addListener(doctorListListener);
+        refreshCombinedList.run();
+        return combinedList;
+    }
+
+
     /**
-     * Custom {@code ListCell} that displays the graphics of a {@code Person} using a {@code PersonCard}.
+     * Custom {@code ListCell} that displays the graphics of a {@code Person} or {@code Doctor}
+     * using a {@code PersonCard}.
      */
     class PersonListViewCell extends ListCell<Person> {
         @Override

@@ -21,18 +21,20 @@ import seedu.clinic.model.person.exceptions.PersonNotFoundException;
  *
  * Supports a minimal set of list operations.
  *
+ * @param <T> the type of Person (e.g. Doctor)
+ *
  * @see Person#isSamePerson(Person)
  */
-public class UniquePersonList implements Iterable<Person> {
+public class UniquePersonList<T extends Person> implements Iterable<T> {
 
-    private final ObservableList<Person> internalList = FXCollections.observableArrayList();
-    private final ObservableList<Person> internalUnmodifiableList =
+    private final ObservableList<T> internalList = FXCollections.observableArrayList();
+    private final ObservableList<T> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
 
     /**
      * Returns true if the list contains an equivalent person as the given argument.
      */
-    public boolean contains(Person toCheck) {
+    public boolean contains(T toCheck) {
         requireNonNull(toCheck);
         return internalList.stream().anyMatch(toCheck::isSamePerson);
     }
@@ -41,7 +43,7 @@ public class UniquePersonList implements Iterable<Person> {
      * Adds a person to the list.
      * The person must not already exist in the list.
      */
-    public void add(Person toAdd) {
+    public void add(T toAdd) {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
             throw new DuplicatePersonException();
@@ -54,7 +56,7 @@ public class UniquePersonList implements Iterable<Person> {
      * {@code target} must exist in the list.
      * The person identity of {@code editedPerson} must not be the same as another existing person in the list.
      */
-    public void setPerson(Person target, Person editedPerson) {
+    public void setPerson(T target, T editedPerson) {
         requireAllNonNull(target, editedPerson);
 
         int index = internalList.indexOf(target);
@@ -73,14 +75,14 @@ public class UniquePersonList implements Iterable<Person> {
      * Removes the equivalent person from the list.
      * The person must exist in the list.
      */
-    public void remove(Person toRemove) {
+    public void remove(T toRemove) {
         requireNonNull(toRemove);
         if (!internalList.remove(toRemove)) {
             throw new PersonNotFoundException();
         }
     }
 
-    public void setPersons(UniquePersonList replacement) {
+    public void setPersons(UniquePersonList<T> replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
     }
@@ -89,7 +91,7 @@ public class UniquePersonList implements Iterable<Person> {
      * Replaces the contents of this list with {@code persons}.
      * {@code persons} must not contain duplicate persons.
      */
-    public void setPersons(List<Person> persons) {
+    public void setPersons(List<T> persons) {
         requireAllNonNull(persons);
         if (!personsAreUnique(persons)) {
             throw new DuplicatePersonException();
@@ -101,16 +103,16 @@ public class UniquePersonList implements Iterable<Person> {
     /**
      * Returns the backing list as an unmodifiable {@code ObservableList}.
      */
-    public ObservableList<Person> asUnmodifiableObservableList() {
+    public ObservableList<T> asUnmodifiableObservableList() {
         return internalUnmodifiableList;
     }
 
-    public Stream<Person> stream() {
+    public Stream<T> stream() {
         return internalList.stream();
     }
 
     @Override
-    public Iterator<Person> iterator() {
+    public Iterator<T> iterator() {
         return internalList.iterator();
     }
 
@@ -125,7 +127,7 @@ public class UniquePersonList implements Iterable<Person> {
             return false;
         }
 
-        UniquePersonList otherUniquePersonList = (UniquePersonList) other;
+        UniquePersonList<?> otherUniquePersonList = (UniquePersonList<?>) other;
         return internalList.equals(otherUniquePersonList.internalList);
     }
 
@@ -142,7 +144,7 @@ public class UniquePersonList implements Iterable<Person> {
     /**
      * Returns true if {@code persons} contains only unique persons.
      */
-    private boolean personsAreUnique(List<Person> persons) {
+    private boolean personsAreUnique(List<T> persons) {
         for (int i = 0; i < persons.size() - 1; i++) {
             for (int j = i + 1; j < persons.size(); j++) {
                 if (persons.get(i).isSamePerson(persons.get(j))) {
