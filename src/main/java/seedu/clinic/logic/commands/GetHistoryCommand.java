@@ -48,9 +48,9 @@ public class GetHistoryCommand extends Command {
         model.updateFilteredPersonList(predicate);
 
         List<Patient> matchedPatients = model.getFilteredPersonList().stream()
-            .filter(Patient.class::isInstance)
-            .map(Patient.class::cast)
-            .collect(Collectors.toList());
+                .filter(Patient.class::isInstance)
+                .map(Patient.class::cast)
+                .collect(Collectors.toList());
 
         // key: the system property name to look up. def: the fallback default value if that property is not set
         String actor = System.getProperty("SYSTEM", "unknown-user");
@@ -143,9 +143,7 @@ public class GetHistoryCommand extends Command {
                 prescription.getDosage(),
                 prescription.getFrequency(),
                 prescribedBy,
-            prescription.getFrequency(),
-            prescribedBy,
-            prescription.getDispensedBy());
+                prescription.getDispensedBy());
     }
 
     @Override
