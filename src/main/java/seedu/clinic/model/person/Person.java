@@ -34,11 +34,10 @@ public class Person {
     private final Name name;
     private final Phone phone;
     private final Email email;
+    private final Address address; // TODO: REMOVE THIS IN V1.4
     private int id;
 
     // Data fields
-    // TODO: Move Address to Patient
-    private final Address address;
     // TODO: Remove Tags
     private final Set<Tag> tags = new HashSet<>();
 
@@ -58,10 +57,25 @@ public class Person {
     }
 
     /**
-     * Constructor for Person with automatic ID assignment.
+     * Constructor for Person with explicit address and automatic ID assignment.
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         this(name, phone, email, address, tags, DEFAULT_ID);
+    }
+
+    /**
+     * Every field must be present and not null.
+     * ID will be assigned by ClinicBook
+     */
+    public Person(Name name, Phone phone, Email email, Set<Tag> tags, int id) {
+        this(name, phone, email, new Address("N/A"), tags, id);
+    }
+
+    /**
+     * Constructor for Person with automatic ID assignment.
+     */
+    public Person(Name name, Phone phone, Email email, Set<Tag> tags) {
+        this(name, phone, email, tags, DEFAULT_ID);
     }
 
     public String getRole() {

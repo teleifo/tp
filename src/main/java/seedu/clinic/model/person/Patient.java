@@ -21,7 +21,6 @@ import seedu.clinic.model.tag.Tag;
  * TODO: Use {@code Set<EmergencyContact>} instead of String for emergency contacts
  * TODO: Implement allergies management
  * TODO: Create patientId field
- * TODO: Extract address to separate structure
  */
 public class Patient extends ContactPerson {
 

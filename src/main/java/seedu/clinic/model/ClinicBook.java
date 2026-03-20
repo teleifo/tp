@@ -10,7 +10,6 @@ import seedu.clinic.model.person.Diagnosis;
 import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
-import seedu.clinic.model.person.UniquePatientList;
 import seedu.clinic.model.person.UniquePersonList;
 
 /**
@@ -24,6 +23,7 @@ public class ClinicBook implements ReadOnlyClinicBook {
     private final UniquePersonList<Doctor> doctors;
     // id counter for Patient
     private int nextId = 1;
+    private int nextPatientId = 1;
     private int nextDoctorId = 1;
     // id counter for Staff;
 
@@ -61,6 +61,18 @@ public class ClinicBook implements ReadOnlyClinicBook {
             assignIdIfMissing(p);
         }
         this.persons.setPersons(persons);
+    }
+
+    /**
+     * Replaces the contents of the patient list with {@code patients}.
+     */
+    public void setPatients(List<Patient> patients) {
+        for (Patient p : patients) {
+            if (p.getId() == 0) {
+                p.setId(getNextDoctorId());
+            }
+        }
+        this.patients.setPersons(patients);
     }
 
     /**
@@ -154,7 +166,19 @@ public class ClinicBook implements ReadOnlyClinicBook {
     }
 
     /**
-     * Returns the next available ID and increments the counter
+     * Returns the next available patient ID and increments the counter
+     */
+    public int getNextPatientId() {
+        int maxId = patients.stream()
+                .mapToInt(Person::getId)
+                .max()
+                .orElse(0);
+        nextPatientId = maxId + 1;
+        return nextPatientId++;
+    }
+
+    /**
+     * Returns the next available Doctor ID and increments the counter
      */
     public int getNextDoctorId() {
         int maxId = doctors.stream()
@@ -164,7 +188,6 @@ public class ClinicBook implements ReadOnlyClinicBook {
         nextDoctorId = maxId + 1;
         return nextDoctorId++;
     }
-
 
     /**
      * Replaces the given person {@code target} in the list with {@code editedPerson}.
@@ -200,14 +223,6 @@ public class ClinicBook implements ReadOnlyClinicBook {
     }
 
     /**
-     * Replaces the contents of the patient list with {@code patients}.
-     */
-    public void setPatients(List<Patient> patients) {
-        requireNonNull(patients);
-        this.patients.setPatients(patients);
-    }
-
-    /**
      * Removes {@code key} from this {@code ClinicBook}.
      * {@code key} must exist in clinic book.
      */
@@ -238,8 +253,7 @@ public class ClinicBook implements ReadOnlyClinicBook {
                 target.getTags(),
                 target.getNric(),
                 target.getDateOfBirth(),
-                target.getEmergencyContact(),
-                target.getId()
+                target.getSex()
         );
 
         target.getDiagnoses().forEach(editedPatient::addDiagnosis);

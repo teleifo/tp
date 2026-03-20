@@ -27,11 +27,11 @@ public class SampleDataUtil {
         return new Person[] {
             new Patient(new Name("Alex Yeoh"), new Phone("87438807"), new Email("alexyeoh@example.com"),
                 new Address("Blk 30 Geylang Street 29, #06-40"), getTagSet("friends"),
-                new NRIC("S1166846A"), LocalDate.parse("2002-12-25"), "98765432"),
+                new NRIC("S1166846A"), LocalDate.parse("2002-12-25"), Sex.MALE),
             new Doctor(new Name("Bernice Yu"), new Phone("99272758"), new Email("berniceyu@example.com")),
             new Patient(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
                 new Address("Blk 11 Ang Mo Kio Street 74, #11-04"), getTagSet("neighbours"),
-                new NRIC("S1786425D"), LocalDate.parse("2002-04-01"), "97654321"),
+                new NRIC("S1786425D"), LocalDate.parse("2002-04-01"), Sex.FEMALE),
             new Pharmacist(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
                 new Address("Blk 436 Serangoon Gardens Street 26, #16-43"), getTagSet("family")),
             new Pharmacist(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),

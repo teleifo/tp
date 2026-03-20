@@ -29,7 +29,7 @@ public class AddDoctorCommand extends Command {
             + PREFIX_EMAIL + "johnd@example.com ";
 
     public static final String MESSAGE_SUCCESS = "New doctor added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This doctor already exists in the address book";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This doctor already exists in the clinicbook";
 
     private final Doctor toAdd;
 

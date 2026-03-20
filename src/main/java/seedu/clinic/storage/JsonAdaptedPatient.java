@@ -13,6 +13,7 @@ import seedu.clinic.model.person.Diagnosis;
 import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
+import seedu.clinic.model.person.Sex;
 
 /**
  * Jackson-friendly version of Patient.
@@ -23,7 +24,7 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
 
     private final String nric;
     private final String dateOfBirth;
-    private final String emergencyContact;
+    private final String sex;
     private final List<JsonAdaptedDiagnosis> diagnoses = new ArrayList<>();
 
     /**
@@ -35,12 +36,12 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
                   @JsonProperty("address") String address, @JsonProperty("tags") List<JsonAdaptedTag> tags,
                   @JsonProperty("nric") String nric,
                   @JsonProperty("dateOfBirth") String dateOfBirth,
-                  @JsonProperty("emergencyContact") String emergencyContact,
+                  @JsonProperty("sex") String sex,
                   @JsonProperty("diagnoses") List<JsonAdaptedDiagnosis> diagnoses) {
         super(id, name, phone, email, address, tags);
         this.nric = nric;
         this.dateOfBirth = dateOfBirth;
-        this.emergencyContact = emergencyContact;
+        this.sex = sex;
         if (diagnoses != null) {
             this.diagnoses.addAll(diagnoses);
         }
@@ -58,7 +59,7 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
 
         nric = source.getNric().value;
         dateOfBirth = source.getDateOfBirth().toString();
-        emergencyContact = source.getEmergencyContact();
+        sex = source.getSex().name();
 
         diagnoses.addAll(source.getDiagnoses().stream()
                 .map(JsonAdaptedDiagnosis::new)
@@ -84,10 +85,21 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
         if (dateOfBirth == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "dateOfBirth"));
         }
-        final LocalDate modelDob = LocalDate.parse(dateOfBirth);
+        final LocalDate modelDob;
+        try {
+            modelDob = LocalDate.parse(dateOfBirth);
+        } catch (RuntimeException e) {
+            throw new IllegalValueException("Patient's dateOfBirth is not a valid date!");
+        }
 
-        if (emergencyContact == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "emergencyContact"));
+        if (sex == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "sex"));
+        }
+        final Sex modelSex;
+        try {
+            modelSex = Sex.valueOf(sex.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalValueException("Patient's sex is invalid!");
         }
 
         final List<Diagnosis> modelDiagnoses = new ArrayList<>();
@@ -95,8 +107,7 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
             modelDiagnoses.add(d.toModelType());
         }
 
-        Patient patient = new Patient(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
-                person.getTags(), modelNric, modelDob, emergencyContact, person.getId());
+        Patient patient = new Patient(person, modelNric, modelDob, modelSex);
         modelDiagnoses.forEach(patient::addDiagnosis);
 
         return patient;
