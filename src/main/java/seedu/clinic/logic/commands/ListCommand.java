@@ -2,6 +2,7 @@ package seedu.clinic.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.clinic.model.Model.PREDICATE_SHOW_ALL_DOCTORS;
+import static seedu.clinic.model.Model.PREDICATE_SHOW_ALL_PATIENTS;
 import static seedu.clinic.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import seedu.clinic.model.Model;
@@ -19,6 +20,7 @@ public class ListCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
+        model.updateFilteredPatientList(PREDICATE_SHOW_ALL_PATIENTS);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         model.updateFilteredDoctorList(PREDICATE_SHOW_ALL_DOCTORS);
         return new CommandResult(MESSAGE_SUCCESS);

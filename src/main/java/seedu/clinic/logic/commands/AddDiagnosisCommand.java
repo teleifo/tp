@@ -12,7 +12,6 @@ import static seedu.clinic.logic.parser.CliSyntax.PREFIX_SYMPTOM;
 import static seedu.clinic.logic.parser.CliSyntax.PREFIX_VISIT_DATE;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import seedu.clinic.commons.core.index.Index;
 import seedu.clinic.commons.util.ToStringBuilder;
@@ -82,7 +81,6 @@ public class AddDiagnosisCommand extends Command {
             throw new CommandException(MESSAGE_INVALID_PATIENT);
         }
 
-        System.out.println(model.getFilteredDoctorList().stream().map(d -> d.getId()).collect(Collectors.toList()));
         boolean doctorExists = model.getFilteredDoctorList().stream()
                 .anyMatch(d -> d.getId() == diagnosis.getDiagnosedBy());
         if (!doctorExists) {

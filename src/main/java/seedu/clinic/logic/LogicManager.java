@@ -16,6 +16,7 @@ import seedu.clinic.logic.parser.exceptions.ParseException;
 import seedu.clinic.model.Model;
 import seedu.clinic.model.ReadOnlyClinicBook;
 import seedu.clinic.model.person.Doctor;
+import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
 import seedu.clinic.storage.Storage;
 
@@ -70,6 +71,11 @@ public class LogicManager implements Logic {
     @Override
     public ObservableList<Person> getFilteredPersonList() {
         return model.getFilteredPersonList();
+    }
+
+    @Override
+    public ObservableList<Patient> getFilteredPatientList() {
+        return model.getFilteredPatientList();
     }
 
     @Override

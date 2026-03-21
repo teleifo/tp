@@ -129,8 +129,8 @@ public class ModelManagerTest {
                 java.util.Set.of(),
                 3);
 
-        clinicBook.addPerson(patient);
-        clinicBook.addPerson(doctor);
+        clinicBook.addPatient(patient);
+        clinicBook.addDoctor(doctor);
         clinicBook.addPerson(pharmacist);
 
         modelManager = new ModelManager(clinicBook, new UserPrefs());
@@ -139,8 +139,7 @@ public class ModelManagerTest {
         modelManager.addDiagnosis(patient, diagnosis);
 
         assertEquals(1, modelManager.getFilteredPatientList().size());
-        // TODO: 0 coz separate list
-        assertEquals(0, modelManager.getFilteredDoctorList().size());
+        assertEquals(1, modelManager.getFilteredDoctorList().size());
         assertEquals(1, modelManager.getFilteredPharmacistList().size());
         assertEquals(1, modelManager.getFilteredPatientList().get(0).getDiagnoses().size());
     }

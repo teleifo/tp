@@ -110,6 +110,14 @@ public class ClinicBook implements ReadOnlyClinicBook {
     }
 
     /**
+     * Returns true if a patient with the same identity as {@code patient} exists in the clinic book.
+     */
+    public boolean hasPatient(Patient patient) {
+        requireNonNull(patient);
+        return patients.contains(patient);
+    }
+
+    /**
      * Returns true if a doctor with the same identity as {@code doctor} exists in the clinic book.
      */
     public boolean hasDoctor(Doctor doctor) {
@@ -206,6 +214,18 @@ public class ClinicBook implements ReadOnlyClinicBook {
     }
 
     /**
+     * Replaces the given patient {@code target} in the list with {@code editedPatient}.
+     * {@code target} must exist in clinic book.
+     * The person identity of {@code editedPatient} must not be the same as another existing patient in clinic book.
+     */
+    public void setPatient(Patient target, Patient editedPatient) {
+        requireNonNull(editedPatient);
+
+        assignIdIfMissing(editedPatient);
+        patients.setPerson(target, editedPatient);
+    }
+
+    /**
      * Replaces the given doctor {@code target} in the list with {@code editedDoctor}.
      * {@code target} must exist in clinic book.
      * The doctor identity of {@code editedDoctor} must not be the same as another existing doctor in clinic book.
@@ -232,6 +252,14 @@ public class ClinicBook implements ReadOnlyClinicBook {
      * Removes {@code key} from this {@code ClinicBook}.
      * {@code key} must exist in clinic book.
      */
+    public void removePatient(Patient key) {
+        patients.remove(key);
+    }
+
+    /**
+     * Removes {@code key} from this {@code ClinicBook}.
+     * {@code key} must exist in clinic book.
+     */
     public void removeDoctor(Doctor key) {
         doctors.remove(key);
     }
@@ -244,20 +272,20 @@ public class ClinicBook implements ReadOnlyClinicBook {
         requireNonNull(diagnosis);
 
         Patient editedPatient = new Patient(
-                target.getName(),
-                target.getPhone(),
-                target.getEmail(),
-                target.getAddress(),
-                target.getTags(),
-                target.getNric(),
-                target.getDateOfBirth(),
-                target.getSex()
-        );
+            target.getName(),
+            target.getPhone(),
+            target.getEmail(),
+            target.getAddress(),
+            target.getTags(),
+            target.getNric(),
+            target.getDateOfBirth(),
+            target.getSex(),
+            target.getId());
 
         target.getDiagnoses().forEach(editedPatient::addDiagnosis);
         editedPatient.addDiagnosis(diagnosis);
 
-        persons.setPerson(target, editedPatient);
+        patients.setPerson(target, editedPatient);
     }
 
     //// util methods
@@ -266,6 +294,7 @@ public class ClinicBook implements ReadOnlyClinicBook {
     public String toString() {
         return new ToStringBuilder(this)
                 .add("persons", persons)
+                .add("patients", patients)
                 .add("doctors", doctors)
                 .toString();
     }
@@ -298,6 +327,7 @@ public class ClinicBook implements ReadOnlyClinicBook {
 
         ClinicBook otherClinicBook = (ClinicBook) other;
         return persons.equals(otherClinicBook.persons)
+                && patients.equals(otherClinicBook.patients)
                 && doctors.equals(otherClinicBook.doctors);
     }
 

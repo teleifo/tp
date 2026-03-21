@@ -60,9 +60,7 @@ public class AddPatientCommandParser implements Parser<AddPatientCommand> {
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(
-                PREFIX_NAME, PREFIX_NRIC, PREFIX_DOB,
-                PREFIX_SEX,
-                PREFIX_EMAIL, PREFIX_PHONE, PREFIX_ADDRESS);
+                PREFIX_NRIC, PREFIX_EMAIL, PREFIX_PHONE);
 
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         NRIC nric = parseNric(argMultimap.getValue(PREFIX_NRIC).get());

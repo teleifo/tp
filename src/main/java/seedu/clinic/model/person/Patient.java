@@ -11,18 +11,16 @@ import java.util.Objects;
 import java.util.Set;
 
 import seedu.clinic.model.tag.Tag;
-
 /**
  * Represents a Patient in the clinic.
  * A Patient is a Person who receives medical services.
  *
  * TODO: Reintroduce emergency contact support after temporary model simplification.
- * TODO: Replace emergencyContact string with EmergencyContact objects collection
- * TODO: Use {@code Set<EmergencyContact>} instead of String for emergency contacts
  * TODO: Implement allergies management
  * TODO: Create patientId field
  */
 public class Patient extends ContactPerson {
+    public static final String ROLE = "Patient";
 
     private static final int DEFAULT_PATIENT_ID = 0;
     private static int nextPatientId = DEFAULT_PATIENT_ID + 1;
@@ -47,6 +45,14 @@ public class Patient extends ContactPerson {
     }
 
     /**
+     * Every field must be present and not null.
+     */
+    public Patient(Name name, Phone phone, Email email, Address address, NRIC nric,
+            LocalDate dateOfBirth, Sex sex) {
+        this(name, phone, email, address, Collections.emptySet(), nric, dateOfBirth, sex);
+    }
+
+    /**
      * Constructs a Patient with ID.
      */
     public Patient(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
@@ -60,11 +66,23 @@ public class Patient extends ContactPerson {
     }
 
     /**
+     * Constructs a Patient with ID.
+     */
+    public Patient(Name name, Phone phone, Email email, Address address, NRIC nric,
+            LocalDate dateOfBirth, Sex sex, int id) {
+        this(name, phone, email, address, Collections.emptySet(), nric, dateOfBirth, sex, id);
+    }
+
+    /**
      * Reuses an existing person as the shared identity and contact details for a patient.
      */
     public Patient(Person person, NRIC nric, LocalDate dob, Sex sex) {
         this(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), person.getTags(),
-                nric, dob, sex, person.getId());
+            nric, dob, sex, person.getId());
+    }
+
+    public String getRole() {
+        return ROLE;
     }
 
     private static int getNextPatientId() {

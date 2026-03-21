@@ -41,6 +41,7 @@ public class ClinicBookTest {
     @Test
     public void constructor() {
         assertEquals(Collections.emptyList(), clinicBook.getPersonList());
+        assertEquals(Collections.emptyList(), clinicBook.getPatientList());
         assertEquals(Collections.emptyList(), clinicBook.getDoctorList());
     }
 
@@ -109,6 +110,7 @@ public class ClinicBookTest {
     @Test
     public void toStringMethod() {
         String expected = ClinicBook.class.getCanonicalName() + "{persons=" + clinicBook.getPersonList()
+                + ", patients=" + clinicBook.getPatientList()
                 + ", doctors=" + clinicBook.getDoctorList() + "}";
         assertEquals(expected, clinicBook.toString());
     }
@@ -125,12 +127,12 @@ public class ClinicBookTest {
                 java.time.LocalDate.of(2000, 1, 1),
                 Sex.FEMALE,
                 1);
-        clinicBook.addPerson(patient);
+        clinicBook.addPatient(patient);
 
         Diagnosis diagnosis = new Diagnosis("Flu", 2);
         clinicBook.addDiagnosis(patient, diagnosis);
 
-        Patient updated = (Patient) clinicBook.getPersonList().get(0);
+        Patient updated = clinicBook.getPatientList().get(0);
         assertEquals(1, updated.getDiagnoses().size());
     }
 
@@ -139,10 +141,12 @@ public class ClinicBookTest {
      */
     private static class ClinicBookStub implements ReadOnlyClinicBook {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
+        private final ObservableList<Patient> patients = FXCollections.observableArrayList();
         private final ObservableList<Doctor> doctors = FXCollections.observableArrayList();
 
         ClinicBookStub(Collection<Person> persons) {
             this.persons.setAll(persons);
+            this.patients.setAll(patients);
             this.doctors.setAll(doctors);
         }
 

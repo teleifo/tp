@@ -77,9 +77,7 @@ public class AddDiagnosisCommandTest {
         AddDiagnosisCommand command = new AddDiagnosisCommand(Index.fromOneBased(PATIENT_ID), diagnosis);
 
         CommandException exception = assertThrows(CommandException.class, () -> command.execute(model));
-        // TODO: manual change to pass test
-        //assertEquals(AddDiagnosisCommand.MESSAGE_INVALID_PHARMACIST, exception.getMessage());
-        assertEquals(AddDiagnosisCommand.MESSAGE_INVALID_DOCTOR, exception.getMessage());
+        assertEquals(AddDiagnosisCommand.MESSAGE_INVALID_PHARMACIST, exception.getMessage());
     }
 
     @Test
@@ -101,7 +99,7 @@ public class AddDiagnosisCommandTest {
 
     private static Model createModelWithAllRoles() {
         ClinicBook clinicBook = new ClinicBook();
-        clinicBook.addPerson(new Patient(
+        clinicBook.addPatient(new Patient(
                 new Name("Patient One"),
                 new Phone("91234567"),
                 new Email("patient@example.com"),
@@ -111,7 +109,7 @@ public class AddDiagnosisCommandTest {
                 LocalDate.of(2000, 1, 1),
                 Sex.FEMALE,
                 PATIENT_ID));
-        clinicBook.addPerson(new Doctor(
+        clinicBook.addDoctor(new Doctor(
                 new Name("Doctor One"),
                 new Phone("92345678"),
                 new Email("doctor@example.com"),
@@ -128,7 +126,7 @@ public class AddDiagnosisCommandTest {
 
     private static Model createModelWithPatientOnly() {
         ClinicBook clinicBook = new ClinicBook();
-        clinicBook.addPerson(new Patient(
+        clinicBook.addPatient(new Patient(
                 new Name("Patient One"),
                 new Phone("91234567"),
                 new Email("patient@example.com"),
@@ -143,7 +141,7 @@ public class AddDiagnosisCommandTest {
 
     private static Model createModelWithPatientAndDoctor() {
         ClinicBook clinicBook = new ClinicBook();
-        clinicBook.addPerson(new Patient(
+        clinicBook.addPatient(new Patient(
                 new Name("Patient One"),
                 new Phone("91234567"),
                 new Email("patient@example.com"),
@@ -153,7 +151,7 @@ public class AddDiagnosisCommandTest {
                 LocalDate.of(2000, 1, 1),
                 Sex.FEMALE,
                 PATIENT_ID));
-        clinicBook.addPerson(new Doctor(
+        clinicBook.addDoctor(new Doctor(
                 new Name("Doctor One"),
                 new Phone("92345678"),
                 new Email("doctor@example.com"),
