@@ -17,6 +17,7 @@ import seedu.clinic.model.Model;
 import seedu.clinic.model.ReadOnlyClinicBook;
 import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Person;
+import seedu.clinic.model.person.Pharmacist;
 import seedu.clinic.storage.Storage;
 
 /**
@@ -76,6 +77,12 @@ public class LogicManager implements Logic {
     public ObservableList<Doctor> getFilteredDoctorList() {
         return model.getFilteredDoctorList();
     }
+
+    @Override
+    public ObservableList<Pharmacist> getFilteredPharmacistList() {
+        return model.getFilteredPharmacistList();
+    }
+
 
     @Override
     public Path getClinicBookFilePath() {

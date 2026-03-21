@@ -111,7 +111,7 @@ public class MainWindow extends UiPart<Stage> {
      */
     void fillInnerParts() {
         personListPanel = new PersonListPanel(
-                logic.getFilteredPersonList(), logic.getFilteredDoctorList());
+                logic.getFilteredPersonList(), logic.getFilteredDoctorList(), logic.getFilteredPharmacistList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();

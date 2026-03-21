@@ -29,6 +29,7 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Doctor> filteredDoctors;
+    private final FilteredList<Pharmacist> filteredPharmacists;
 
     /**
      * Initializes a ModelManager with the given clinicBook and userPrefs.
@@ -42,6 +43,7 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<Person>(this.clinicBook.getPersonList());
         filteredDoctors = new FilteredList<Doctor>(this.clinicBook.getDoctorList());
+        filteredPharmacists = new FilteredList<Pharmacist>(this.clinicBook.getPharmacistList());
     }
 
     public ModelManager() {
@@ -108,6 +110,12 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasPharmacist(Pharmacist pharmacist) {
+        requireNonNull(pharmacist);
+        return clinicBook.hasPharmacist(pharmacist);
+    }
+
+    @Override
     public void deletePerson(Person target) {
         clinicBook.removePerson(target);
     }
@@ -115,6 +123,11 @@ public class ModelManager implements Model {
     @Override
     public void deleteDoctor(Doctor target) {
         clinicBook.removeDoctor(target);
+    }
+
+    @Override
+    public void deletePharmacist(Pharmacist target) {
+        clinicBook.removePharmacist(target);
     }
 
     @Override
@@ -129,6 +142,12 @@ public class ModelManager implements Model {
         updateFilteredDoctorList(PREDICATE_SHOW_ALL_DOCTORS);
     }
 
+    @Override
+    public void addPharmacist(Pharmacist pharmacist) {
+        clinicBook.addPharmacist(pharmacist);
+        updateFilteredPharmacistList(PREDICATE_SHOW_ALL_PHARMACISTS);
+    }
+
 
     @Override
     public void setPerson(Person target, Person editedPerson) {
@@ -141,7 +160,14 @@ public class ModelManager implements Model {
     public void setDoctor(Doctor target, Doctor editedDoctor) {
         requireAllNonNull(target, editedDoctor);
 
-        clinicBook.setPerson(target, editedDoctor);
+        clinicBook.setDoctor(target, editedDoctor);
+    }
+
+    @Override
+    public void setPharmacist(Pharmacist target, Pharmacist editedPharmacist) {
+        requireAllNonNull(target, editedPharmacist);
+
+        clinicBook.setPharmacist(target, editedPharmacist);
     }
 
     public void addDiagnosis(Patient target, Diagnosis diagnosis) {
@@ -165,6 +191,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public ObservableList<Pharmacist> getFilteredPharmacistList() {
+        return filteredPharmacists;
+    }
+
+    @Override
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
@@ -176,21 +207,17 @@ public class ModelManager implements Model {
         filteredDoctors.setPredicate(predicate);
     }
 
+    @Override
+    public void updateFilteredPharmacistList(Predicate<Pharmacist> predicate) {
+        requireNonNull(predicate);
+        filteredPharmacists.setPredicate(predicate);
+    }
+
     public ObservableList<Patient> getFilteredPatientList() {
         filteredPersons.setPredicate(null);
         return filteredPersons.filtered(p -> p instanceof Patient)
                 .stream()
                 .map(p -> (Patient) p)
-                .collect(Collectors.toCollection(FXCollections::observableArrayList));
-    }
-
-
-    @Override
-    public ObservableList<Pharmacist> getFilteredPharmacistList() {
-        filteredPersons.setPredicate(null);
-        return filteredPersons.filtered(p -> p instanceof Pharmacist)
-                .stream()
-                .map(p -> (Pharmacist) p)
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
 

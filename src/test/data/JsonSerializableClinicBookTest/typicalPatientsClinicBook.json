@@ -19,5 +19,6 @@
     "address" : "Blk 10 Bedok North Ave 2, #03-12",
     "tags" : [ "patient" ]
   } ],
-  "doctors": []
+  "doctors": [],
+  "pharmacists": []
 }

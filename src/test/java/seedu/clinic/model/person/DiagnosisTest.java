@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.clinic.testutil.Assert.assertThrows;
 
 import java.time.LocalDate;
-import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
@@ -20,9 +19,7 @@ public class DiagnosisTest {
     private static final Pharmacist DEFAULT_PHARMACIST = new Pharmacist(
             new Name("Pharmacist One"),
             new Phone("91234567"),
-            new Email("pharmacist@example.com"),
-            new Address("1 Pharmacy Street"),
-            Collections.emptySet());
+            new Email("pharmacist@example.com"));
 
     private static final int DEFAULT_DOCTOR_ID = 1;
     private static final int DEFAULT_PHARMACIST_ID = 2;

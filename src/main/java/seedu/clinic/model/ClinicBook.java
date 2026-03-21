@@ -10,6 +10,7 @@ import seedu.clinic.model.person.Diagnosis;
 import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
+import seedu.clinic.model.person.Pharmacist;
 import seedu.clinic.model.person.UniquePersonList;
 
 /**
@@ -19,10 +20,11 @@ import seedu.clinic.model.person.UniquePersonList;
 public class ClinicBook implements ReadOnlyClinicBook {
 
     private final UniquePersonList<Person> persons;
+    private final UniquePersonList<Pharmacist> pharmacists;
     private final UniquePersonList<Doctor> doctors;
     // id counter for Patient
     private int nextId = 1;
-    private int nextDoctorId = 1;
+    private int nextStaffId = 1;
     // id counter for Staff;
 
     /*
@@ -34,6 +36,7 @@ public class ClinicBook implements ReadOnlyClinicBook {
      */
     {
         persons = new UniquePersonList<Person>();
+        pharmacists = new UniquePersonList<Pharmacist>();
         doctors = new UniquePersonList<Doctor>();
     }
 
@@ -67,10 +70,23 @@ public class ClinicBook implements ReadOnlyClinicBook {
     public void setDoctors(List<Doctor> doctors) {
         for (Doctor d : doctors) {
             if (d.getId() == 0) {
-                d.setId(getNextDoctorId());
+                d.setId(getNextStaffId());
             }
         }
         this.doctors.setPersons(doctors);
+    }
+
+    /**
+     * Replaces the contents of the doctor list with {@code pharmacist}.
+     * {@code pharmacist} must not contain duplicate pharmacist.
+     */
+    public void setPharmacists(List<Pharmacist> pharmacists) {
+        for (Pharmacist p : pharmacists) {
+            if (p.getId() == 0) {
+                p.setId(getNextStaffId());
+            }
+        }
+        this.pharmacists.setPersons(pharmacists);
     }
 
     /**
@@ -80,6 +96,7 @@ public class ClinicBook implements ReadOnlyClinicBook {
         requireNonNull(newData);
 
         setPersons(newData.getPersonList());
+        setPharmacists(newData.getPharmacistList());
         setDoctors(newData.getDoctorList());
     }
 
@@ -102,6 +119,14 @@ public class ClinicBook implements ReadOnlyClinicBook {
     }
 
     /**
+     * Returns true if a pharmacist with the same identity as {@code pharmacist} exists in the clinic book.
+     */
+    public boolean hasPharmacist(Pharmacist pharmacist) {
+        requireNonNull(pharmacist);
+        return pharmacists.contains(pharmacist);
+    }
+
+    /**
      * Adds a person to clinic book.
      * The person must not already exist in clinic book.
      */
@@ -118,10 +143,22 @@ public class ClinicBook implements ReadOnlyClinicBook {
     public void addDoctor(Doctor d) {
         // If ID is 0 (default), assign a new one
         if (d.getId() == 0) {
-            int newId = getNextDoctorId();
+            int newId = getNextStaffId();
             d = new Doctor(d.getName(), d.getPhone(), d.getEmail(), newId);
         }
         doctors.add(d);
+    }
+
+    /**
+     * Adds a pharmacist to clinic book.
+     * The pharmacist must not already exist in clinic book.
+     */
+    public void addPharmacist(Pharmacist p) {
+        // If ID is 0 (default), assign a new one
+        if (p.getId() == 0) {
+            p = new Pharmacist(p.getName(), p.getPhone(), p.getEmail(), getNextStaffId());
+        }
+        pharmacists.add(p);
     }
 
     /**
@@ -139,13 +176,12 @@ public class ClinicBook implements ReadOnlyClinicBook {
     /**
      * Returns the next available ID and increments the counter
      */
-    public int getNextDoctorId() {
-        int maxId = doctors.stream()
-                .mapToInt(Person::getId)
-                .max()
-                .orElse(0);
-        nextDoctorId = maxId + 1;
-        return nextDoctorId++;
+    public int getNextStaffId() {
+        int currentStaffCount = (int) (doctors.stream().count() + pharmacists.stream().count());
+        if (nextStaffId <= currentStaffCount) {
+            nextStaffId = currentStaffCount + 1;
+        }
+        return nextStaffId++;
     }
 
 
@@ -177,9 +213,25 @@ public class ClinicBook implements ReadOnlyClinicBook {
 
         // assign new patient id if editedPerson has no id
         if (editedDoctor.getId() == 0) {
-            editedDoctor.setId(getNextDoctorId());
+            editedDoctor.setId(getNextStaffId());
         }
         doctors.setPerson(target, editedDoctor);
+    }
+
+    /**
+     * Replaces the given pharmacist {@code target} in the list with {@code editedPharmacist}.
+     * {@code target} must exist in clinic book.
+        * The pharmacist identity of {@code editedPharmacist} must not be the same as another existing
+        * pharmacist in clinic book.
+     */
+    public void setPharmacist(Pharmacist target, Pharmacist editedPharmacist) {
+        requireNonNull(editedPharmacist);
+
+        // assign new patient id if editedPerson has no id
+        if (editedPharmacist.getId() == 0) {
+            editedPharmacist.setId(getNextStaffId());
+        }
+        pharmacists.setPerson(target, editedPharmacist);
     }
 
     /**
@@ -199,23 +251,23 @@ public class ClinicBook implements ReadOnlyClinicBook {
     }
 
     /**
+     * Removes {@code key} from this {@code ClinicBook}.
+     * {@code key} must exist in clinic book.
+     */
+    public void removePharmacist(Pharmacist key) {
+        pharmacists.remove(key);
+    }
+
+    /**
      * Adds a diagnosis to clinic book.
      */
     public void addDiagnosis(Patient target, Diagnosis diagnosis) {
         requireNonNull(target);
         requireNonNull(diagnosis);
 
-        Patient editedPatient = new Patient(
-                target.getName(),
-                target.getPhone(),
-                target.getEmail(),
-                target.getAddress(),
-                target.getTags(),
-                target.getNric(),
-                target.getDateOfBirth(),
-                target.getEmergencyContact(),
-                target.getId()
-        );
+        Patient editedPatient = new Patient(target.getName(), target.getPhone(), target.getEmail(),
+            target.getAddress(), target.getTags(), target.getNric(), target.getDateOfBirth(),
+            target.getEmergencyContact(), target.getId());
 
         target.getDiagnoses().forEach(editedPatient::addDiagnosis);
         editedPatient.addDiagnosis(diagnosis);
@@ -230,6 +282,7 @@ public class ClinicBook implements ReadOnlyClinicBook {
         return new ToStringBuilder(this)
                 .add("persons", persons)
                 .add("doctors", doctors)
+                .add("pharmacists", pharmacists)
                 .toString();
     }
 
@@ -241,6 +294,11 @@ public class ClinicBook implements ReadOnlyClinicBook {
     @Override
     public ObservableList<Doctor> getDoctorList() {
         return doctors.asUnmodifiableObservableList();
+    }
+
+    @Override
+    public ObservableList<Pharmacist> getPharmacistList() {
+        return pharmacists.asUnmodifiableObservableList();
     }
 
     @Override
@@ -256,7 +314,8 @@ public class ClinicBook implements ReadOnlyClinicBook {
 
         ClinicBook otherClinicBook = (ClinicBook) other;
         return persons.equals(otherClinicBook.persons)
-                && doctors.equals(otherClinicBook.doctors);
+                && doctors.equals(otherClinicBook.doctors)
+                && pharmacists.equals(otherClinicBook.pharmacists);
     }
 
     @Override

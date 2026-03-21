@@ -119,8 +119,6 @@ public class AddDiagnosisCommandTest {
                 new Name("Pharmacist One"),
                 new Phone("93456789"),
                 new Email("pharmacist@example.com"),
-                new Address("3 Street"),
-                Set.of(),
                 PHARMACIST_ID));
         return new ModelManager(clinicBook, new UserPrefs());
     }
