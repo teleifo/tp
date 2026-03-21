@@ -152,6 +152,11 @@ public class AddPatientCommandTest {
         }
 
         @Override
+        public boolean hasPharmacist(Pharmacist pharmacist) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void deletePerson(Person target) {
             throw new AssertionError("This method should not be called.");
         }
@@ -163,6 +168,11 @@ public class AddPatientCommandTest {
 
         @Override
         public void deleteDoctor(Doctor target) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void deletePharmacist(Pharmacist target) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -182,6 +192,11 @@ public class AddPatientCommandTest {
         }
 
         @Override
+        public void addPharmacist(Pharmacist pharmacist) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void setPerson(Person target, Person editedPerson) {
             throw new AssertionError("This method should not be called.");
         }
@@ -193,6 +208,11 @@ public class AddPatientCommandTest {
 
         @Override
         public void setDoctor(Doctor target, Doctor editedDoctor) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setPharmacist(Pharmacist target, Pharmacist editedPharmacist) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -234,6 +254,11 @@ public class AddPatientCommandTest {
         @Override
         public ObservableList<Pharmacist> getFilteredPharmacistList() {
             return FXCollections.emptyObservableList();
+        }
+
+        @Override
+        public void updateFilteredPharmacistList(Predicate<Pharmacist> predicate) {
+            throw new AssertionError("This method should not be called.");
         }
     }
 

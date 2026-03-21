@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.clinic.model.Model.PREDICATE_SHOW_ALL_DOCTORS;
 import static seedu.clinic.model.Model.PREDICATE_SHOW_ALL_PATIENTS;
 import static seedu.clinic.model.Model.PREDICATE_SHOW_ALL_PERSONS;
+import static seedu.clinic.model.Model.PREDICATE_SHOW_ALL_PHARMACISTS;
 
 import seedu.clinic.model.Model;
 
@@ -23,6 +24,7 @@ public class ListCommand extends Command {
         model.updateFilteredPatientList(PREDICATE_SHOW_ALL_PATIENTS);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         model.updateFilteredDoctorList(PREDICATE_SHOW_ALL_DOCTORS);
+        model.updateFilteredPharmacistList(PREDICATE_SHOW_ALL_PHARMACISTS);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }

@@ -15,6 +15,7 @@ import seedu.clinic.commons.core.LogsCenter;
 import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
+import seedu.clinic.model.person.Pharmacist;
 
 /**
  * Panel containing the list of persons.
@@ -34,42 +35,50 @@ public class PersonListPanel extends UiPart<Region> {
     public PersonListPanel(
             ObservableList<Person> personList,
             ObservableList<Patient> patientList,
+            ObservableList<Pharmacist> pharmacistList,
             ObservableList<Doctor> doctorList) {
         super(FXML);
 
-        combinedList = createCombinedList(personList, patientList, doctorList);
+        combinedList = createCombinedList(personList, patientList, pharmacistList, doctorList);
         personListView.setItems(combinedList);
         personListView.setCellFactory(listView -> new PersonListViewCell());
     }
 
     static ObservableList<Person> createCombinedList(ObservableList<Person> personList,
                                                      ObservableList<Patient> patientList,
+                                                     ObservableList<Pharmacist> pharmacistList,
                                                      ObservableList<Doctor> doctorList) {
+
         requireNonNull(personList);
         requireNonNull(patientList);
         requireNonNull(doctorList);
+        requireNonNull(pharmacistList);
 
         ObservableList<Person> combinedList = FXCollections.observableArrayList();
         Runnable refreshCombinedList = () -> {
             combinedList.setAll(personList);
             combinedList.addAll(patientList);
             combinedList.addAll(doctorList);
+            combinedList.addAll(pharmacistList);
         };
 
         ListChangeListener<Person> personListListener = change -> refreshCombinedList.run();
         ListChangeListener<Patient> patientListListener = change -> refreshCombinedList.run();
         ListChangeListener<Doctor> doctorListListener = change -> refreshCombinedList.run();
+        ListChangeListener<Pharmacist> pharmacistListListener = change -> refreshCombinedList.run();
 
         personList.addListener(personListListener);
         patientList.addListener(patientListListener);
         doctorList.addListener(doctorListListener);
+        pharmacistList.addListener(pharmacistListListener);
         refreshCombinedList.run();
         return combinedList;
     }
 
 
     /**
-     * Custom {@code ListCell} that displays the graphics of a {@code Person} or {@code Patient} or {@code Doctor}
+    * Custom {@code ListCell} that displays the graphics of a {@code Person},
+    * {@code Patient}, {@code Doctor}, or {@code Pharmacist}
      * using a {@code PersonCard}.
      */
     class PersonListViewCell extends ListCell<Person> {

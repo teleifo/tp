@@ -28,5 +28,6 @@
     "tags" : [ "colleagues" ]
   } ],
   "patients": [],
-  "doctors": []
+  "doctors": [],
+  "pharmacists": []
 }

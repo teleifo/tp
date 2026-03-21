@@ -125,13 +125,11 @@ public class ModelManagerTest {
                 new Name("Pharmacist One"),
                 new Phone("93456789"),
                 new Email("pharmacist@example.com"),
-                new Address("3 Street"),
-                java.util.Set.of(),
                 3);
 
         clinicBook.addPatient(patient);
         clinicBook.addDoctor(doctor);
-        clinicBook.addPerson(pharmacist);
+        clinicBook.addPharmacist(pharmacist);
 
         modelManager = new ModelManager(clinicBook, new UserPrefs());
 

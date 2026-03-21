@@ -24,6 +24,9 @@ public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Doctor> PREDICATE_SHOW_ALL_DOCTORS = unused -> true;
 
+    /** {@code Predicate} that always evaluate to true */
+    Predicate<Pharmacist> PREDICATE_SHOW_ALL_PHARMACISTS = unused -> true;
+
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
      */
@@ -78,6 +81,11 @@ public interface Model {
     boolean hasDoctor(Doctor doctor);
 
     /**
+     * Returns true if a pharmacist with the same identity as {@code pharmacist} exists in clinic book.
+     */
+    boolean hasPharmacist(Pharmacist pharmacist);
+
+    /**
      * Deletes the given person.
      * The person must exist in clinic book.
      */
@@ -96,6 +104,12 @@ public interface Model {
     void deleteDoctor(Doctor target);
 
     /**
+     * Deletes the given pharmacist.
+     * The person must exist in clinic book.
+     */
+    void deletePharmacist(Pharmacist target);
+
+    /**
      * Adds the given person.
      * {@code person} must not already exist in clinic book.
      */
@@ -112,6 +126,12 @@ public interface Model {
      * {@code doctor} must not already exist in clinic book.
      */
     void addDoctor(Doctor doctor);
+
+    /**
+     * Adds the given pharmacist.
+     * {@code pharmacist} must not already exist in clinic book.
+     */
+    void addPharmacist(Pharmacist pharmacist);
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.
@@ -136,6 +156,14 @@ public interface Model {
     void setDoctor(Doctor target, Doctor editedDoctor);
 
     /**
+     * Replaces the given pharmacist {@code target} with {@code editedPharmacist}.
+     * {@code target} must exist in clinic book.
+        * The person identity of {@code editedPharmacist} must not be the same as another existing
+        * pharmacist in clinic book.
+     */
+    void setPharmacist(Pharmacist target, Pharmacist editedPharmacist);
+
+    /**
      * Adds the given diagnosis to the target patient.
      * {@code target} must exist in clinic book.
      */
@@ -149,6 +177,9 @@ public interface Model {
 
     /** Returns an unmodifiable view of the filtered doctor list */
     ObservableList<Doctor> getFilteredDoctorList();
+
+    /** Returns an unmodifiable view of the filtered pharmacist list */
+    ObservableList<Pharmacist> getFilteredPharmacistList();
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
@@ -168,6 +199,9 @@ public interface Model {
      */
     void updateFilteredDoctorList(Predicate<Doctor> predicate);
 
-    /** Returns an unmodifiable view of the filtered pharmacist list */
-    ObservableList<Pharmacist> getFilteredPharmacistList();
+    /**
+     * Updates the filter of the filtered pharmacist list to filter by the given {@code predicate}.
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredPharmacistList(Predicate<Pharmacist> predicate);
 }

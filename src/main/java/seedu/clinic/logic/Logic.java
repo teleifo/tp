@@ -11,6 +11,7 @@ import seedu.clinic.model.ReadOnlyClinicBook;
 import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
+import seedu.clinic.model.person.Pharmacist;
 
 /**
  * API of the Logic component
@@ -35,11 +36,14 @@ public interface Logic {
     /** Returns an unmodifiable view of the filtered list of persons */
     ObservableList<Person> getFilteredPersonList();
 
-    /** Returns an unmodifiable view of the filtered list of persons */
+    /** Returns an unmodifiable view of the filtered list of doctors */
     ObservableList<Doctor> getFilteredDoctorList();
 
     /** Returns an unmodifiable view of the filtered list of patients */
     ObservableList<Patient> getFilteredPatientList();
+
+    /** Returns an unmodifiable view of the filtered list of pharmacists */
+    ObservableList<Pharmacist> getFilteredPharmacistList();
 
     /**
      * Returns the user prefs' clinic book file path.
