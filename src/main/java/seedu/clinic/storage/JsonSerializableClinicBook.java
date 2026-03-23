@@ -13,8 +13,8 @@ import seedu.clinic.model.ClinicBook;
 import seedu.clinic.model.ReadOnlyClinicBook;
 import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Patient;
-import seedu.clinic.model.person.Pharmacist;
 import seedu.clinic.model.person.Person;
+import seedu.clinic.model.person.Pharmacist;
 
 /**
  * An Immutable ClinicBook that is serializable to JSON format.
