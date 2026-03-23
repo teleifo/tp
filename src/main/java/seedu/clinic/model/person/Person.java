@@ -18,8 +18,7 @@ import seedu.clinic.model.tag.Tag;
  * TODO: Remove Address field and move to Patient subclass
  * TODO: Remove Tags field from Person
  * TODO: Simplify constructor to only require Name
- * TODO: Remove ID management from Person - implement in Staff/Patient subclasses
- * TODO: Implement automatic ID generation and formatting using ID_FORMAT
+ * TODO: Implement automatic ID formatting using ID_FORMAT
  */
 public class Person {
 
@@ -116,7 +115,7 @@ public class Person {
     }
 
     /**
-     * Returns true if both persons have the same name.
+     * Returns true if both persons have the same persisted ID.
      * This defines a weaker notion of equality between two persons.
      */
     public boolean isSamePerson(Person otherPerson) {
@@ -125,8 +124,7 @@ public class Person {
         }
 
         return otherPerson != null
-                && otherPerson.getId() == getId()
-                && otherPerson.getName().equals(getName());
+                && otherPerson.getId() == getId();
     }
 
     /**

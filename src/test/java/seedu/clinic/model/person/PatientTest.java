@@ -2,7 +2,6 @@ package seedu.clinic.model.person;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -10,6 +9,8 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
+
+import seedu.clinic.model.ClinicBook;
 
 public class PatientTest {
 
@@ -90,8 +91,8 @@ public class PatientTest {
         assertTrue(first.equals(first));
         assertFalse(first.equals(null));
         assertFalse(first.equals(5));
-        assertFalse(first.equals(second));
-        assertNotEquals(first.hashCode(), second.hashCode());
+        assertTrue(first.equals(second));
+        assertEquals(first.hashCode(), second.hashCode());
     }
 
     @Test
@@ -109,7 +110,7 @@ public class PatientTest {
     }
 
     @Test
-    public void constructor_withoutExplicitId_assignsPatientId() {
+    public void constructor_withoutExplicitId_remainsUnassignedUntilAddedToClinicBook() {
         Patient patient = new Patient(
                 new Name("Auto Id"),
                 new Phone("90001234"),
@@ -119,7 +120,12 @@ public class PatientTest {
                 LocalDate.of(2001, 2, 3),
                 Sex.MALE);
 
-        assertTrue(patient.getPatientId() > 0);
+        assertEquals(0, patient.getId());
+
+        ClinicBook clinicBook = new ClinicBook();
+        clinicBook.addPerson(patient);
+
+        assertTrue(patient.getId() > 0);
     }
 
     @Test

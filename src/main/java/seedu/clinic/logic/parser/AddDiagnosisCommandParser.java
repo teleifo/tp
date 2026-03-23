@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import seedu.clinic.commons.core.index.Index;
 import seedu.clinic.logic.commands.AddDiagnosisCommand;
 import seedu.clinic.logic.parser.exceptions.ParseException;
 import seedu.clinic.model.person.Diagnosis;
@@ -57,18 +56,18 @@ public class AddDiagnosisCommandParser implements Parser<AddDiagnosisCommand> {
         argMultimap.verifyNoDuplicatePrefixesFor(
                 PREFIX_ID, PREFIX_DESC, PREFIX_VISIT_DATE, PREFIX_DIAGNOSED_BY);
 
-        Index id = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_ID).get());
+        int patientId = ParserUtil.parsePersonId(argMultimap.getValue(PREFIX_ID).get());
         String description = argMultimap.getValue(PREFIX_DESC).get();
         LocalDate visitDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_VISIT_DATE).get());
-        Index diagnosedBy = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_DIAGNOSED_BY).get());
+        int diagnosedById = ParserUtil.parsePersonId(argMultimap.getValue(PREFIX_DIAGNOSED_BY).get());
         List<String> symptoms = argMultimap.getAllValues(PREFIX_SYMPTOM);
 
         List<String> medNames = argMultimap.getAllValues(PREFIX_MEDICATION);
         List<String> dosages = argMultimap.getAllValues(PREFIX_DOSAGE);
         List<String> frequencies = argMultimap.getAllValues(PREFIX_FREQ);
-        List<Index> dispensedByList = new ArrayList<>();
+        List<Integer> dispensedByList = new ArrayList<>();
         for (String value : argMultimap.getAllValues(PREFIX_DISPENSED_BY)) {
-            dispensedByList.add(ParserUtil.parseIndex(value));
+            dispensedByList.add(ParserUtil.parsePersonId(value));
         }
 
         int prescriptionCount = medNames.size();
@@ -92,15 +91,15 @@ public class AddDiagnosisCommandParser implements Parser<AddDiagnosisCommand> {
                     medNames.get(i),
                     dosages.get(i),
                     frequencies.get(i),
-                    dispensedByList.get(i).getOneBased()
+                    dispensedByList.get(i)
             ));
         }
 
-        Diagnosis diagnosis = new Diagnosis(description, visitDate, diagnosedBy.getOneBased());
+        Diagnosis diagnosis = new Diagnosis(description, visitDate, diagnosedById);
         symptoms.forEach(diagnosis::addSymptom);
         prescriptions.forEach(diagnosis::addPrescription);
 
-        return new AddDiagnosisCommand(id, diagnosis);
+        return new AddDiagnosisCommand(patientId, diagnosis);
     }
 
     /**

@@ -18,7 +18,6 @@ import seedu.clinic.model.person.UniquePersonList;
 public class ClinicBook implements ReadOnlyClinicBook {
 
     private final UniquePersonList<Person> persons;
-    private int nextId = 1;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -81,12 +80,10 @@ public class ClinicBook implements ReadOnlyClinicBook {
      * Returns the next available ID and increments the counter.
      */
     public int getNextId() {
-        int maxId = persons.stream()
+        return persons.stream()
                 .mapToInt(Person::getId)
                 .max()
-                .orElse(0);
-        nextId = maxId + 1;
-        return nextId++;
+                .orElse(0) + 1;
     }
 
     /**

@@ -23,11 +23,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.clinic.model.person.Address;
 import seedu.clinic.model.person.Diagnosis;
+import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Email;
 import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Name;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
+import seedu.clinic.model.person.Pharmacist;
 import seedu.clinic.model.person.Phone;
 import seedu.clinic.model.person.Sex;
 import seedu.clinic.model.person.exceptions.DuplicatePersonException;
@@ -96,6 +98,34 @@ public class ClinicBookTest {
         assertTrue(storedPerson instanceof Patient);
         assertTrue(storedPerson.getId() > 0);
         assertEquals(new NRIC(NADIA_NRIC), ((Patient) storedPerson).getNric());
+    }
+
+    @Test
+    public void addMixedRoles_defaultIds_assignsGloballyUniquePersonIds() {
+        Patient patient = new Patient(
+                new Name("Patient One"),
+                new Phone("91234567"),
+                new Email("patient@example.com"),
+                new Address("1 Street"),
+                new NRIC("S1166846A"),
+                java.time.LocalDate.of(2000, 1, 1),
+                Sex.FEMALE);
+        Doctor doctor = new Doctor(
+                new Name("Doctor One"),
+                new Phone("92345678"),
+                new Email("doctor@example.com"));
+        Pharmacist pharmacist = new Pharmacist(
+                new Name("Pharmacist One"),
+                new Phone("93456789"),
+                new Email("pharmacist@example.com"));
+
+        clinicBook.addPerson(patient);
+        clinicBook.addPerson(doctor);
+        clinicBook.addPerson(pharmacist);
+
+        assertEquals(1, patient.getId());
+        assertEquals(2, doctor.getId());
+        assertEquals(3, pharmacist.getId());
     }
 
     @Test

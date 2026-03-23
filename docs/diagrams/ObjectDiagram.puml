@@ -45,8 +45,6 @@ class EmergencyContact {
 }
 
 class Patient extends Person {
-    - DEFAULT_PATIENT_ID: int
-    - patientId: int
     - nric: NRIC
     - dateOfBirth: Date
     - sex: Sex
@@ -56,7 +54,6 @@ class Patient extends Person {
     - address: Address
     + Patient(NRIC, Name, Phone, Email, Address)
     + getNRIC(): NRIC
-    + getPatientId(): int
     + getDateOfBirth(): Date
     + getAge(): int
     + getSex(): Sex
@@ -69,10 +66,7 @@ class Patient extends Person {
 }
 
 abstract class Staff extends Person {
-    - DEFAULT_STAFF_ID: int
-    - staffId: int
     + Staff(Name, Phone, Email)
-    + getStaffId(): int
     + equals(): Boolean
     + hashcode(): int
     + toString(): String

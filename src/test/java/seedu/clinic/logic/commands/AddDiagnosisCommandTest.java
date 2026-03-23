@@ -9,7 +9,6 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.clinic.commons.core.index.Index;
 import seedu.clinic.logic.commands.exceptions.CommandException;
 import seedu.clinic.model.ClinicBook;
 import seedu.clinic.model.Model;
@@ -37,7 +36,7 @@ public class AddDiagnosisCommandTest {
     public void execute_validDiagnosis_success() throws Exception {
         Model model = createModelWithAllRoles();
         Diagnosis diagnosis = createDiagnosis(DOCTOR_ID, PHARMACIST_ID);
-        AddDiagnosisCommand command = new AddDiagnosisCommand(Index.fromOneBased(PATIENT_ID), diagnosis);
+        AddDiagnosisCommand command = new AddDiagnosisCommand(PATIENT_ID, diagnosis);
 
         CommandResult result = command.execute(model);
 
@@ -54,7 +53,7 @@ public class AddDiagnosisCommandTest {
     public void execute_invalidPatient_throwsCommandException() {
         Model model = createModelWithAllRoles();
         Diagnosis diagnosis = createDiagnosis(DOCTOR_ID, PHARMACIST_ID);
-        AddDiagnosisCommand command = new AddDiagnosisCommand(Index.fromOneBased(99), diagnosis);
+        AddDiagnosisCommand command = new AddDiagnosisCommand(99, diagnosis);
 
         CommandException exception = assertThrows(CommandException.class, () -> command.execute(model));
         assertEquals(AddDiagnosisCommand.MESSAGE_INVALID_PATIENT, exception.getMessage());
@@ -64,7 +63,7 @@ public class AddDiagnosisCommandTest {
     public void execute_invalidDoctor_throwsCommandException() {
         Model model = createModelWithPatientOnly();
         Diagnosis diagnosis = createDiagnosis(DOCTOR_ID, PHARMACIST_ID);
-        AddDiagnosisCommand command = new AddDiagnosisCommand(Index.fromOneBased(PATIENT_ID), diagnosis);
+        AddDiagnosisCommand command = new AddDiagnosisCommand(PATIENT_ID, diagnosis);
 
         CommandException exception = assertThrows(CommandException.class, () -> command.execute(model));
         assertEquals(AddDiagnosisCommand.MESSAGE_INVALID_DOCTOR, exception.getMessage());
@@ -74,7 +73,7 @@ public class AddDiagnosisCommandTest {
     public void execute_invalidPharmacist_throwsCommandException() {
         Model model = createModelWithPatientAndDoctor();
         Diagnosis diagnosis = createDiagnosis(DOCTOR_ID, PHARMACIST_ID);
-        AddDiagnosisCommand command = new AddDiagnosisCommand(Index.fromOneBased(PATIENT_ID), diagnosis);
+        AddDiagnosisCommand command = new AddDiagnosisCommand(PATIENT_ID, diagnosis);
 
         CommandException exception = assertThrows(CommandException.class, () -> command.execute(model));
         assertEquals(AddDiagnosisCommand.MESSAGE_INVALID_PHARMACIST, exception.getMessage());
@@ -83,11 +82,10 @@ public class AddDiagnosisCommandTest {
     @Test
     public void equals() {
         Diagnosis diagnosis = createDiagnosis(DOCTOR_ID, PHARMACIST_ID);
-        Index index = Index.fromOneBased(PATIENT_ID);
-        AddDiagnosisCommand command = new AddDiagnosisCommand(index, diagnosis);
+        AddDiagnosisCommand command = new AddDiagnosisCommand(PATIENT_ID, diagnosis);
 
         assertTrue(command.equals(command));
-        assertTrue(command.equals(new AddDiagnosisCommand(index, diagnosis)));
+        assertTrue(command.equals(new AddDiagnosisCommand(PATIENT_ID, diagnosis)));
     }
 
     private static Diagnosis createDiagnosis(int doctorId, int pharmacistId) {

@@ -16,7 +16,7 @@ import seedu.clinic.model.util.SampleDataUtil;
  */
 public class PersonBuilder {
 
-    public static final int DEFAULT_ID = 1;
+    public static final int DEFAULT_ID = 0;
     public static final String DEFAULT_NAME = "Amy Bee";
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";

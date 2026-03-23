@@ -77,6 +77,10 @@ Shows a list of all persons in the clinic book.
 
 Format: `list`
 
+* Each card shows both the displayed row number and the person's stable `ID`.
+* Use the row number for index-based commands such as `delete`.
+* Use the stable `ID` for commands that reference a specific person record, such as `diagnosis`.
+
 ### Locating persons by name, phone, or NRIC: `find`
 
 Finds persons who match the supplied name keywords, phone number, and/or patient NRIC.
@@ -113,6 +117,22 @@ Format: `delete INDEX`
 Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the clinic book.
 * `find n/Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+
+### Adding a diagnosis : `diagnosis`
+
+Adds a diagnosis to a patient and validates the referenced doctor and pharmacist by stable person `ID`.
+
+Format:
+`diagnosis id/PATIENT_ID desc/DESCRIPTION vd/VISIT_DATE diagnosed/DOCTOR_ID sym/SYMPTOM... med/MEDICATION dose/DOSAGE freq/FREQUENCY dispensed/PHARMACIST_ID`
+
+* `id/`, `diagnosed/`, and `dispensed/` use the stable person `ID` shown on each person card, not the displayed row number.
+* `delete` remains index-based. `diagnosis` is ID-based.
+* `id/` must refer to a patient, `diagnosed/` must refer to a doctor, and `dispensed/` must refer to a pharmacist.
+* `vd/` must be in `yyyy-MM-dd` format.
+* At least one `sym/` and one medication block are required.
+
+Example:
+`diagnosis id/1 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever sym/cough med/Paracetamol dose/500mg freq/3 times daily dispensed/4`
 
 ### Clearing all entries : `clear`
 
@@ -165,6 +185,7 @@ Action | Format, Examples
 --------|------------------
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
+**Diagnosis** | `diagnosis id/PATIENT_ID desc/DESCRIPTION vd/VISIT_DATE diagnosed/DOCTOR_ID sym/SYMPTOM... med/MEDICATION dose/DOSAGE freq/FREQUENCY dispensed/PHARMACIST_ID`<br> e.g., `diagnosis id/1 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4`
 **Find** | `find [n/NAME_KEYWORDS] [p/PHONE] [nric/NRIC]`<br> e.g., `find n/James Jake p/98765432 nric/S1234567D`
 **List** | `list`
 **Help** | `help`

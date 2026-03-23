@@ -3,6 +3,7 @@ package seedu.clinic.logic.parser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.clinic.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
+import static seedu.clinic.logic.parser.ParserUtil.MESSAGE_INVALID_PERSON_ID;
 import static seedu.clinic.testutil.Assert.assertThrows;
 import static seedu.clinic.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
@@ -55,6 +56,17 @@ public class ParserUtilTest {
 
         // Leading and trailing whitespaces
         assertEquals(INDEX_FIRST_PERSON, ParserUtil.parseIndex("  1  "));
+    }
+
+    @Test
+    public void parsePersonId_invalidInput_throwsParseException() {
+        assertThrows(ParseException.class, MESSAGE_INVALID_PERSON_ID, () -> ParserUtil.parsePersonId("10 a"));
+    }
+
+    @Test
+    public void parsePersonId_validInput_success() throws Exception {
+        assertEquals(1, ParserUtil.parsePersonId("1"));
+        assertEquals(1, ParserUtil.parsePersonId("  1  "));
     }
 
     @Test

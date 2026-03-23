@@ -21,6 +21,13 @@ public class ContactPerson extends Person {
     }
 
     /**
+     * Compatibility constructor for subclasses that only require contact details and an explicit ID.
+     */
+    public ContactPerson(Name name, Phone phone, Email email, int id) {
+        super(name, phone, email, Collections.emptySet(), id);
+    }
+
+    /**
      * Compatibility constructor for subclasses that still require address/tags.
      */
     public ContactPerson(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {

@@ -25,6 +25,7 @@ import seedu.clinic.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final String MESSAGE_INVALID_PERSON_ID = "ID is not a non-zero unsigned integer.";
     public static final String MESSAGE_INVALID_HISTORY_NRIC =
             "Invalid NRIC format. Expected 1 letter + 7 digits + 1 letter. E.g. T1234567Z";
     public static final String MESSAGE_INVALID_DATE = "Invalid date format. Expected yyyy-MM-dd E.g. 2002-03-01";
@@ -41,6 +42,20 @@ public class ParserUtil {
             throw new ParseException(MESSAGE_INVALID_INDEX);
         }
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
+    }
+
+    /**
+     * Parses {@code personId} into a stable person ID and returns it. Leading and trailing whitespaces will be
+     * trimmed.
+     *
+     * @throws ParseException if the specified ID is invalid (not non-zero unsigned integer).
+     */
+    public static int parsePersonId(String personId) throws ParseException {
+        String trimmedPersonId = personId.trim();
+        if (!StringUtil.isNonZeroUnsignedInteger(trimmedPersonId)) {
+            throw new ParseException(MESSAGE_INVALID_PERSON_ID);
+        }
+        return Integer.parseInt(trimmedPersonId);
     }
 
     /**

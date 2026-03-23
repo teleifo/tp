@@ -13,7 +13,6 @@ import static seedu.clinic.logic.parser.CliSyntax.PREFIX_VISIT_DATE;
 
 import java.util.Optional;
 
-import seedu.clinic.commons.core.index.Index;
 import seedu.clinic.commons.util.ToStringBuilder;
 import seedu.clinic.logic.commands.exceptions.CommandException;
 import seedu.clinic.model.Model;
@@ -52,24 +51,23 @@ public class AddDiagnosisCommand extends Command {
             + PREFIX_MEDICATION + "Paracetamol "
             + PREFIX_DOSAGE + "500mg "
             + PREFIX_FREQ + "3 times daily "
-            + PREFIX_DISPENSED_BY + "3";
+            + PREFIX_DISPENSED_BY + "4";
 
     public static final String MESSAGE_SUCCESS = "New diagnosis added: %1$s";
-    public static final String MESSAGE_INVALID_PATIENT = "The patient index provided is invalid";
-    public static final String MESSAGE_INVALID_DOCTOR = "The doctor index provided is invalid";
-    public static final String MESSAGE_INVALID_PHARMACIST = "The pharmacist index provided is invalid";
+    public static final String MESSAGE_INVALID_PATIENT = "The patient ID provided is invalid";
+    public static final String MESSAGE_INVALID_DOCTOR = "The doctor ID provided is invalid";
+    public static final String MESSAGE_INVALID_PHARMACIST = "The pharmacist ID provided is invalid";
 
-    private final Index index;
+    private final int patientId;
     private final Diagnosis diagnosis;
 
     /**
      * Creates an AddDiagnosisCommand to add the specified {@code Diagnosis}
-     * to the patient at the given index.
+     * to the patient with the given stable person ID.
      */
-    public AddDiagnosisCommand(Index index, Diagnosis diagnosis) {
-        requireNonNull(index);
+    public AddDiagnosisCommand(int patientId, Diagnosis diagnosis) {
         requireNonNull(diagnosis);
-        this.index = index;
+        this.patientId = patientId;
         this.diagnosis = diagnosis;
     }
 
@@ -77,7 +75,7 @@ public class AddDiagnosisCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        Optional<Patient> patient = findPersonById(model, index.getOneBased(), Patient.class);
+        Optional<Patient> patient = findPersonById(model, patientId, Patient.class);
         if (!patient.isPresent()) {
             throw new CommandException(MESSAGE_INVALID_PATIENT);
         }
@@ -118,14 +116,14 @@ public class AddDiagnosisCommand extends Command {
         }
 
         AddDiagnosisCommand otherCommand = (AddDiagnosisCommand) other;
-        return index == otherCommand.index
+        return patientId == otherCommand.patientId
                 && diagnosis.equals(otherCommand.diagnosis);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("index", index)
+                .add("patientId", patientId)
                 .add("diagnosis", diagnosis)
                 .toString();
     }

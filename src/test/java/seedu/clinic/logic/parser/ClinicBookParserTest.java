@@ -89,7 +89,7 @@ public class ClinicBookParserTest {
     @Test
     public void parseCommand_addDiagnosis() throws Exception {
         String args = " id/1 desc/Flu vd/2026-03-01 diagnosed/2"
-                + " sym/fever med/Paracetamol dose/500mg freq/daily dispensed/3";
+                + " sym/fever med/Paracetamol dose/500mg freq/daily dispensed/4";
         assertTrue(parser.parseCommand(AddDiagnosisCommand.COMMAND_WORD + args)
                 instanceof AddDiagnosisCommand);
     }
