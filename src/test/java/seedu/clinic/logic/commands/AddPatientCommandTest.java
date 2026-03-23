@@ -13,7 +13,6 @@ import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.clinic.commons.core.GuiSettings;
 import seedu.clinic.logic.commands.exceptions.CommandException;
@@ -22,11 +21,9 @@ import seedu.clinic.model.Model;
 import seedu.clinic.model.ReadOnlyClinicBook;
 import seedu.clinic.model.ReadOnlyUserPrefs;
 import seedu.clinic.model.person.Diagnosis;
-import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
-import seedu.clinic.model.person.Pharmacist;
 import seedu.clinic.model.person.Sex;
 import seedu.clinic.testutil.PersonBuilder;
 
@@ -142,37 +139,7 @@ public class AddPatientCommandTest {
         }
 
         @Override
-        public boolean hasPatient(Patient patient) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasDoctor(Doctor doctor) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasPharmacist(Pharmacist pharmacist) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void deletePerson(Person target) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void deletePatient(Patient target) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void deleteDoctor(Doctor target) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void deletePharmacist(Pharmacist target) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -182,37 +149,7 @@ public class AddPatientCommandTest {
         }
 
         @Override
-        public void addPatient(Patient patient) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void addDoctor(Doctor doctor) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void addPharmacist(Pharmacist pharmacist) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void setPerson(Person target, Person editedPerson) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setPatient(Patient target, Patient editedPatient) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setDoctor(Doctor target, Doctor editedDoctor) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setPharmacist(Pharmacist target, Pharmacist editedPharmacist) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -227,37 +164,7 @@ public class AddPatientCommandTest {
         }
 
         @Override
-        public ObservableList<Doctor> getFilteredDoctorList() {
-            return FXCollections.emptyObservableList();
-        }
-
-        @Override
         public void updateFilteredPersonList(Predicate<Person> predicate) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void updateFilteredDoctorList(Predicate<Doctor> predicate) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void updateFilteredPatientList(Predicate<Patient> predicate) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ObservableList<Patient> getFilteredPatientList() {
-            return FXCollections.emptyObservableList();
-        }
-
-        @Override
-        public ObservableList<Pharmacist> getFilteredPharmacistList() {
-            return FXCollections.emptyObservableList();
-        }
-
-        @Override
-        public void updateFilteredPharmacistList(Predicate<Pharmacist> predicate) {
             throw new AssertionError("This method should not be called.");
         }
     }
@@ -271,7 +178,7 @@ public class AddPatientCommandTest {
         ModelStubWithPatient(Patient patient) {
             requireNonNull(patient);
             clinicBook = new ClinicBook();
-            clinicBook.addPatient(patient);
+            clinicBook.addPerson(patient);
         }
 
         @Override
@@ -284,14 +191,14 @@ public class AddPatientCommandTest {
      * A model stub that accepts a patient add.
      */
     private class ModelStubAcceptingPatientAdded extends ModelStub {
-        final ArrayList<Patient> patientsAdded = new ArrayList<>();
+        final ArrayList<Person> patientsAdded = new ArrayList<>();
         private final ClinicBook clinicBook = new ClinicBook();
 
         @Override
-        public void addPatient(Patient patient) {
+        public void addPerson(Person patient) {
             requireNonNull(patient);
             patientsAdded.add(patient);
-            clinicBook.addPatient(patient);
+            clinicBook.addPerson(patient);
         }
 
         @Override

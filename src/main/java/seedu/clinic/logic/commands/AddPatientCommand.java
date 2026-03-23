@@ -59,14 +59,16 @@ public class AddPatientCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        boolean hasDuplicateNric = model.getClinicBook().getPatientList().stream()
+        boolean hasDuplicateNric = model.getClinicBook().getPersonList().stream()
+                .filter(Patient.class::isInstance)
+                .map(Patient.class::cast)
                 .anyMatch(existingPatient -> existingPatient.getNric().equals(newPatient.getNric()));
 
         if (hasDuplicateNric) {
             throw new CommandException(MESSAGE_DUPLICATE_PATIENT);
         }
 
-        model.addPatient(newPatient);
+        model.addPerson(newPatient);
         return new CommandResult(String.format(MESSAGE_SUCCESS, newPatient));
     }
 
@@ -92,4 +94,3 @@ public class AddPatientCommand extends Command {
                 .toString();
     }
 }
-

@@ -18,7 +18,10 @@ import seedu.clinic.commons.util.ToStringBuilder;
 import seedu.clinic.logic.commands.exceptions.CommandException;
 import seedu.clinic.model.Model;
 import seedu.clinic.model.person.Diagnosis;
+import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Patient;
+import seedu.clinic.model.person.Person;
+import seedu.clinic.model.person.Pharmacist;
 import seedu.clinic.model.person.Prescription;
 
 /**
@@ -74,23 +77,19 @@ public class AddDiagnosisCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        Optional<Patient> patient = model.getFilteredPatientList().stream()
-                .filter(p -> p.getId() == index.getOneBased())
-                .findFirst();
+        Optional<Patient> patient = findPersonById(model, index.getOneBased(), Patient.class);
         if (!patient.isPresent()) {
             throw new CommandException(MESSAGE_INVALID_PATIENT);
         }
 
-        boolean doctorExists = model.getFilteredDoctorList().stream()
-                .anyMatch(d -> d.getId() == diagnosis.getDiagnosedBy());
-        if (!doctorExists) {
+        Optional<Doctor> doctor = findPersonById(model, diagnosis.getDiagnosedBy(), Doctor.class);
+        if (!doctor.isPresent()) {
             throw new CommandException(MESSAGE_INVALID_DOCTOR);
         }
 
         for (Prescription pres : diagnosis.getPrescriptions()) {
-            boolean pharmacistExists = model.getFilteredPharmacistList().stream()
-                    .anyMatch(p -> p.getId() == pres.getDispensedBy());
-            if (!pharmacistExists) {
+            Optional<Pharmacist> pharmacist = findPersonById(model, pres.getDispensedBy(), Pharmacist.class);
+            if (!pharmacist.isPresent()) {
                 throw new CommandException(MESSAGE_INVALID_PHARMACIST);
             }
         }
@@ -98,6 +97,14 @@ public class AddDiagnosisCommand extends Command {
         model.addDiagnosis(patient.get(), diagnosis);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, diagnosis));
+    }
+
+    private static <T extends Person> Optional<T> findPersonById(Model model, int id, Class<T> expectedType) {
+        return model.getClinicBook().getPersonList().stream()
+                .filter(expectedType::isInstance)
+                .map(expectedType::cast)
+                .filter(person -> person.getId() == id)
+                .findFirst();
     }
 
     @Override

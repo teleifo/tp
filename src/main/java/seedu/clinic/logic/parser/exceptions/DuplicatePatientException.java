@@ -1,4 +1,4 @@
-package seedu.clinic.model.person.exceptions;
+package seedu.clinic.logic.parser.exceptions;
 
 /**
  * Signals that the operation will result in duplicate Patients.

@@ -52,7 +52,6 @@ public class ModelManagerTest {
         modelManager.setUserPrefs(userPrefs);
         assertEquals(userPrefs, modelManager.getUserPrefs());
 
-        // Modifying userPrefs should not modify modelManager's userPrefs
         UserPrefs oldUserPrefs = new UserPrefs(userPrefs);
         userPrefs.setClinicBookFilePath(Paths.get("new/address/book/file/path"));
         assertEquals(oldUserPrefs, modelManager.getUserPrefs());
@@ -104,7 +103,7 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void addDiagnosis_andFilteredRoleLists_success() {
+    public void addDiagnosis_updatesCanonicalPersonList_success() {
         ClinicBook clinicBook = new ClinicBook();
         Patient patient = new Patient(
                 new Name("Patient One"),
@@ -127,19 +126,21 @@ public class ModelManagerTest {
                 new Email("pharmacist@example.com"),
                 3);
 
-        clinicBook.addPatient(patient);
-        clinicBook.addDoctor(doctor);
-        clinicBook.addPharmacist(pharmacist);
+        clinicBook.addPerson(patient);
+        clinicBook.addPerson(doctor);
+        clinicBook.addPerson(pharmacist);
 
         modelManager = new ModelManager(clinicBook, new UserPrefs());
 
         Diagnosis diagnosis = new Diagnosis("Flu", 2);
         modelManager.addDiagnosis(patient, diagnosis);
 
-        assertEquals(1, modelManager.getFilteredPatientList().size());
-        assertEquals(1, modelManager.getFilteredDoctorList().size());
-        assertEquals(1, modelManager.getFilteredPharmacistList().size());
-        assertEquals(1, modelManager.getFilteredPatientList().get(0).getDiagnoses().size());
+        assertEquals(3, modelManager.getFilteredPersonList().size());
+        Patient updated = (Patient) modelManager.getFilteredPersonList().stream()
+                .filter(Patient.class::isInstance)
+                .findFirst()
+                .orElseThrow();
+        assertEquals(1, updated.getDiagnoses().size());
     }
 
     @Test
@@ -148,32 +149,21 @@ public class ModelManagerTest {
         ClinicBook differentClinicBook = new ClinicBook();
         UserPrefs userPrefs = new UserPrefs();
 
-        // same values -> returns true
         modelManager = new ModelManager(clinicBook, userPrefs);
         ModelManager modelManagerCopy = new ModelManager(clinicBook, userPrefs);
         assertTrue(modelManager.equals(modelManagerCopy));
 
-        // same object -> returns true
         assertTrue(modelManager.equals(modelManager));
-
-        // null -> returns false
         assertFalse(modelManager.equals(null));
-
-        // different types -> returns false
         assertFalse(modelManager.equals(5));
-
-        // different clinicBook -> returns false
         assertFalse(modelManager.equals(new ModelManager(differentClinicBook, userPrefs)));
 
-        // different filteredList -> returns false
         String[] keywords = ALICE.getName().fullName.split("\\s+");
         modelManager.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
         assertFalse(modelManager.equals(new ModelManager(clinicBook, userPrefs)));
 
-        // resets modelManager to initial state for upcoming tests
         modelManager.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
-        // different userPrefs -> returns false
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setClinicBookFilePath(Paths.get("differentFilePath"));
         assertFalse(modelManager.equals(new ModelManager(clinicBook, differentUserPrefs)));

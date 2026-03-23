@@ -23,13 +23,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.clinic.model.person.Address;
 import seedu.clinic.model.person.Diagnosis;
-import seedu.clinic.model.person.Doctor;
 import seedu.clinic.model.person.Email;
 import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Name;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
-import seedu.clinic.model.person.Pharmacist;
 import seedu.clinic.model.person.Phone;
 import seedu.clinic.model.person.Sex;
 import seedu.clinic.model.person.exceptions.DuplicatePersonException;
@@ -42,9 +40,6 @@ public class ClinicBookTest {
     @Test
     public void constructor() {
         assertEquals(Collections.emptyList(), clinicBook.getPersonList());
-        assertEquals(Collections.emptyList(), clinicBook.getPatientList());
-        assertEquals(Collections.emptyList(), clinicBook.getDoctorList());
-        assertEquals(Collections.emptyList(), clinicBook.getPharmacistList());
     }
 
     @Test
@@ -61,7 +56,6 @@ public class ClinicBookTest {
 
     @Test
     public void resetData_withDuplicatePersons_throwsDuplicatePersonException() {
-        // Two persons with the same identity fields
         Person editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
         List<Person> newPersons = Arrays.asList(ALICE, editedAlice);
@@ -111,10 +105,7 @@ public class ClinicBookTest {
 
     @Test
     public void toStringMethod() {
-        String expected = ClinicBook.class.getCanonicalName() + "{persons=" + clinicBook.getPersonList()
-                + ", patients=" + clinicBook.getPatientList()
-                + ", doctors=" + clinicBook.getDoctorList()
-                + ", pharmacists=" + clinicBook.getPharmacistList() + "}";
+        String expected = ClinicBook.class.getCanonicalName() + "{persons=" + clinicBook.getPersonList() + "}";
         assertEquals(expected, clinicBook.toString());
     }
 
@@ -130,12 +121,12 @@ public class ClinicBookTest {
                 java.time.LocalDate.of(2000, 1, 1),
                 Sex.FEMALE,
                 1);
-        clinicBook.addPatient(patient);
+        clinicBook.addPerson(patient);
 
         Diagnosis diagnosis = new Diagnosis("Flu", 2);
         clinicBook.addDiagnosis(patient, diagnosis);
 
-        Patient updated = clinicBook.getPatientList().get(0);
+        Patient updated = (Patient) clinicBook.getPersonList().get(0);
         assertEquals(1, updated.getDiagnoses().size());
     }
 
@@ -144,36 +135,14 @@ public class ClinicBookTest {
      */
     private static class ClinicBookStub implements ReadOnlyClinicBook {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
-        private final ObservableList<Patient> patients = FXCollections.observableArrayList();
-        private final ObservableList<Doctor> doctors = FXCollections.observableArrayList();
-        private final ObservableList<Pharmacist> pharmacists = FXCollections.observableArrayList();
 
         ClinicBookStub(Collection<Person> persons) {
             this.persons.setAll(persons);
-            this.patients.setAll(patients);
-            this.doctors.setAll(doctors);
-            this.pharmacists.setAll(pharmacists);
         }
 
         @Override
         public ObservableList<Person> getPersonList() {
             return persons;
         }
-
-        @Override
-        public ObservableList<Patient> getPatientList() {
-            return FXCollections.emptyObservableList();
-        }
-
-        @Override
-        public ObservableList<Doctor> getDoctorList() {
-            return doctors;
-        }
-
-        @Override
-        public ObservableList<Pharmacist> getPharmacistList() {
-            return pharmacists;
-        }
     }
-
 }

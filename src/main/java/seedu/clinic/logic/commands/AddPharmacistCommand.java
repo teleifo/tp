@@ -43,7 +43,7 @@ public class AddPharmacistCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        model.addPharmacist(newPharmacist);
+        model.addPerson(newPharmacist);
         return new CommandResult(String.format(MESSAGE_SUCCESS, newPharmacist));
     }
 
