@@ -14,12 +14,9 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.clinic.logic.commands.AddCommand;
 import seedu.clinic.logic.commands.AddDiagnosisCommand;
 import seedu.clinic.logic.commands.ClearCommand;
 import seedu.clinic.logic.commands.DeleteCommand;
-import seedu.clinic.logic.commands.EditCommand;
-import seedu.clinic.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.clinic.logic.commands.ExitCommand;
 import seedu.clinic.logic.commands.FindCommand;
 import seedu.clinic.logic.commands.GetHistoryCommand;
@@ -27,23 +24,12 @@ import seedu.clinic.logic.commands.HelpCommand;
 import seedu.clinic.logic.commands.ListCommand;
 import seedu.clinic.logic.parser.exceptions.ParseException;
 import seedu.clinic.model.person.NRIC;
-import seedu.clinic.model.person.Person;
 import seedu.clinic.model.person.PersonMatchesFindCriteriaPredicate;
 import seedu.clinic.model.person.Phone;
-import seedu.clinic.testutil.EditPersonDescriptorBuilder;
-import seedu.clinic.testutil.PersonBuilder;
-import seedu.clinic.testutil.PersonUtil;
 
 public class ClinicBookParserTest {
 
     private final ClinicBookParser parser = new ClinicBookParser();
-
-    @Test
-    public void parseCommand_add() throws Exception {
-        Person person = new PersonBuilder().withId(0).build();
-        AddCommand command = (AddCommand) parser.parseCommand(PersonUtil.getAddCommand(person));
-        assertEquals(new AddCommand(person), command);
-    }
 
     @Test
     public void parseCommand_clear() throws Exception {
@@ -56,15 +42,6 @@ public class ClinicBookParserTest {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
                 DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
         assertEquals(new DeleteCommand(INDEX_FIRST_PERSON), command);
-    }
-
-    @Test
-    public void parseCommand_edit() throws Exception {
-        Person person = new PersonBuilder().build();
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
-        EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor));
-        assertEquals(new EditCommand(INDEX_FIRST_PERSON, descriptor), command);
     }
 
     @Test
@@ -132,5 +109,17 @@ public class ClinicBookParserTest {
     @Test
     public void parseCommand_unknownCommand_throwsParseException() {
         assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand("unknownCommand"));
+    }
+
+    @Test
+    public void parseCommand_legacyAddCommand_throwsParseException() {
+        assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand(
+                "add n/John Doe p/98765432 e/john@example.com a/Clementi"));
+    }
+
+    @Test
+    public void parseCommand_legacyEditCommand_throwsParseException() {
+        assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand(
+                "edit 1 n/John Doe"));
     }
 }

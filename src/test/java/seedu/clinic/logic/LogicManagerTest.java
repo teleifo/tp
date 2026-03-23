@@ -4,12 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.clinic.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.clinic.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.clinic.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.clinic.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
-import static seedu.clinic.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
-import static seedu.clinic.logic.commands.CommandTestUtil.NAME_DESC_AMY;
-import static seedu.clinic.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.clinic.testutil.Assert.assertThrows;
-import static seedu.clinic.testutil.TypicalPersons.AMY;
 
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
@@ -19,7 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import seedu.clinic.logic.commands.AddCommand;
 import seedu.clinic.logic.commands.CommandResult;
 import seedu.clinic.logic.commands.FindCommand;
 import seedu.clinic.logic.commands.ListCommand;
@@ -29,11 +23,9 @@ import seedu.clinic.model.Model;
 import seedu.clinic.model.ModelManager;
 import seedu.clinic.model.ReadOnlyClinicBook;
 import seedu.clinic.model.UserPrefs;
-import seedu.clinic.model.person.Person;
 import seedu.clinic.storage.JsonClinicBookStorage;
 import seedu.clinic.storage.JsonUserPrefsStorage;
 import seedu.clinic.storage.StorageManager;
-import seedu.clinic.testutil.PersonBuilder;
 
 public class LogicManagerTest {
     private static final IOException DUMMY_IO_EXCEPTION = new IOException("dummy IO exception");
@@ -171,12 +163,9 @@ public class LogicManagerTest {
 
         logic = new LogicManager(model, storage);
 
-        // Triggers the saveClinicBook method by executing an add command
-        String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
-                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY;
-        Person expectedPerson = new PersonBuilder(AMY).withTags().build();
+        // Triggers the saveClinicBook method by executing any valid command.
+        String listCommand = ListCommand.COMMAND_WORD;
         ModelManager expectedModel = new ModelManager();
-        expectedModel.addPerson(expectedPerson);
-        assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
+        assertCommandFailure(listCommand, CommandException.class, expectedMessage, expectedModel);
     }
 }
