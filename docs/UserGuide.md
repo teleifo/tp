@@ -83,24 +83,23 @@ Format: `list`
 
 ### Locating persons by name, phone, or NRIC: `find`
 
-Finds persons who match the supplied name keywords, phone number, and/or patient NRIC.
+Finds persons who match the supplied name keywords, phone number, or patient NRIC.
 
-Format: `find [n/NAME_KEYWORDS] [p/PHONE] [nric/NRIC]`
+Format: `find n/NAME_KEYWORDS` or `find p/PHONE` or `find nric/NRIC`
 
-* At least one of `n/`, `p/`, or `nric/` must be provided.
 * Prefixes are required. `find Alice` is invalid; use `find n/Alice`.
+* Exactly one of `n/`, `p/`, or `nric/` must be provided.
 * Name search is case-insensitive. e.g `n/hans` will match `Hans`
 * The order of the name keywords does not matter. e.g. `n/Hans Bo` will match `Bo Hans`
 * Only full words in the name will be matched e.g. `n/Han` will not match `Hans`
 * Phone search requires an exact match. e.g. `p/9876` will not match `98765432`
 * NRIC search requires an exact valid NRIC and only matches patient entries.
-* If multiple prefixes are provided, a person must match all supplied fields.
+* Commands with multiple search prefixes are invalid.
 
 Examples:
 * `find n/John` returns `john` and `John Doe`
 * `find p/98765432` returns persons with phone number `98765432`
 * `find nric/S1234567D` returns the patient with NRIC `S1234567D`
-* `find n/Nadia p/93456789 nric/S1234567D` returns the patient only if all three fields match<br>
 
   <!-- ![result for 'find alex david'](images/findAlexDavidResult.png) -->
 
@@ -186,6 +185,6 @@ Action | Format, Examples
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Diagnosis** | `diagnosis id/PATIENT_ID desc/DESCRIPTION vd/VISIT_DATE diagnosed/DOCTOR_ID sym/SYMPTOM... med/MEDICATION dose/DOSAGE freq/FREQUENCY dispensed/PHARMACIST_ID`<br> e.g., `diagnosis id/1 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4`
-**Find** | `find [n/NAME_KEYWORDS] [p/PHONE] [nric/NRIC]`<br> e.g., `find n/James Jake p/98765432 nric/S1234567D`
+**Find** | `find n/NAME_KEYWORDS` or `find p/PHONE` or `find nric/NRIC`<br> e.g., `find n/James Jake`
 **List** | `list`
 **Help** | `help`

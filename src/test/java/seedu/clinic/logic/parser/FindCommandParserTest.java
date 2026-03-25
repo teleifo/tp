@@ -65,11 +65,13 @@ public class FindCommandParserTest {
     }
 
     @Test
-    public void parse_validNamePhoneAndNricArgs_returnsFindCommand() {
-        FindCommand expectedFindCommand = new FindCommand(new PersonMatchesFindCriteriaPredicate(
-                Arrays.asList("Alice", "Bob"), Optional.of(new Phone("98765432")),
-                Optional.of(new NRIC("S1234567D"))));
-        assertParseSuccess(parser, " n/Alice Bob p/98765432 nric/S1234567D", expectedFindCommand);
+    public void parse_multiplePrefixes_throwsParseException() {
+        assertParseFailure(parser, " n/Alice p/98765432",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, " n/Alice nric/S1234567D",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, " p/98765432 nric/S1234567D",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
     }
 
     @Test
