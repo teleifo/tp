@@ -2,6 +2,7 @@ package seedu.clinic.model.person;
 
 /**
  * Represents a staff member in the clinic.
+ * Not used
  */
 public abstract class Staff extends ContactPerson {
 
