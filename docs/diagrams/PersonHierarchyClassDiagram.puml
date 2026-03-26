@@ -1,0 +1,17 @@
+@startuml
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor MODEL_COLOR
+skinparam classBackgroundColor MODEL_COLOR
+
+Class Person
+Class ContactPerson
+Class Patient
+Class Doctor
+Class Pharmacist
+
+ContactPerson -up-|> Person
+Patient -up-|> ContactPerson
+Doctor -up-|> Person
+Pharmacist -up-|> Person
+@enduml
