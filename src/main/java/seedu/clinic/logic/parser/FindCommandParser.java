@@ -8,8 +8,10 @@ import static seedu.clinic.logic.parser.CliSyntax.PREFIX_PHONE;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
+import seedu.clinic.commons.core.LogsCenter;
 import seedu.clinic.logic.commands.FindCommand;
 import seedu.clinic.logic.parser.exceptions.ParseException;
 import seedu.clinic.model.person.NRIC;
@@ -21,6 +23,8 @@ import seedu.clinic.model.person.Phone;
  */
 public class FindCommandParser implements Parser<FindCommand> {
 
+    private static final Logger logger = LogsCenter.getLogger(FindCommandParser.class);
+
     /**
      * Parses the given {@code String} of arguments in the context of the FindCommand
      * and returns a FindCommand object for execution.
@@ -29,18 +33,21 @@ public class FindCommandParser implements Parser<FindCommand> {
     public FindCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_NRIC);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_NRIC)
-                || !argMultimap.getPreamble().isEmpty()) {
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_NRIC);
+
+        long presentPrefixCount = countPresentPrefixes(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_NRIC);
+        boolean hasPreamble = !argMultimap.getPreamble().isEmpty();
+        if (presentPrefixCount != 1 || hasPreamble) {
+            logger.info(String.format("Rejected find command: presentPrefixes=%d, hasPreamble=%s",
+                    presentPrefixCount, hasPreamble));
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
-
-        // Ensure each supported prefix appears at most once.
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_NRIC);
 
         List<String> nameKeywords = List.of();
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
             String nameInput = argMultimap.getValue(PREFIX_NAME).get();
             if (nameInput.isBlank()) {
+                logger.info("Rejected find command: empty name value");
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
             }
             nameKeywords = Arrays.asList(nameInput.split("\\s+"));
@@ -60,10 +67,10 @@ public class FindCommandParser implements Parser<FindCommand> {
     }
 
     /**
-     * Returns true if at least one of the prefixes contains a value.
+     * Returns the number of prefixes that contain a value.
      */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).anyMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    private static long countPresentPrefixes(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).filter(prefix -> argumentMultimap.getValue(prefix).isPresent()).count();
     }
 
 }

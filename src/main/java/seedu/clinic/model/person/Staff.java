@@ -1,8 +1,8 @@
 package seedu.clinic.model.person;
 
 /**
- * Represents a Staff member in the clinic.
- * TODO: not used
+ * Represents a staff member in the clinic.
+ * Not used
  */
 public abstract class Staff extends ContactPerson {
 

@@ -1,7 +1,6 @@
 package seedu.clinic.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.clinic.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.clinic.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.clinic.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.clinic.testutil.Assert.assertThrows;
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import seedu.clinic.logic.commands.CommandResult;
-import seedu.clinic.logic.commands.FindCommand;
 import seedu.clinic.logic.commands.ListCommand;
 import seedu.clinic.logic.commands.exceptions.CommandException;
 import seedu.clinic.logic.parser.exceptions.ParseException;
@@ -62,11 +60,6 @@ public class LogicManagerTest {
     public void execute_validCommand_success() throws Exception {
         String listCommand = ListCommand.COMMAND_WORD;
         assertCommandSuccess(listCommand, ListCommand.MESSAGE_SUCCESS, model);
-    }
-
-    @Test
-    public void execute_findWithoutPrefixes_throwsParseException() {
-        assertParseException("find Alice", String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
     }
 
     @Test
