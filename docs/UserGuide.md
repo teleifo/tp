@@ -13,7 +13,9 @@ ClinicBook is a **desktop app for managing clinic records, optimized for use via
 ## Quick start
 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).  
+   **Windows users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationWindows.html).  
+   **Linux users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationLinux.html).
 
 1. Download the latest `.jar` file from [here](https://github.com/AY2526S2-CS2103-T11-3/tp/releases).
 
@@ -169,7 +171,7 @@ Deletes the specified person from the clinic book.
 Format: `delete INDEX`
 
 * Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
+* The index refers to the index number shown in the displayed person list, not the ID.
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
@@ -209,7 +211,7 @@ Format: `exit`
 
 ### Saving the data
 
-ClinicBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+ClinicBook data are saved to the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
@@ -229,7 +231,7 @@ _Details coming soon ..._
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous ClinicBook home folder.
+**A**: Install the app in the other computer and overwrite the empty `clinicbook.json` it creates with the file that contains the data of your previous ClinicBook home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
