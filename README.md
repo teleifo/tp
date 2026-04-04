@@ -4,8 +4,6 @@
 
 # ClinicBook
 
-___
-
 **ClinicBook** is a desktop CLI application with GUI elements designed to help
 clinic staff manage patient information efficiently as part of daily clinic operations.
 
@@ -15,8 +13,6 @@ simplify clinic workflows by providing a lightweight and easy-to-learn system fo
 clinic data efficiently.
 
 ## Installation
-
-___
 
 1. Ensure that **Java 17 or later** is installed on your computer.<br>
    **Mac users:** Make sure you install the exact JDK version specified [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
@@ -28,7 +24,5 @@ ___
 The application's GUI should appear after a few seconds.
 
 ## Acknowledgements
-
-___
 
 This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
