@@ -186,7 +186,6 @@ Format:
 `diagnosis id/PATIENT_ID desc/DESCRIPTION vd/VISIT_DATE diagnosed/DOCTOR_ID sym/SYMPTOM... med/MEDICATION dose/DOSAGE freq/FREQUENCY dispensed/PHARMACIST_ID [med/MEDICATION dose/DOSAGE freq/FREQUENCY dispensed/PHARMACIST_ID]...`
 
 * `id/`, `diagnosed/`, and `dispensed/` use the stable person `ID` shown on each person card, not the displayed row number.
-* `delete` remains index-based. `diagnosis` is ID-based.
 * `id/` must refer to a patient, `diagnosed/` must refer to a doctor, and `dispensed/` must refer to a pharmacist.
 * `vd/` must be in `yyyy-MM-dd` format.
 * `id/`, `desc/`, `vd/`, and `diagnosed/` are required.
