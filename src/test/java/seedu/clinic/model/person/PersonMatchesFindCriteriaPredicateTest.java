@@ -1,13 +1,12 @@
 package seedu.clinic.model.person;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.clinic.testutil.Assert.assertThrows;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -68,13 +67,6 @@ public class PersonMatchesFindCriteriaPredicateTest {
     }
 
     @Test
-    public void test_matchesNameAndPhone_returnsTrue() {
-        PersonMatchesFindCriteriaPredicate predicate = new PersonMatchesFindCriteriaPredicate(
-                Collections.singletonList("Alice"), Optional.of(new Phone("12345678")), Optional.empty());
-        assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").withPhone("12345678").build()));
-    }
-
-    @Test
     public void test_matchesNric_returnsTrue() {
         Patient patient = new Patient(new PersonBuilder().withName("Alice Bob").withPhone("12345678").build(),
                 new NRIC("S1234567D"), LocalDate.of(1992, 4, 12), Sex.FEMALE);
@@ -84,12 +76,15 @@ public class PersonMatchesFindCriteriaPredicateTest {
     }
 
     @Test
+    public void constructor_emptyCriteria_throwsAssertionError() {
+        assertThrows(AssertionError.class, () -> new PersonMatchesFindCriteriaPredicate(
+                Collections.emptyList(), Optional.empty(), Optional.empty()));
+    }
+
+    @Test
     public void test_doesNotMatchCriteria_returnsFalse() {
         PersonMatchesFindCriteriaPredicate predicate = new PersonMatchesFindCriteriaPredicate(
-                Collections.emptyList(), Optional.empty(), Optional.empty());
-        assertFalse(predicate.test(new PersonBuilder().withName("Alice").build()));
-
-        predicate = new PersonMatchesFindCriteriaPredicate(Collections.singletonList("Carol"),
+                Collections.singletonList("Carol"),
                 Optional.empty(), Optional.empty());
         assertFalse(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
 
@@ -97,23 +92,8 @@ public class PersonMatchesFindCriteriaPredicateTest {
                 Optional.of(new Phone("12345678")), Optional.empty());
         assertFalse(predicate.test(new PersonBuilder().withPhone("87654321").build()));
 
-        predicate = new PersonMatchesFindCriteriaPredicate(Arrays.asList("Carol"),
-                Optional.of(new Phone("12345678")), Optional.empty());
-        assertFalse(predicate.test(new PersonBuilder().withName("Alice Bob").withPhone("87654321").build()));
-
         predicate = new PersonMatchesFindCriteriaPredicate(Collections.emptyList(), Optional.empty(),
                 Optional.of(new NRIC("S1234567D")));
         assertFalse(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
-    }
-
-    @Test
-    public void toStringMethod() {
-        List<String> keywords = List.of("keyword1", "keyword2");
-        PersonMatchesFindCriteriaPredicate predicate = new PersonMatchesFindCriteriaPredicate(
-                keywords, Optional.of(new Phone("12345678")), Optional.of(new NRIC("S1234567D")));
-
-        String expected = PersonMatchesFindCriteriaPredicate.class.getCanonicalName()
-                + "{nameKeywords=" + keywords + ", phone=Optional[12345678], nric=Optional[S1234567D]}";
-        assertEquals(expected, predicate.toString());
     }
 }

@@ -31,6 +31,8 @@ public class PersonMatchesFindCriteriaPredicate implements Predicate<Person> {
         this.nameKeywords = List.copyOf(nameKeywords);
         this.phone = phone;
         this.nric = nric;
+        assert !this.nameKeywords.isEmpty() || this.phone.isPresent() || this.nric.isPresent()
+                : "Find predicate must contain at least one search criterion";
     }
 
     @Override

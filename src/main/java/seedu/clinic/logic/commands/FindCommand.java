@@ -23,7 +23,13 @@ public class FindCommand extends Command {
 
     private final PersonMatchesFindCriteriaPredicate predicate;
 
+    /**
+     * Creates a {@code FindCommand} with the given matching predicate.
+     *
+     * @param predicate Predicate used to filter persons.
+     */
     public FindCommand(PersonMatchesFindCriteriaPredicate predicate) {
+        requireNonNull(predicate);
         this.predicate = predicate;
     }
 

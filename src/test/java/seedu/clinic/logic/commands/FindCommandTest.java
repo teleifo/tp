@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.clinic.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
 import static seedu.clinic.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.clinic.testutil.Assert.assertThrows;
 import static seedu.clinic.testutil.TypicalPatients.NADIA_NAME;
 import static seedu.clinic.testutil.TypicalPatients.NADIA_NRIC;
 import static seedu.clinic.testutil.TypicalPatients.createNadia;
@@ -39,6 +40,11 @@ public class FindCommandTest {
         seedu.clinic.model.ClinicBook clinicBook = getTypicalClinicBook();
         clinicBook.addPerson(createNadia());
         return clinicBook;
+    }
+
+    @Test
+    public void constructor_nullPredicate_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new FindCommand(null));
     }
 
     @Test
