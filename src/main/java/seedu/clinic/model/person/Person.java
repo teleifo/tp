@@ -10,6 +10,7 @@ import java.util.Set;
 import seedu.clinic.commons.util.ToStringBuilder;
 import seedu.clinic.model.tag.Tag;
 
+//@@author veonlok
 /**
  * Represents a Person in clinic book.
  * Guarantees: details are present and not null, field values are validated, immutable.
@@ -20,6 +21,7 @@ import seedu.clinic.model.tag.Tag;
  * TODO: Simplify constructor to only require Name
  * TODO: Implement automatic ID formatting using ID_FORMAT
  */
+//@@author veonlok
 public class Person {
 
     // May change to Person
