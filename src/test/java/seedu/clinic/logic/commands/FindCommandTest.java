@@ -76,8 +76,16 @@ public class FindCommandTest {
         assertFalse(findFirstCommand.equals(findSecondCommand));
     }
 
+    /*
+     * Integration outcome partitions:
+     *   - no persons match the supplied criterion
+     *   - name search returns multiple persons
+     *   - phone search returns exactly one person
+     *   - NRIC search returns exactly one patient
+     */
+
     @Test
-    public void execute_noMatches_noPersonFound() {
+    public void execute_noMatchingPersons_returnsEmptyFilteredList() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
         PersonMatchesFindCriteriaPredicate predicate =
                 new PersonMatchesFindCriteriaPredicate(Collections.singletonList("nomatch"),
@@ -89,7 +97,7 @@ public class FindCommandTest {
     }
 
     @Test
-    public void execute_nameKeywords_multiplePersonsFound() {
+    public void execute_nameSearch_returnsMultiplePersons() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
         PersonMatchesFindCriteriaPredicate predicate =
                 new PersonMatchesFindCriteriaPredicate(Arrays.asList("Kurz", "Elle", "Kunz"),
@@ -101,7 +109,7 @@ public class FindCommandTest {
     }
 
     @Test
-    public void execute_phoneNumber_onePersonFound() {
+    public void execute_phoneSearch_returnsOnePerson() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
         PersonMatchesFindCriteriaPredicate predicate =
                 new PersonMatchesFindCriteriaPredicate(Collections.emptyList(),
@@ -113,7 +121,7 @@ public class FindCommandTest {
     }
 
     @Test
-    public void execute_nric_onePatientFound() {
+    public void execute_nricSearch_returnsOnePatient() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
         PersonMatchesFindCriteriaPredicate predicate = new PersonMatchesFindCriteriaPredicate(
                 Collections.emptyList(), Optional.empty(), Optional.of(new NRIC(NADIA_NRIC)));
