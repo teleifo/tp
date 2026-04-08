@@ -110,13 +110,11 @@ public class ModelManager implements Model {
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
         clinicBook.setPerson(target, editedPerson);
-        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
     @Override
     public void addDiagnosis(Patient target, Diagnosis diagnosis) {
         clinicBook.addDiagnosis(target, diagnosis);
-        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
     //=========== Filtered Person List Accessors =============================================================
