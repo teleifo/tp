@@ -28,10 +28,12 @@ public class PersonListPanel extends UiPart<Region> {
         personListView.setCellFactory(listView -> new PersonListViewCell());
     }
 
+    //@@author
     /**
      * Custom {@code ListCell} that displays the graphics of a {@code Person}
      * using a {@code PersonCard}.
      */
+    //@@author
     class PersonListViewCell extends ListCell<Person> {
         @Override
         protected void updateItem(Person person, boolean empty) {
