@@ -15,12 +15,11 @@ import seedu.clinic.model.tag.Tag;
  * Represents a Patient in the clinic.
  * A Patient is a Person who receives medical services.
  *
- * TODO: Reintroduce emergency contact support after temporary model simplification.
- * TODO: Implement allergies management
  */
-public class Patient extends ContactPerson {
+public class Patient extends Person {
     public static final String ROLE = "Patient";
 
+    private final Set<Tag> allergies;
     private final NRIC nric;
     private final LocalDate dateOfBirth;
     private final Sex sex;
@@ -29,53 +28,48 @@ public class Patient extends ContactPerson {
     /**
      * Every field must be present and not null.
      */
-    public Patient(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+    public Patient(Name name, Phone phone, Email email, Address address, Set<Tag> allergies,
             NRIC nric, LocalDate dateOfBirth, Sex sex) {
-        super(name, phone, email, address, tags);
+        super(name, phone, email, address);
         requireAllNonNull(nric, dateOfBirth, sex);
         this.nric = nric;
+        this.allergies = allergies;
         this.dateOfBirth = dateOfBirth;
         this.sex = sex;
     }
 
     /**
-     * Every field must be present and not null.
-     */
-    public Patient(Name name, Phone phone, Email email, Address address, NRIC nric,
-            LocalDate dateOfBirth, Sex sex) {
-        this(name, phone, email, address, Collections.emptySet(), nric, dateOfBirth, sex);
-    }
-
-    /**
      * Constructs a Patient with ID.
      */
-    public Patient(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+    public Patient(Name name, Phone phone, Email email, Address address, Set<Tag> allergies,
             NRIC nric, LocalDate dateOfBirth, Sex sex, int id) {
-        super(name, phone, email, address, tags, id);
+        super(name, phone, email, address, id);
         requireAllNonNull(nric, dateOfBirth, sex);
         this.nric = nric;
+        this.allergies = allergies;
         this.dateOfBirth = dateOfBirth;
         this.sex = sex;
-    }
-
-    /**
-     * Constructs a Patient with ID.
-     */
-    public Patient(Name name, Phone phone, Email email, Address address, NRIC nric,
-            LocalDate dateOfBirth, Sex sex, int id) {
-        this(name, phone, email, address, Collections.emptySet(), nric, dateOfBirth, sex, id);
     }
 
     /**
      * Reuses an existing person as the shared identity and contact details for a patient.
      */
-    public Patient(Person person, NRIC nric, LocalDate dob, Sex sex) {
-        this(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), person.getTags(),
+    public Patient(Person person, Set<Tag> allergies, NRIC nric, LocalDate dob, Sex sex) {
+        this(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), allergies,
             nric, dob, sex, person.getId());
     }
 
+
     public String getRole() {
         return ROLE;
+    }
+
+    /**
+     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public Set<Tag> getAllergies() {
+        return Collections.unmodifiableSet(allergies);
     }
 
     public NRIC getNric() {
@@ -114,6 +108,23 @@ public class Patient extends ContactPerson {
         diagnoses.remove(diagnosis);
     }
 
+    /**
+     * Adds an allergy to the patient's allergy set.
+     */
+    public void addAllergy(Tag allergy) {
+        requireAllNonNull(allergy);
+        allergies.add(allergy);
+    }
+
+    /**
+     * Removes an allergy from the patient's allergy set.
+     */
+    public void removeAllergy(Tag allergy) {
+        requireAllNonNull(allergy);
+        allergies.remove(allergy);
+    }
+
+
     public List<Diagnosis> getDiagnoses() {
         return Collections.unmodifiableList(diagnoses);
     }
@@ -132,11 +143,12 @@ public class Patient extends ContactPerson {
         return super.equals(otherPatient)
                 && nric.equals(otherPatient.nric)
                 && dateOfBirth.equals(otherPatient.dateOfBirth)
+                && allergies.equals(otherPatient.allergies)
                 && sex.equals(otherPatient.sex);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), nric, dateOfBirth, sex);
+        return Objects.hash(super.hashCode(), nric, dateOfBirth, sex, allergies);
     }
 }

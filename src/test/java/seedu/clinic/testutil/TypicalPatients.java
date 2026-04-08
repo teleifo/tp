@@ -1,6 +1,7 @@
 package seedu.clinic.testutil;
 
 import java.time.LocalDate;
+import java.util.Collections;
 
 import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Patient;
@@ -24,7 +25,7 @@ public class TypicalPatients {
      */
     public static Patient createNadia() {
         return new Patient(new PersonBuilder().withName(NADIA_NAME).withPhone(NADIA_PHONE)
-                .withEmail(NADIA_EMAIL).withAddress(NADIA_ADDRESS).withTags("patient").build(),
-            new NRIC(NADIA_NRIC), NADIA_DATE_OF_BIRTH, Sex.FEMALE);
+                .withEmail(NADIA_EMAIL).withAddress(NADIA_ADDRESS).build(),
+            Collections.emptySet(), new NRIC(NADIA_NRIC), NADIA_DATE_OF_BIRTH, Sex.FEMALE);
     }
 }

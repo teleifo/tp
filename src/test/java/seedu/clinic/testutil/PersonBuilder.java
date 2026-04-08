@@ -1,15 +1,10 @@
 package seedu.clinic.testutil;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import seedu.clinic.model.person.Address;
 import seedu.clinic.model.person.Email;
 import seedu.clinic.model.person.Name;
 import seedu.clinic.model.person.Person;
 import seedu.clinic.model.person.Phone;
-import seedu.clinic.model.tag.Tag;
-import seedu.clinic.model.util.SampleDataUtil;
 
 /**
  * A utility class to help with building Person objects.
@@ -27,7 +22,6 @@ public class PersonBuilder {
     private Phone phone;
     private Email email;
     private Address address;
-    private Set<Tag> tags;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -38,7 +32,6 @@ public class PersonBuilder {
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
-        tags = new HashSet<>();
     }
 
     /**
@@ -50,7 +43,6 @@ public class PersonBuilder {
         phone = personToCopy.getPhone();
         email = personToCopy.getEmail();
         address = personToCopy.getAddress();
-        tags = new HashSet<>(personToCopy.getTags());
     }
 
     /**
@@ -66,14 +58,6 @@ public class PersonBuilder {
      */
     public PersonBuilder withId(int id) {
         this.id = id;
-        return this;
-    }
-
-    /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Person} that we are building.
-     */
-    public PersonBuilder withTags(String ... tags) {
-        this.tags = SampleDataUtil.getTagSet(tags);
         return this;
     }
 
@@ -102,7 +86,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(name, phone, email, address, tags, id);
+        return new Person(name, phone, email, address, id);
     }
 
 }

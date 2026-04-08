@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.clinic.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
-import static seedu.clinic.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.clinic.testutil.Assert.assertThrows;
 import static seedu.clinic.testutil.TypicalPatients.NADIA_NRIC;
 import static seedu.clinic.testutil.TypicalPatients.createNadia;
@@ -59,7 +58,7 @@ public class ClinicBookTest {
 
     @Test
     public void resetData_withDuplicatePersons_throwsDuplicatePersonException() {
-        Person editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
+        Person editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB)
                 .build();
         List<Person> newPersons = Arrays.asList(ALICE, editedAlice);
         ClinicBookStub newData = new ClinicBookStub(newPersons);
@@ -86,7 +85,7 @@ public class ClinicBookTest {
     @Test
     public void hasPerson_personWithSameIdentityFieldsInClinicBook_returnsTrue() {
         clinicBook.addPerson(ALICE);
-        Person editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
+        Person editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB)
                 .build();
         assertTrue(clinicBook.hasPerson(editedAlice));
     }
@@ -108,6 +107,7 @@ public class ClinicBookTest {
                 new Phone("91234567"),
                 new Email("patient@example.com"),
                 new Address("1 Street"),
+                null,
                 new NRIC("S1166846A"),
                 LocalDate.of(2000, 1, 1),
                 Sex.FEMALE);

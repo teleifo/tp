@@ -8,6 +8,7 @@ import static seedu.clinic.testutil.Assert.assertThrows;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +27,7 @@ public class JsonAdaptedPatientTest {
     private static final String VALID_PHONE = "94351253";
     private static final String VALID_EMAIL = "alice@example.com";
     private static final String VALID_ADDRESS = "123, Jurong West Ave 6, #08-111";
-    private static final List<JsonAdaptedTag> VALID_TAGS = List.of(new JsonAdaptedTag("friends"));
+    private static final List<JsonAdaptedTag> VALID_ALLERGIES = List.of(new JsonAdaptedTag("shellfish"));
     private static final String VALID_NRIC = "S1166846A";
     private static final String VALID_DATE_OF_BIRTH = "2000-01-02";
     private static final String VALID_SEX = Sex.FEMALE.name();
@@ -42,7 +43,7 @@ public class JsonAdaptedPatientTest {
                 VALID_PHONE,
                 VALID_EMAIL,
                 VALID_ADDRESS,
-                VALID_TAGS,
+                VALID_ALLERGIES,
                 VALID_NRIC,
                 VALID_DATE_OF_BIRTH,
                 VALID_SEX,
@@ -54,7 +55,6 @@ public class JsonAdaptedPatientTest {
         assertEquals(VALID_PHONE, modelPatient.getPhone().value);
         assertEquals(VALID_EMAIL, modelPatient.getEmail().value);
         assertEquals(VALID_ADDRESS, modelPatient.getAddress().value);
-        assertTrue(modelPatient.getTags().contains(new Tag("friends")));
         assertEquals(VALID_NRIC, modelPatient.getNric().value);
         assertEquals(LocalDate.parse(VALID_DATE_OF_BIRTH), modelPatient.getDateOfBirth());
         assertEquals(Sex.FEMALE, modelPatient.getSex());
@@ -72,7 +72,7 @@ public class JsonAdaptedPatientTest {
                 VALID_PHONE,
                 VALID_EMAIL,
                 VALID_ADDRESS,
-                VALID_TAGS,
+                VALID_ALLERGIES,
                 "INVALID",
                 VALID_DATE_OF_BIRTH,
                 VALID_SEX,
@@ -88,7 +88,7 @@ public class JsonAdaptedPatientTest {
                 VALID_PHONE,
                 VALID_EMAIL,
                 VALID_ADDRESS,
-                VALID_TAGS,
+                VALID_ALLERGIES,
                 null,
                 VALID_DATE_OF_BIRTH,
                 VALID_SEX,
@@ -105,7 +105,7 @@ public class JsonAdaptedPatientTest {
                 VALID_PHONE,
                 VALID_EMAIL,
                 VALID_ADDRESS,
-                VALID_TAGS,
+                VALID_ALLERGIES,
                 VALID_NRIC,
                 VALID_DATE_OF_BIRTH,
                 "  ",
@@ -122,7 +122,7 @@ public class JsonAdaptedPatientTest {
                 VALID_PHONE,
                 VALID_EMAIL,
                 VALID_ADDRESS,
-                VALID_TAGS,
+                VALID_ALLERGIES,
                 VALID_NRIC,
                 VALID_DATE_OF_BIRTH,
                 null,
@@ -139,7 +139,7 @@ public class JsonAdaptedPatientTest {
                 VALID_PHONE,
                 VALID_EMAIL,
                 VALID_ADDRESS,
-                VALID_TAGS,
+                VALID_ALLERGIES,
                 VALID_NRIC,
                 VALID_DATE_OF_BIRTH,
                 "unknown",
@@ -155,7 +155,7 @@ public class JsonAdaptedPatientTest {
                 VALID_PHONE,
                 VALID_EMAIL,
                 VALID_ADDRESS,
-                VALID_TAGS,
+                VALID_ALLERGIES,
                 VALID_NRIC,
                 VALID_DATE_OF_BIRTH,
                 "female",
@@ -172,7 +172,7 @@ public class JsonAdaptedPatientTest {
                 VALID_PHONE,
                 VALID_EMAIL,
                 VALID_ADDRESS,
-                VALID_TAGS,
+                VALID_ALLERGIES,
                 VALID_NRIC,
                 null,
                 VALID_SEX,
@@ -189,7 +189,7 @@ public class JsonAdaptedPatientTest {
                 VALID_PHONE,
                 VALID_EMAIL,
                 VALID_ADDRESS,
-                VALID_TAGS,
+                VALID_ALLERGIES,
                 VALID_NRIC,
                 "2000-13-40",
                 VALID_SEX,
@@ -205,7 +205,7 @@ public class JsonAdaptedPatientTest {
                 VALID_PHONE,
                 VALID_EMAIL,
                 VALID_ADDRESS,
-                VALID_TAGS,
+                VALID_ALLERGIES,
                 VALID_NRIC,
                 VALID_DATE_OF_BIRTH,
                 VALID_SEX,
@@ -222,7 +222,7 @@ public class JsonAdaptedPatientTest {
                 VALID_PHONE,
                 VALID_EMAIL,
                 VALID_ADDRESS,
-                VALID_TAGS,
+                VALID_ALLERGIES,
                 VALID_NRIC,
                 VALID_DATE_OF_BIRTH,
                 "  inTerSex  ",
@@ -245,7 +245,7 @@ public class JsonAdaptedPatientTest {
                 VALID_PHONE,
                 VALID_EMAIL,
                 VALID_ADDRESS,
-                VALID_TAGS,
+                VALID_ALLERGIES,
                 VALID_NRIC,
                 VALID_DATE_OF_BIRTH,
                 VALID_SEX,
@@ -255,7 +255,7 @@ public class JsonAdaptedPatientTest {
     }
 
     @Test
-    public void toModelType_nullTags_successWithEmptyTags() throws Exception {
+    public void toModelType_nullAllergies_successWithEmptyTags() throws Exception {
         JsonAdaptedPatient patient = new JsonAdaptedPatient(
                 VALID_ID,
                 VALID_NAME,
@@ -268,7 +268,7 @@ public class JsonAdaptedPatientTest {
                 VALID_SEX,
                 List.of());
         Patient modelPatient = patient.toModelType();
-        assertTrue(modelPatient.getTags().isEmpty());
+        assertTrue(modelPatient.getAllergies().isEmpty());
     }
 
     @Test
@@ -279,9 +279,9 @@ public class JsonAdaptedPatientTest {
                 .withPhone(VALID_PHONE)
                 .withEmail(VALID_EMAIL)
                 .withAddress(VALID_ADDRESS)
-                .withTags("friends")
                 .build();
         Patient source = new Patient(person,
+                Set.of(new Tag("shellfish")),
                 new NRIC(VALID_NRIC),
                 LocalDate.parse(VALID_DATE_OF_BIRTH),
                 Sex.INTERSEX);
@@ -307,7 +307,7 @@ public class JsonAdaptedPatientTest {
                 VALID_PHONE,
                 VALID_EMAIL,
                 VALID_ADDRESS,
-                VALID_TAGS,
+                VALID_ALLERGIES,
                 VALID_NRIC,
                 VALID_DATE_OF_BIRTH,
                 VALID_SEX,

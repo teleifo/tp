@@ -111,7 +111,6 @@ public class GetHistoryCommandTest {
                 new Phone("93456789"),
                 new Email("carl@example.com"),
                 new Address("789 Yishun Ave"),
-                Set.of(),
                 9));
 
         return new ModelManager(clinicBook, new UserPrefs());

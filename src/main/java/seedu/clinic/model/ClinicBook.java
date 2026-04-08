@@ -123,7 +123,7 @@ public class ClinicBook implements ReadOnlyClinicBook {
             target.getPhone(),
             target.getEmail(),
             target.getAddress(),
-            target.getTags(),
+            target.getAllergies(),
             target.getNric(),
             target.getDateOfBirth(),
             target.getSex(),

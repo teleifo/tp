@@ -9,6 +9,7 @@ import static seedu.clinic.testutil.Assert.assertThrows;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -86,7 +87,7 @@ public class AddPatientCommandTest {
                 .withId(0)
                 .withName(name)
                 .build();
-        return new Patient(person, new NRIC(nric), LocalDate.of(1990, 1, 1), Sex.FEMALE);
+        return new Patient(person, Collections.emptySet(), new NRIC(nric), LocalDate.of(1990, 1, 1), Sex.FEMALE);
     }
 
     /**
