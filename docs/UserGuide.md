@@ -36,6 +36,8 @@ ClinicBook is a **desktop app for managing clinic records, optimized for use via
 
    * `get-history nric/S1234567D` : Retrieves the medical history for the matching patient.
 
+   * `ordertest id/1 test/Blood Test testtype/LAB vd/2026-04-08 ordered/2` : Orders a lab test for patient with ID 1, ordered by doctor with ID 2.
+
    * `delete 3` : Deletes the 3rd record shown in the current list.
 
    * `clear` : Deletes all records.
@@ -159,7 +161,7 @@ Format:
 
 * Only `nric/` is accepted by this command.
 * `nric/` must be a valid NRIC and is matched exactly against patient records.
-* The result includes the patient's details followed by recorded diagnoses and prescriptions, if any.
+* The result includes the patient's details followed by recorded diagnoses, prescriptions, and any ordered lab or imaging tests.
 
 Example:
 `get-history nric/S1234567D`
@@ -195,6 +197,32 @@ Format:
 
 Example:
 `diagnosis id/1 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever sym/cough med/Paracetamol dose/500mg freq/3 times daily dispensed/4`
+
+### Ordering a lab or imaging test : `ordertest`
+
+Orders a lab or imaging test for a patient, referencing the ordering doctor by stable person `ID`.
+
+Format:
+`ordertest id/PATIENT_ID test/TEST_NAME testtype/TEST_TYPE vd/ORDER_DATE ordered/DOCTOR_ID`
+
+* `id/` must refer to a patient's stable person `ID`.
+* `ordered/` must refer to a doctor's stable person `ID`.
+* `test/` is the name of the test (e.g. `Complete Blood Count`, `Chest X-Ray`).
+* `testtype/` must be either `LAB` or `IMAGING` (case-insensitive).
+* `vd/` is the date the order is placed, in `yyyy-MM-dd` format.
+* Both the patient and doctor must already exist in the clinic book.
+
+Example:
+`ordertest id/1 test/Complete Blood Count testtype/LAB vd/2026-04-08 ordered/2`
+
+`ordertest id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/2`
+
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Viewing ordered tests:**
+Ordered tests are saved to the patient's record and can be viewed using `get-history nric/NRIC`.
+
+</div>
 
 ### Clearing all entries : `clear`
 
