@@ -128,7 +128,7 @@ public class PersonMatchesFindCriteriaPredicateTest {
     @Test
     public void test_nricCriteriaDoesNotMatchPatient_returnsFalse() {
         Patient patient = new Patient(new PersonBuilder().withName("Alice Bob").withPhone("12345678").build(),
-                new NRIC("T1234567J"), LocalDate.of(1992, 4, 12), Sex.FEMALE);
+                Collections.emptySet(), new NRIC("T1234567J"), LocalDate.of(1992, 4, 12), Sex.FEMALE);
         PersonMatchesFindCriteriaPredicate predicate = new PersonMatchesFindCriteriaPredicate(Collections.emptyList(),
                 Optional.empty(), Optional.of(new NRIC("S1234567D")));
         assertFalse(predicate.test(patient));
