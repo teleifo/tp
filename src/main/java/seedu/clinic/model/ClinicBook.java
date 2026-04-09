@@ -11,10 +11,12 @@ import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
 import seedu.clinic.model.person.UniquePersonList;
 
+//@@author
 /**
  * Wraps all data at the clinicbook level.
  * Duplicates are not allowed (by .isSamePerson comparison).
  */
+//@@author
 public class ClinicBook implements ReadOnlyClinicBook {
 
     private final UniquePersonList<Person> persons;

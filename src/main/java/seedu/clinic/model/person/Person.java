@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import seedu.clinic.commons.util.ToStringBuilder;
 
+//@@author veonlok
 /**
  * Represents a Person in clinic book.
  * Guarantees: details are present and not null, field values are validated, immutable.
@@ -13,6 +14,7 @@ import seedu.clinic.commons.util.ToStringBuilder;
  * TODO: Remove Address field and move to Patient subclass
  * TODO: Implement automatic ID formatting using ID_FORMAT
  */
+//@@author veonlok
 public class Person {
 
     // May change to Person
