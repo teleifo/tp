@@ -29,6 +29,14 @@ public class ResultDisplay extends UiPart<Region> {
         super(FXML);
         resultDisplay.setWrapText(true);
         resultDisplay.setMinHeight(MIN_HEIGHT);
+        resultDisplay.setPrefHeight(MIN_HEIGHT);
+        resultDisplay.setMaxHeight(MIN_HEIGHT);
+        resultDisplay.setPrefRowCount(3);
+
+        StackPane root = (StackPane) getRoot();
+        root.setMinHeight(MIN_HEIGHT);
+        root.setPrefHeight(MIN_HEIGHT);
+        root.setMaxHeight(MIN_HEIGHT);
     }
 
     public void setFeedbackToUser(String feedbackToUser) {
