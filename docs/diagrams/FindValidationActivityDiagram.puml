@@ -1,0 +1,54 @@
+@startuml
+skin rose
+skinparam ActivityFontSize 15
+skinparam ArrowFontSize 12
+
+start
+:Tokenize arguments using
+`n/`, `p/`, and `nric/`;
+
+if (duplicate search prefix?) then (yes)
+  :Reject with duplicate-prefix error;
+  stop
+endif
+
+if (exactly one search prefix
+and no preamble?) then (yes)
+else (no)
+  :Reject with invalid
+  command format;
+  stop
+endif
+
+if (selected prefix is `n/`?) then (yes)
+  if (name value blank?) then (yes)
+    :Reject with invalid
+    command format;
+    stop
+  else (no)
+    :Split value into
+    name keywords;
+  endif
+else (no)
+  if (selected prefix is `p/`?) then (yes)
+    :Parse phone value;
+    if (phone invalid?) then (yes)
+      :Reject with phone
+      format error;
+      stop
+    endif
+  else (`nric/`)
+    :Parse NRIC value;
+    if (NRIC invalid?) then (yes)
+      :Reject with NRIC
+      format error;
+      stop
+    endif
+  endif
+endif
+
+:Create matching
+predicate;
+:Create FindCommand;
+stop
+@enduml

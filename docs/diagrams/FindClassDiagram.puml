@@ -1,0 +1,41 @@
+@startuml
+!include style.puml
+show members
+hide empty members
+skinparam arrowThickness 1.1
+skinparam arrowColor #4D4D4D
+skinparam classAttributeIconSize 0
+skinparam class {
+    BackgroundColor<<Logic>> LOGIC_COLOR
+    BackgroundColor<<Model>> MODEL_COLOR
+}
+
+package Logic {
+Class "{abstract}\nCommand" as Command <<Logic>>
+Class FindCommand <<Logic>>
+}
+
+package Model {
+Class "<<interface>>\nModel" as Model <<Model>>
+Class ModelManager <<Model>>
+Class "PersonMatchesFindCriteriaPredicate" as Predicate <<Model>> {
+    nameKeywords
+    phone
+    nric
+}
+Class "FilteredList<Person>" as FilteredList <<Model>>
+Class Person <<Model>>
+Class Patient <<Model>>
+}
+
+FindCommand --|> Command
+FindCommand *--> "1" Predicate : predicate
+
+FindCommand ..> Model : updateFilteredPersonList(...)
+ModelManager ..|> Model
+ModelManager *--> "1" FilteredList : maintains
+
+Predicate ..> Person
+Predicate ..> Patient : NRIC search applies only\nto Patient
+Patient --|> Person
+@enduml

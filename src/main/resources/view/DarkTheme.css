@@ -285,9 +285,17 @@
     -fx-background-color: derive(#1d1d1d, 20%);
 }
 
+.scroll-bar:vertical {
+    -fx-pref-width: 15;
+}
+
+.scroll-bar:horizontal {
+    -fx-pref-height: 15;
+}
+
 .scroll-bar .thumb {
     -fx-background-color: derive(#1d1d1d, 50%);
-    -fx-background-insets: 3;
+    -fx-background-insets: 2;
 }
 
 .scroll-bar .increment-button, .scroll-bar .decrement-button {
