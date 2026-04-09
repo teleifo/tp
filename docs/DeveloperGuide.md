@@ -95,7 +95,7 @@ Here's a (partial) class diagram of the `Logic` component:
 
 The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API call as an example.
 
-![Interactions Inside the Logic Component for the delete 1</code> Command](images/DeleteSequenceDiagram.png)
+![Interactions Inside the Logic Component for the delete 1</code></code> Command](images/DeleteSequenceDiagram.png)
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
 </div>
@@ -129,8 +129,6 @@ The `Model` component,
 * stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
-
-
 
 The class diagram below focuses on the `Person` inheritance hierarchy used by the model.
 
@@ -288,9 +286,7 @@ Clinic staff who manage patient and vendor information as part of daily clinic o
 - Reduced human error (illegible handwriting, duplicate entries, etc.)
 - Easy to learn and use, designed for staff with basic computer skills
 - Lightweight and cost effective (minimal resources and no complex setup)
-- Speed up patient registration during busy hours
 - Improve data consistency across patient and vendor records
-- Decrease dependency on individual staff memory
 - Support quicker onboarding of new staff
 
 ### User stories
@@ -469,7 +465,6 @@ Use case ends.
   *a2. System Administrator confirms
   Use case ends.
 
-
 **Use case: UC5 - Search for Patient by Name, NRIC, or Phone Number**
 
 **Actor:** Registration Staff
@@ -490,23 +485,23 @@ Use case ends.
 **Extensions**
 
 * 3a. Registration Staff enters an empty search keyword.
+
   * 3a1. ClinicBook shows an error message.
   * 3a2. Registration Staff enters a valid search keyword.
   * Use case resumes at step 4.
-
 * 4a. The search keyword is not in a valid name, NRIC, or phone number format.
+
   * 4a1. ClinicBook shows an error message.
   * 4a2. Registration Staff enters a valid search keyword.
   * Use case resumes at step 4.
-
 * 5a. No patient records match the search keyword.
+
   * 5a1. ClinicBook informs Registration Staff that no matching records were found.
   * Use case ends.
-
 * *a. At any time, Registration Staff chooses to cancel the search.
+
   * *a1. ClinicBook cancels the search request.
   * Use case ends.
-
 
 **Use case: UC6 - Register a New Pharmacist**
 
@@ -528,24 +523,25 @@ Use case ends.
 **Extensions**
 
 * 3a. At least one of the fields (name, NRIC, contact number) are empty.
+
   * 3a1. ClinicBook shows an error message indicating the missing fields.
   * 3a2. System Administrator enters the missing information.
-  Steps 3a1–3a2 are repeated until all compulsory fields are provided.
-  Use case resumes at step 4.
-
+    Steps 3a1–3a2 are repeated until all compulsory fields are provided.
+    Use case resumes at step 4.
 * 3b. ClinicBook detects a duplicate pharmacist record with the same NRIC.
-  * 3b1. ClinicBook shows the potential duplicate record.
-  Use case ends.
 
+  * 3b1. ClinicBook shows the potential duplicate record.
+    Use case ends.
 * 3c. System Administrator enters invalid input.
+
   * 3c1. ClinicBook shows an error message indicating the correct input format.
   * 3c2. System Administrator re-enters the particulars.
-  Use case resumes at step 4.
-
+    Use case resumes at step 4.
 * *a. At any time, System Administrator chooses to cancel the registration.
+
   * *a1. ClinicBook requests confirmation for cancellation.
   * *a2. System Administrator confirms.
-  Use case ends.
+    Use case ends.
 
 **Use case: UC7 - Add Remark to Existing Patient**
 
@@ -881,12 +877,12 @@ Use case ends.
 
 ### Non-Functional Requirements
 
-1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4.  All operations should complete within 2 seconds
-5.  The system supports only one user accessing the data at a time.
-6.  Data should persist unless the user deletes the data file.
+1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
+2. Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+4. All operations should complete within 2 seconds
+5. The system supports only one user accessing the data at a time.
+6. Data should persist unless the user deletes the data file.
 7. The system should be able to recover gracefully from unexpected shutdowns without data loss for committed transactions.
 8. The application should handle invalid or malformed data files without crashing and provide appropriate error messages.
 9. The system should enforce role-based access control so that users can only perform actions permitted by their assigned roles (e.g., only System Administrators can register pharmacists).
@@ -894,7 +890,6 @@ Use case ends.
 11. The system should record auditable metadata (e.g., user role and timestamp) for high-risk actions such as prescription updates, dispensing, and patient record purge.
 12. The system should prevent duplicate patient registration by requiring a pre-registration search check by name, NRIC, or phone number.
 13. The system should complete patient search operations within 2 seconds for datasets up to 1000 records under typical clinic usage.
-
 
 ### Glossary
 
