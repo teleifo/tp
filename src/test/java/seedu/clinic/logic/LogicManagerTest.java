@@ -14,7 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import seedu.clinic.logic.commands.AddDoctorCommand;
 import seedu.clinic.logic.commands.AddPersonWithDuplicateWarningCommand;
 import seedu.clinic.logic.commands.CommandResult;
 import seedu.clinic.logic.commands.ListCommand;
