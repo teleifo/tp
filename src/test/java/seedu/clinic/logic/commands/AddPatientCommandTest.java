@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,7 @@ import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
 import seedu.clinic.model.person.Sex;
+import seedu.clinic.model.tag.Tag;
 import seedu.clinic.testutil.PersonBuilder;
 
 public class AddPatientCommandTest {
@@ -178,7 +180,7 @@ public class AddPatientCommandTest {
                 .withPhone("81234567")
                 .withEmail(email)
                 .build();
-        return new Patient(person, new NRIC(nric), LocalDate.of(1990, 1, 1), Sex.FEMALE);
+        return new Patient(person, Set.of(new Tag("shellfish")), new NRIC(nric), LocalDate.of(1990, 1, 1), Sex.FEMALE);
     }
 
     /**
