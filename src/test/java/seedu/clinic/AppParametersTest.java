@@ -42,7 +42,7 @@ public class AppParametersTest {
     @Test
     public void toStringMethod() {
         AppParameters appParameters = new AppParameters();
-        String expected = AppParameters.class.getCanonicalName() + "{configPath=" + appParameters.getConfigPath() + "}";
+        String expected = AppParameters.class.getSimpleName() + "{configPath=" + appParameters.getConfigPath() + "}";
         assertEquals(expected, appParameters.toString());
     }
 

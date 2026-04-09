@@ -23,7 +23,7 @@ import seedu.clinic.model.person.Phone;
 import seedu.clinic.model.tag.Tag;
 
 public class ParserUtilTest {
-    private static final String INVALID_NAME = "R@chel";
+    private static final String INVALID_NAME = "   ";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
@@ -83,6 +83,13 @@ public class ParserUtilTest {
     public void parseName_validValueWithoutWhitespace_returnsName() throws Exception {
         Name expectedName = new Name(VALID_NAME);
         assertEquals(expectedName, ParserUtil.parseName(VALID_NAME));
+    }
+
+    @Test
+    public void parseName_validValueWithSpecialCharacters_returnsName() throws Exception {
+        String specialCharacterName = "O'Connor, Jean-Luc";
+        Name expectedName = new Name(specialCharacterName);
+        assertEquals(expectedName, ParserUtil.parseName(specialCharacterName));
     }
 
     @Test
