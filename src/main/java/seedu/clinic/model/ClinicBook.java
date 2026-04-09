@@ -131,6 +131,7 @@ public class ClinicBook implements ReadOnlyClinicBook {
             target.getId());
 
         target.getDiagnoses().forEach(editedPatient::addDiagnosis);
+        target.getLabTests().forEach(editedPatient::addLabTest);
         editedPatient.addDiagnosis(diagnosis);
 
         setPerson(target, editedPatient);

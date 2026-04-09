@@ -123,7 +123,6 @@ public class ModelManager implements Model {
     @Override
     public void addLabTest(Patient target, LabTest labTest) {
         clinicBook.addLabTest(target, labTest);
-        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
     //=========== Filtered Person List Accessors =============================================================
