@@ -131,7 +131,7 @@ public class FindCommandTest {
         PersonMatchesFindCriteriaPredicate predicate = new PersonMatchesFindCriteriaPredicate(
                 Arrays.asList("keyword"), Optional.empty(), Optional.empty());
         FindCommand findCommand = new FindCommand(predicate);
-        String expected = FindCommand.class.getCanonicalName() + "{predicate=" + predicate + "}";
+        String expected = FindCommand.class.getSimpleName() + "{predicate=" + predicate + "}";
         assertEquals(expected, findCommand.toString());
     }
 }

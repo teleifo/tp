@@ -65,12 +65,11 @@ public class Pharmacist extends Person {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder("Pharmacist")
                 .add("name", getName())
                 .add("id", getId())
                 .add("phone", getPhone())
                 .add("email", getEmail())
-                .add("address", getAddress())
                 .toString();
     }
 }

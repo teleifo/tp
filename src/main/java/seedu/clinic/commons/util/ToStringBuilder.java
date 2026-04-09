@@ -21,10 +21,10 @@ public class ToStringBuilder {
 
     /**
      * Constructs a {@code ToStringBuilder} whose formatted output will be prefixed with the
-     * canonical class name of {@code object}.
+     * simple class name of {@code object}.
      */
     public ToStringBuilder(Object object) {
-        this(object.getClass().getCanonicalName());
+        this(object.getClass().getSimpleName());
     }
 
     /**
