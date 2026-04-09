@@ -20,6 +20,7 @@ import seedu.clinic.logic.commands.FindCommand;
 import seedu.clinic.logic.commands.GetHistoryCommand;
 import seedu.clinic.logic.commands.HelpCommand;
 import seedu.clinic.logic.commands.ListCommand;
+import seedu.clinic.logic.commands.OrderTestCommand;
 import seedu.clinic.logic.parser.exceptions.ParseException;
 
 /**
@@ -87,6 +88,9 @@ public class ClinicBookParser {
 
         case AddDiagnosisCommand.COMMAND_WORD:
             return new AddDiagnosisCommandParser().parse(arguments);
+
+        case OrderTestCommand.COMMAND_WORD:
+            return new OrderTestCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);

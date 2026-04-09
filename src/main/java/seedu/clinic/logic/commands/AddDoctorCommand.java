@@ -1,19 +1,16 @@
 package seedu.clinic.logic.commands;
 
-import static java.util.Objects.requireNonNull;
 import static seedu.clinic.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.clinic.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.clinic.logic.parser.CliSyntax.PREFIX_PHONE;
 
 import seedu.clinic.commons.util.ToStringBuilder;
-import seedu.clinic.logic.commands.exceptions.CommandException;
-import seedu.clinic.model.Model;
 import seedu.clinic.model.person.Doctor;
 
 /**
  * Adds a doctor to the clinic book.
  */
-public class AddDoctorCommand extends Command {
+public class AddDoctorCommand extends AddPersonWithDuplicateWarningCommand<Doctor> {
 
     public static final String COMMAND_WORD = "add-doc";
 
@@ -29,7 +26,7 @@ public class AddDoctorCommand extends Command {
             + PREFIX_EMAIL + "johnd@example.com ";
 
     public static final String MESSAGE_SUCCESS = "New doctor added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This doctor already exists in the clinicbook";
+
 
     private final Doctor toAdd;
 
@@ -37,20 +34,23 @@ public class AddDoctorCommand extends Command {
      * Creates an AddDoctorCommand to add the specified {@code Doctor}
      */
     public AddDoctorCommand(Doctor doctor) {
-        requireNonNull(doctor);
+        super(doctor);
         toAdd = doctor;
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
-        requireNonNull(model);
+    protected Class<Doctor> getPersonType() {
+        return Doctor.class;
+    }
 
-        if (model.hasPerson(toAdd)) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
-        }
+    @Override
+    protected String getPersonLabel() {
+        return "doctor";
+    }
 
-        model.addPerson(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+    @Override
+    protected String getSuccessMessage() {
+        return MESSAGE_SUCCESS;
     }
 
     @Override

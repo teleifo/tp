@@ -68,8 +68,11 @@ public class PersonCard extends UiPart<Region> {
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
         role.setText(person.getRole());
-        person.getTags().stream()
+
+        if (person instanceof Patient patient) {
+            patient.getAllergies().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+        }
     }
 }

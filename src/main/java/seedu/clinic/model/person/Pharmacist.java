@@ -6,12 +6,11 @@ import seedu.clinic.commons.util.ToStringBuilder;
  * Represents a Pharmacist in the clinic.
  * A Pharmacist is a Person who dispenses and manages prescriptions.
  *
- * TODO: Make Pharmacist extend Staff instead of Person once Staff hierarchy is implemented
  * TODO: Implement prescription dispensing logic
  * TODO: Implement prescription management logic
  * TODO: Add patient history retrieval functionality
  */
-public class Pharmacist extends Staff {
+public class Pharmacist extends Person {
 
     public static final String ROLE = "Pharmacist";
 
@@ -30,6 +29,7 @@ public class Pharmacist extends Staff {
         super(name, phone, email, id);
     }
 
+    @Override
     public String getRole() {
         return ROLE;
     }
@@ -71,7 +71,6 @@ public class Pharmacist extends Staff {
                 .add("phone", getPhone())
                 .add("email", getEmail())
                 .add("address", getAddress())
-                .add("tags", getTags())
                 .toString();
     }
 }

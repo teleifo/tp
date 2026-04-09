@@ -74,9 +74,8 @@ public class AddPatientCommandParser implements Parser<AddPatientCommand> {
         List<String> allergyValues = argMultimap.getAllValues(PREFIX_ALLERGIES);
         Set<Tag> allergies = ParserUtil.parseTags(allergyValues);
 
-        Person person = new Person(name, phone, email, address, allergies);
-        // TODO: Reintroduce emergency contact parsing when Patient model supports it again.
-        Patient patient = new Patient(person, nric, dob, sex);
+        Person person = new Person(name, phone, email, address);
+        Patient patient = new Patient(person, allergies, nric, dob, sex);
         return new AddPatientCommand(patient);
     }
 

@@ -1,6 +1,7 @@
 package seedu.clinic.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.clinic.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.clinic.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.clinic.testutil.Assert.assertThrows;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import seedu.clinic.logic.commands.AddPersonWithDuplicateWarningCommand;
 import seedu.clinic.logic.commands.CommandResult;
 import seedu.clinic.logic.commands.ListCommand;
 import seedu.clinic.logic.commands.exceptions.CommandException;
@@ -24,6 +26,8 @@ import seedu.clinic.model.UserPrefs;
 import seedu.clinic.storage.JsonClinicBookStorage;
 import seedu.clinic.storage.JsonUserPrefsStorage;
 import seedu.clinic.storage.StorageManager;
+import seedu.clinic.testutil.DoctorBuilder;
+
 
 public class LogicManagerTest {
     private static final IOException DUMMY_IO_EXCEPTION = new IOException("dummy IO exception");
@@ -60,6 +64,21 @@ public class LogicManagerTest {
     public void execute_validCommand_success() throws Exception {
         String listCommand = ListCommand.COMMAND_WORD;
         assertCommandSuccess(listCommand, ListCommand.MESSAGE_SUCCESS, model);
+    }
+
+    @Test
+    public void executeConfirmationRequired_reexecuteSameCommandConfirmsAndAdds() throws Exception {
+        model.addPerson(new DoctorBuilder().build());
+        String addDoctorCommand = "add-doc n/Dr Bob Tan p/85355255 e/bob@example.com";
+
+        CommandResult warningResult = logic.execute(addDoctorCommand);
+        assertEquals(String.format(AddPersonWithDuplicateWarningCommand.MESSAGE_DUPLICATE_WARNING,
+                "doctor", "phone number"), warningResult.getFeedbackToUser());
+        assertEquals(1, model.getFilteredPersonList().size());
+
+        CommandResult successResult = logic.execute(addDoctorCommand);
+        assertTrue(successResult.getFeedbackToUser().startsWith("New doctor added: "));
+        assertEquals(2, model.getClinicBook().getPersonList().size());
     }
 
     @Test

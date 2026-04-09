@@ -1,6 +1,5 @@
 package seedu.clinic.logic.commands;
 
-import static java.util.Objects.requireNonNull;
 import static seedu.clinic.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.clinic.logic.parser.CliSyntax.PREFIX_ALLERGIES;
 import static seedu.clinic.logic.parser.CliSyntax.PREFIX_DOB;
@@ -18,7 +17,7 @@ import seedu.clinic.model.person.Patient;
 /**
  * Adds a patient to clinic book.
  */
-public class AddPatientCommand extends Command {
+public class AddPatientCommand extends AddPersonWithDuplicateWarningCommand<Patient> {
 
     public static final String COMMAND_WORD = "add-patient";
     public static final String MESSAGE_USAGE = COMMAND_WORD
@@ -51,14 +50,12 @@ public class AddPatientCommand extends Command {
      * Creates an AddPatientCommand to add the specified {@code Patient}
      */
     public AddPatientCommand(Patient patient) {
-        requireNonNull(patient);
+        super(patient);
         newPatient = patient;
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
-        requireNonNull(model);
-
+    protected void validateAdditionalConstraints(Model model) throws CommandException {
         boolean hasDuplicateNric = model.getClinicBook().getPersonList().stream()
                 .filter(Patient.class::isInstance)
                 .map(Patient.class::cast)
@@ -67,9 +64,26 @@ public class AddPatientCommand extends Command {
         if (hasDuplicateNric) {
             throw new CommandException(MESSAGE_DUPLICATE_PATIENT);
         }
+    }
 
-        model.addPerson(newPatient);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, newPatient));
+    @Override
+    protected Class<Patient> getPersonType() {
+        return Patient.class;
+    }
+
+    @Override
+    protected String getPersonLabel() {
+        return "patient";
+    }
+
+    @Override
+    protected String getSuccessMessage() {
+        return MESSAGE_SUCCESS;
+    }
+
+    @Override
+    protected boolean shouldRejectExactDuplicate() {
+        return false;
     }
 
     @Override

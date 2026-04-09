@@ -10,6 +10,7 @@ import seedu.clinic.commons.core.GuiSettings;
 import seedu.clinic.commons.core.LogsCenter;
 import seedu.clinic.logic.commands.Command;
 import seedu.clinic.logic.commands.CommandResult;
+import seedu.clinic.logic.commands.ConfirmableCommand;
 import seedu.clinic.logic.commands.exceptions.CommandException;
 import seedu.clinic.logic.parser.ClinicBookParser;
 import seedu.clinic.logic.parser.exceptions.ParseException;
@@ -32,6 +33,7 @@ public class LogicManager implements Logic {
     private final Model model;
     private final Storage storage;
     private final ClinicBookParser clinicBookParser;
+    private String pendingConfirmationCommandText;
 
     /**
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
@@ -46,15 +48,27 @@ public class LogicManager implements Logic {
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
+        boolean isConfirmedCommand = commandText.equals(pendingConfirmationCommandText);
+        if (!isConfirmedCommand) {
+            pendingConfirmationCommandText = null;
+        }
+
         CommandResult commandResult;
         Command command = clinicBookParser.parseCommand(commandText);
+        if (isConfirmedCommand && command instanceof ConfirmableCommand) {
+            ConfirmableCommand confirmable = (ConfirmableCommand) command;
+            confirmable.confirm();
+        }
         commandResult = command.execute(model);
+        pendingConfirmationCommandText = commandResult.isRequireConfirmation() ? commandText : null;
 
         try {
             storage.saveClinicBook(model.getClinicBook());
         } catch (AccessDeniedException e) {
+            pendingConfirmationCommandText = null;
             throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
         } catch (IOException ioe) {
+            pendingConfirmationCommandText = null;
             throw new CommandException(String.format(FILE_OPS_ERROR_FORMAT, ioe.getMessage()), ioe);
         }
 

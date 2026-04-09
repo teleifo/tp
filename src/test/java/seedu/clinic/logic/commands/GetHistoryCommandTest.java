@@ -59,7 +59,8 @@ public class GetHistoryCommandTest {
                 + "     Symptoms: headache, dizziness" + lineSep
                 + "     Prescriptions:" + lineSep
             + "       - Amlodipine, dosage: 5mg, frequency: once daily, prescribed by ID: N/A, "
-            + "dispensed by ID: 4";
+            + "dispensed by ID: 4" + lineSep
+            + "Lab/Imaging Tests: none ordered.";
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
@@ -111,7 +112,6 @@ public class GetHistoryCommandTest {
                 new Phone("93456789"),
                 new Email("carl@example.com"),
                 new Address("789 Yishun Ave"),
-                Set.of(),
                 9));
 
         return new ModelManager(clinicBook, new UserPrefs());

@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.clinic.commons.core.GuiSettings;
 import seedu.clinic.commons.core.LogsCenter;
 import seedu.clinic.model.person.Diagnosis;
+import seedu.clinic.model.person.LabTest;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
 
@@ -115,6 +116,11 @@ public class ModelManager implements Model {
     @Override
     public void addDiagnosis(Patient target, Diagnosis diagnosis) {
         clinicBook.addDiagnosis(target, diagnosis);
+    }
+
+    @Override
+    public void addLabTest(Patient target, LabTest labTest) {
+        clinicBook.addLabTest(target, labTest);
     }
 
     //=========== Filtered Person List Accessors =============================================================

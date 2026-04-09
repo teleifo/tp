@@ -26,5 +26,8 @@ public class CliSyntax {
     public static final Prefix PREFIX_FREQ = new Prefix("freq/");
     public static final Prefix PREFIX_PRESCRIBED_BY = new Prefix("prescribed/");
     public static final Prefix PREFIX_DISPENSED_BY = new Prefix("dispensed/");
+    public static final Prefix PREFIX_TEST_NAME = new Prefix("test/");
+    public static final Prefix PREFIX_TEST_TYPE = new Prefix("testtype/");
+    public static final Prefix PREFIX_ORDERED_BY = new Prefix("ordered/");
 
 }

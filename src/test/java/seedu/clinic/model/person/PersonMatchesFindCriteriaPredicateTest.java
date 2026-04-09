@@ -8,9 +8,11 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.clinic.model.tag.Tag;
 import seedu.clinic.testutil.PersonBuilder;
 
 public class PersonMatchesFindCriteriaPredicateTest {
@@ -69,7 +71,7 @@ public class PersonMatchesFindCriteriaPredicateTest {
     @Test
     public void test_matchesNric_returnsTrue() {
         Patient patient = new Patient(new PersonBuilder().withName("Alice Bob").withPhone("12345678").build(),
-                new NRIC("S1234567D"), LocalDate.of(1992, 4, 12), Sex.FEMALE);
+                Set.of(new Tag("shellfish")), new NRIC("S1234567D"), LocalDate.of(1992, 4, 12), Sex.FEMALE);
         PersonMatchesFindCriteriaPredicate predicate = new PersonMatchesFindCriteriaPredicate(
                 Collections.emptyList(), Optional.empty(), Optional.of(new NRIC("S1234567D")));
         assertTrue(predicate.test(patient));

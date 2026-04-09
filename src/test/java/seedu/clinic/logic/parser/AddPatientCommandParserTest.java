@@ -50,9 +50,9 @@ public class AddPatientCommandParserTest {
         org.junit.jupiter.api.Assertions.assertEquals("S1234567D", patient.getNric().value);
         org.junit.jupiter.api.Assertions.assertEquals(LocalDate.of(1992, 4, 12), patient.getDateOfBirth());
         org.junit.jupiter.api.Assertions.assertEquals(Sex.FEMALE, patient.getSex());
-        org.junit.jupiter.api.Assertions.assertEquals(2, patient.getTags().size());
-        org.junit.jupiter.api.Assertions.assertTrue(patient.getTags().contains(new Tag("peanut")));
-        org.junit.jupiter.api.Assertions.assertTrue(patient.getTags().contains(new Tag("shellfish")));
+        org.junit.jupiter.api.Assertions.assertEquals(2, patient.getAllergies().size());
+        org.junit.jupiter.api.Assertions.assertTrue(patient.getAllergies().contains(new Tag("peanut")));
+        org.junit.jupiter.api.Assertions.assertTrue(patient.getAllergies().contains(new Tag("shellfish")));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class AddPatientCommandParserTest {
         Patient patient = extractPatient((AddPatientCommand) parsedCommand);
 
         org.junit.jupiter.api.Assertions.assertEquals(Sex.MALE, patient.getSex());
-        org.junit.jupiter.api.Assertions.assertTrue(patient.getTags().isEmpty());
+        org.junit.jupiter.api.Assertions.assertTrue(patient.getAllergies().isEmpty());
     }
 
     @Test

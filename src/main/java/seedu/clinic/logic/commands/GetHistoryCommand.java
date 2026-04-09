@@ -10,6 +10,7 @@ import seedu.clinic.commons.core.LogsCenter;
 import seedu.clinic.commons.util.ToStringBuilder;
 import seedu.clinic.model.Model;
 import seedu.clinic.model.person.Diagnosis;
+import seedu.clinic.model.person.LabTest;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.PatientHasNricPredicate;
 import seedu.clinic.model.person.Prescription;
@@ -77,6 +78,8 @@ public class GetHistoryCommand extends Command {
         result.append(formatPatientHeader(patient));
         result.append(System.lineSeparator());
         result.append(formatDiagnosesList(patient.getDiagnoses()));
+        result.append(System.lineSeparator());
+        result.append(formatLabTestsList(patient.getLabTests()));
         return result.toString();
     }
 
@@ -142,6 +145,25 @@ public class GetHistoryCommand extends Command {
                 prescription.getFrequency(),
                 prescribedBy,
                 prescription.getDispensedBy());
+    }
+
+    private String formatLabTestsList(List<LabTest> labTests) {
+        if (labTests.isEmpty()) {
+            return "Lab/Imaging Tests: none ordered.";
+        }
+
+        StringBuilder section = new StringBuilder("Lab/Imaging Tests:");
+        for (int index = 0; index < labTests.size(); index++) {
+            section.append(System.lineSeparator());
+            section.append(formatSingleLabTest(index + 1, labTests.get(index)));
+        }
+        return section.toString();
+    }
+
+    private String formatSingleLabTest(int index, LabTest labTest) {
+        return String.format("  %d. [%s] %s (Ordered date: %s, Ordered by ID: %d)",
+                index, labTest.getTestType(), labTest.getTestName(),
+                labTest.getOrderedDate(), labTest.getOrderedBy());
     }
 
     @Override

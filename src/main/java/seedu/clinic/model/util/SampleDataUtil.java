@@ -2,6 +2,7 @@ package seedu.clinic.model.util;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,11 +27,11 @@ public class SampleDataUtil {
     public static Person[] getSamplePersons() {
         return new Person[] {
             new Patient(new Name("Alex Yeoh"), new Phone("91234567"), new Email("alexyeoh@gmail.com"),
-                new Address("123 Clementi Ave 3, #04-12"),
+                new Address("123 Clementi Ave 3, #04-12"), Collections.emptySet(),
                 new NRIC("S1234567D"), LocalDate.parse("1990-01-01"), Sex.MALE),
             new Doctor(new Name("Tan Wei Ming"), new Phone("87654321"), new Email("drtan@gmail.com")),
             new Patient(new Name("Jane Lim"), new Phone("92345678"), new Email("jane@gmail.com"),
-                new Address("45 Bedok North St 1, #02-34"),
+                new Address("45 Bedok North St 1, #02-34"), Collections.emptySet(),
                 new NRIC("S1786425D"), LocalDate.parse("1993-07-08"), Sex.FEMALE),
             new Pharmacist(new Name("Lee Mei"), new Phone("98765432"), new Email("leemei@gmail.com"))
         };

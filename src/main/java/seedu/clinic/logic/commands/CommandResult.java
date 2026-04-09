@@ -19,13 +19,24 @@ public class CommandResult {
     /** The application should exit. */
     private final boolean exit;
 
+    /** The command should remain in the command box for confirmation. */
+    private final boolean requireConfirmation;
+
+    /**
+     * Constructs a {@code CommandResult} with the specified fields.
+     */
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean requireConfirmation) {
+        this.feedbackToUser = requireNonNull(feedbackToUser);
+        this.showHelp = showHelp;
+        this.exit = exit;
+        this.requireConfirmation = requireConfirmation;
+    }
+
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
     public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
-        this.feedbackToUser = requireNonNull(feedbackToUser);
-        this.showHelp = showHelp;
-        this.exit = exit;
+        this(feedbackToUser, showHelp, exit, false);
     }
 
     /**
@@ -48,6 +59,10 @@ public class CommandResult {
         return exit;
     }
 
+    public boolean isRequireConfirmation() {
+        return requireConfirmation;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -62,12 +77,13 @@ public class CommandResult {
         CommandResult otherCommandResult = (CommandResult) other;
         return feedbackToUser.equals(otherCommandResult.feedbackToUser)
                 && showHelp == otherCommandResult.showHelp
-                && exit == otherCommandResult.exit;
+                && exit == otherCommandResult.exit
+                && requireConfirmation == otherCommandResult.requireConfirmation;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit);
+        return Objects.hash(feedbackToUser, showHelp, exit, requireConfirmation);
     }
 
     @Override
@@ -76,6 +92,7 @@ public class CommandResult {
                 .add("feedbackToUser", feedbackToUser)
                 .add("showHelp", showHelp)
                 .add("exit", exit)
+                .add("requireConfirmation", requireConfirmation)
                 .toString();
     }
 

@@ -7,6 +7,7 @@ import java.util.List;
 import javafx.collections.ObservableList;
 import seedu.clinic.commons.util.ToStringBuilder;
 import seedu.clinic.model.person.Diagnosis;
+import seedu.clinic.model.person.LabTest;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
 import seedu.clinic.model.person.UniquePersonList;
@@ -125,14 +126,40 @@ public class ClinicBook implements ReadOnlyClinicBook {
             target.getPhone(),
             target.getEmail(),
             target.getAddress(),
-            target.getTags(),
+            target.getAllergies(),
             target.getNric(),
             target.getDateOfBirth(),
             target.getSex(),
             target.getId());
 
         target.getDiagnoses().forEach(editedPatient::addDiagnosis);
+        target.getLabTests().forEach(editedPatient::addLabTest);
         editedPatient.addDiagnosis(diagnosis);
+
+        setPerson(target, editedPatient);
+    }
+
+    /**
+     * Adds a lab test to the target patient in clinic book.
+     */
+    public void addLabTest(Patient target, LabTest labTest) {
+        requireNonNull(target);
+        requireNonNull(labTest);
+
+        Patient editedPatient = new Patient(
+            target.getName(),
+            target.getPhone(),
+            target.getEmail(),
+            target.getAddress(),
+            target.getAllergies(),
+            target.getNric(),
+            target.getDateOfBirth(),
+            target.getSex(),
+            target.getId());
+
+        target.getDiagnoses().forEach(editedPatient::addDiagnosis);
+        target.getLabTests().forEach(editedPatient::addLabTest);
+        editedPatient.addLabTest(labTest);
 
         setPerson(target, editedPatient);
     }

@@ -11,6 +11,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import seedu.clinic.model.ClinicBook;
+import seedu.clinic.model.tag.Tag;
 
 public class PatientTest {
 
@@ -21,6 +22,7 @@ public class PatientTest {
                 new Phone("91234567"),
                 new Email("alice@example.com"),
                 new Address("1 Street"),
+                Set.of(new Tag("shellfish")),
                 new NRIC("S1166846A"),
                 LocalDate.of(2000, 1, 1),
                 Sex.FEMALE,
@@ -39,6 +41,7 @@ public class PatientTest {
                 new Phone("91234567"),
                 new Email("alice@example.com"),
                 new Address("1 Street"),
+                Set.of(new Tag("shellfish")),
                 new NRIC("S1166846A"),
                 dob,
                 Sex.FEMALE,
@@ -54,6 +57,7 @@ public class PatientTest {
                 new Phone("91234567"),
                 new Email("alice@example.com"),
                 new Address("1 Street"),
+                Set.of(new Tag("shellfish")),
                 new NRIC("S1166846A"),
                 LocalDate.of(2000, 1, 1),
                 Sex.FEMALE,
@@ -74,6 +78,7 @@ public class PatientTest {
                 new Phone("91234567"),
                 new Email("alice@example.com"),
                 new Address("1 Street"),
+                Set.of(new Tag("shellfish")),
                 new NRIC("S1166846A"),
                 LocalDate.of(2000, 1, 1),
                 Sex.FEMALE,
@@ -83,6 +88,7 @@ public class PatientTest {
                 new Phone("91234567"),
                 new Email("alice@example.com"),
                 new Address("1 Street"),
+                Set.of(new Tag("shellfish")),
                 new NRIC("S1166846A"),
                 LocalDate.of(2000, 1, 1),
                 Sex.FEMALE,
@@ -102,10 +108,13 @@ public class PatientTest {
                 new Phone("91234567"),
                 new Email("base@example.com"),
                 new Address("1 Street"),
-                Set.of(),
                 10);
 
-        Patient patient = new Patient(person, new NRIC("S1166846A"), LocalDate.of(2000, 1, 1), Sex.FEMALE);
+        Patient patient = new Patient(person,
+                Set.of(new Tag("shellfish")),
+                new NRIC("S1166846A"),
+                LocalDate.of(2000, 1, 1),
+                Sex.FEMALE);
         assertEquals(10, patient.getId());
     }
 
@@ -116,6 +125,7 @@ public class PatientTest {
                 new Phone("90001234"),
                 new Email("auto@example.com"),
                 new Address("2 Street"),
+                Set.of(new Tag("shellfish")),
                 new NRIC("S1166846A"),
                 LocalDate.of(2001, 2, 3),
                 Sex.MALE);
@@ -135,6 +145,7 @@ public class PatientTest {
                 new Phone("91234567"),
                 new Email("alice@example.com"),
                 new Address("1 Street"),
+                Set.of(new Tag("shellfish")),
                 new NRIC("S1166846A"),
                 LocalDate.of(2000, 1, 1),
                 Sex.FEMALE,
@@ -150,6 +161,7 @@ public class PatientTest {
                 new Phone("91234567"),
                 new Email("alice@example.com"),
                 new Address("1 Street"),
+                Set.of(new Tag("shellfish")),
                 new NRIC("S1166846A"),
                 LocalDate.of(2000, 1, 1),
                 Sex.FEMALE,
@@ -165,6 +177,7 @@ public class PatientTest {
                 new Phone("91234567"),
                 new Email("alice@example.com"),
                 new Address("1 Street"),
+                Set.of(new Tag("shellfish")),
                 new NRIC("S1166846A"),
                 LocalDate.of(2000, 1, 1),
                 Sex.FEMALE,

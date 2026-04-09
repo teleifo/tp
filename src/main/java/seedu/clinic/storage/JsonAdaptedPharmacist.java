@@ -28,7 +28,7 @@ class JsonAdaptedPharmacist extends JsonAdaptedPerson {
     public JsonAdaptedPharmacist(@JsonProperty("id") int id, @JsonProperty("name") String name,
                              @JsonProperty("phone") String phone,
                              @JsonProperty("email") String email) {
-        super(id, name, phone, email, null, null);
+        super(id, name, phone, email, null);
         this.id = id;
         this.name = name;
         this.phone = phone;
