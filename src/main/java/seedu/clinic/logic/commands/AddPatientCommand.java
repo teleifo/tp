@@ -43,7 +43,7 @@ public class AddPatientCommand extends Command {
             + PREFIX_ADDRESS + "123 Marina Terrace ";
 
     public static final String MESSAGE_SUCCESS = "New patient added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PATIENT = "This patient already exists in clinic book";
+    public static final String MESSAGE_DUPLICATE_PATIENT = "This patient's NRIC already exists in clinic book";
 
     private final Patient newPatient;
 
