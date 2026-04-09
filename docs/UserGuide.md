@@ -67,6 +67,8 @@ ClinicBook is a **desktop app for managing clinic records, optimized for use via
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE e/EMAIL`, `e/EMAIL n/NAME p/PHONE` is also acceptable.
 
+* Confirmation is needed if the user tries to add a new record with a field having the same value.
+
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
@@ -130,7 +132,9 @@ Example:
 
 ### Adding a doctor : `add-doc`
 
-Adds a doctor to the clinic book.
+Adds a doctor to the clinic book.  
+* If a doctor with the same Name / Phone Number / Email is found, confirmation is needed. 
+* A doctor cannot be added if an existing pharmacist has the exact same Name, Phone Number, and Email Address.
 
 Format:
 `add-doc n/NAME p/PHONE e/EMAIL`
@@ -142,7 +146,9 @@ Example:
 
 ### Adding a pharmacist : `add-pharmacist`
 
-Adds a pharmacist to the clinic book.
+Adds a pharmacist to the clinic book.   
+* If a pharmacist with the same Name / Phone Number / Email is found, confirmation is needed.
+* A pharmacist cannot be added if an existing pharmacist has the exact same Name, Phone Number, and Email Address.
 
 Format:
 `add-pharmacist n/NAME e/EMAIL p/PHONE`
