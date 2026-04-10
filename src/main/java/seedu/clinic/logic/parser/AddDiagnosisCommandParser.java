@@ -58,7 +58,10 @@ public class AddDiagnosisCommandParser implements Parser<AddDiagnosisCommand> {
 
         int patientId = parsePositivePersonId(argMultimap.getValue(PREFIX_ID).get(),
                 AddDiagnosisCommand.MESSAGE_INVALID_PATIENT);
-        String description = argMultimap.getValue(PREFIX_DESC).get();
+        String description = argMultimap.getValue(PREFIX_DESC).get().trim();
+        if (description.isEmpty()) {
+            throw new ParseException(AddDiagnosisCommand.MESSAGE_EMPTY_DESCRIPTION);
+        }
         LocalDate visitDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_VISIT_DATE).get());
         if (visitDate.isAfter(LocalDate.now())) {
             throw new ParseException(AddDiagnosisCommand.MESSAGE_FUTURE_VISIT_DATE);
@@ -66,6 +69,9 @@ public class AddDiagnosisCommandParser implements Parser<AddDiagnosisCommand> {
         int diagnosedById = parsePositivePersonId(argMultimap.getValue(PREFIX_DIAGNOSED_BY).get(),
                 AddDiagnosisCommand.MESSAGE_INVALID_DOCTOR);
         List<String> symptoms = argMultimap.getAllValues(PREFIX_SYMPTOM);
+        if (symptoms.stream().map(String::trim).anyMatch(String::isEmpty)) {
+            throw new ParseException(AddDiagnosisCommand.MESSAGE_EMPTY_SYMPTOM);
+        }
 
         List<String> medNames = argMultimap.getAllValues(PREFIX_MEDICATION);
         List<String> dosages = argMultimap.getAllValues(PREFIX_DOSAGE);

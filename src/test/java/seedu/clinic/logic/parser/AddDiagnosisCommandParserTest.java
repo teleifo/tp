@@ -77,6 +77,22 @@ public class AddDiagnosisCommandParserTest {
     }
 
     @Test
+    public void parse_emptyDescription_throwsFriendlyParseException() {
+        String userInput = " id/1 desc/   vd/2026-03-01 diagnosed/2"
+                + " sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4";
+
+        assertParseFailure(parser, userInput, AddDiagnosisCommand.MESSAGE_EMPTY_DESCRIPTION);
+    }
+
+    @Test
+    public void parse_emptySymptom_throwsFriendlyParseException() {
+        String userInput = " id/1 desc/Flu vd/2026-03-01 diagnosed/2"
+                + " sym/   med/Paracetamol dose/500mg freq/3 times daily dispensed/4";
+
+        assertParseFailure(parser, userInput, AddDiagnosisCommand.MESSAGE_EMPTY_SYMPTOM);
+    }
+
+    @Test
     public void parse_zeroPatientId_throwsFriendlyParseException() {
         String userInput = " id/0 desc/Flu vd/2026-03-01 diagnosed/2"
                 + " sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4";
