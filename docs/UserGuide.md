@@ -251,7 +251,7 @@ ClinicBook data are saved to the hard disk automatically after any command that 
 ClinicBook data are saved automatically as a JSON file `[JAR file location]/data/clinicbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, ClinicBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+If your changes to the data file make its format invalid, ClinicBook will not be able to load the file and will start with an empty clinic book at the next run. A warning will be shown in the app. If you want to recover existing data, close ClinicBook and fix or restore the data file before entering any commands, as entering commands may overwrite the data file. Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the ClinicBook to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
