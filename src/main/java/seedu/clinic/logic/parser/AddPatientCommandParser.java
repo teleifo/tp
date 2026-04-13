@@ -13,6 +13,7 @@ import static seedu.clinic.logic.parser.CliSyntax.PREFIX_SEX;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -35,8 +36,10 @@ import seedu.clinic.model.tag.Tag;
  */
 public class AddPatientCommandParser implements Parser<AddPatientCommand> {
 
-    private static final DateTimeFormatter DOB_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    private static final String MESSAGE_INVALID_DOB = "DOB must be in dd-MM-yyyy format.";
+    private static final DateTimeFormatter DOB_FORMATTER =
+            DateTimeFormatter.ofPattern("uuuu-MM-dd").withResolverStyle(ResolverStyle.STRICT);
+    private static final String MESSAGE_INVALID_DOB =
+            "DOB must be a valid date in yyyy-MM-dd format and cannot be in the future.";
     private static final String MESSAGE_INVALID_SEX = "Sex must be one of: MALE, FEMALE, INTERSEX.";
 
     /**
@@ -89,7 +92,11 @@ public class AddPatientCommandParser implements Parser<AddPatientCommand> {
 
     private static LocalDate parseDob(String dobInput) throws ParseException {
         try {
-            return LocalDate.parse(dobInput.trim(), DOB_FORMATTER);
+            LocalDate dob = LocalDate.parse(dobInput.trim(), DOB_FORMATTER);
+            if (dob.isAfter(LocalDate.now())) {
+                throw new ParseException(MESSAGE_INVALID_DOB);
+            }
+            return dob;
         } catch (DateTimeParseException e) {
             throw new ParseException(MESSAGE_INVALID_DOB, e);
         }
