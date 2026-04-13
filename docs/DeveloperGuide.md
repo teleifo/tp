@@ -1007,7 +1007,6 @@ Use case ends.
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Patient Record**: A record containing a patient's personal information and medical history in ClinicBook.
 * **Prescription**: A written order from a doctor specifying medication, dosage, and administration instructions for a patient's treatment
-* **Private contact detail**: A contact detail that is not meant to be shared with others
 * **Symptom**: Physical or mental signs experienced by a patient that indicate a medical condition or disease
 * **Duplicate Record**: A record with the same NRIC / Name / Phone Number
 * **Audit Trail**: A chronological record of significant system actions (e.g., prescription changes, dispensing, purge operations), including actor and timestamp.
