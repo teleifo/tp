@@ -57,10 +57,20 @@ public class AddDiagnosisCommand extends Command {
     public static final String MESSAGE_INVALID_PATIENT = "The patient ID provided is invalid";
     public static final String MESSAGE_INVALID_DOCTOR = "The doctor ID provided is invalid";
     public static final String MESSAGE_INVALID_PHARMACIST = "The pharmacist ID provided is invalid";
+    public static final String MESSAGE_MISSING_PATIENT_ID = "Patient ID is required.";
+    public static final String MESSAGE_MISSING_DESCRIPTION = "Diagnosis description is required.";
+    public static final String MESSAGE_MISSING_VISIT_DATE = "Visit date is required.";
+    public static final String MESSAGE_MISSING_DOCTOR = "Diagnosed-by doctor ID is required.";
+    public static final String MESSAGE_MISSING_SYMPTOM = "At least one symptom is required.";
+    public static final String MESSAGE_MISSING_MEDICATION = "At least one medication is required.";
+    public static final String MESSAGE_MISSING_MEDICATION_DETAILS =
+            "Medication details (med/, dose/, freq/, dispensed/) are required.";
     public static final String MESSAGE_EMPTY_DESCRIPTION =
             "Diagnosis description should not be blank.";
     public static final String MESSAGE_EMPTY_SYMPTOM =
             "Symptoms should not be blank.";
+    public static final String MESSAGE_INVALID_FREQUENCY_SLASH =
+            "Frequency cannot contain '/'. Perhaps use \"per\" or other alternatives?";
 
     private final int patientId;
     private final Diagnosis diagnosis;
