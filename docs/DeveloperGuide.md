@@ -1021,7 +1021,22 @@ Use case ends.
 
 ---
 
-## **Appendix: Instructions for manual testing**
+## **Appendix: Effort**
+
+ClinicBook required a higher level of effort compared to AB3. While AB3 manages a single main entity type, ClinicBook manages multiple role-specific person types: patients, doctors, and pharmacists. This increased complexity across the model, commands, validation, storage, UI, and test coverage, as many features needed to preserve shared `Person` behaviour while enforcing role-specific constraints.
+
+The main implementation challenge was redesigning AB3's contact-management workflow into a clinic workflow. Patient records required additional medical data such as NRIC, date of birth, sex, allergies, diagnoses, prescriptions, and lab or imaging test orders. 
+Clinical commands such as `diagnosis`, `ordertest`, and `get-history` also required validation across different records. 
+For example, the app had to ensure that a diagnosis targets a patient, is diagnosed by a doctor,
+and may include prescriptions dispensed by pharmacists. These requirements led to more complex parsing, model operations, and error handling compared to AB3's original name-based contact commands.
+
+A significant amount of effort was saved by reusing AB3 as the project base. AB3 provided the initial JavaFX UI structure, command parsing architecture, JSON storage approach, Gradle setup, testing framework, and documentation structure. This reduced the effort required for general application infrastructure, allowing the team to focus on clinic-specific functionality. The team's adaptation work is reflected especially in the person subtype model, role-specific add commands, diagnosis and prescription handling, lab/imaging test ordering, subtype-aware JSON adapters, and command parsers for clinic workflows.
+
+Despite starting from AB3, ClinicBook achieved a broader domain model and a more integrated workflow. The final product supports registering patients, doctors, and pharmacists, searching by name, phone, or NRIC, recording diagnoses and prescriptions, ordering lab or imaging tests, and retrieving patient history. These features required coordinated changes across the Logic, Model, Storage, UI, testing, and documentation components.
+
+---
+
+## **Appendix: Instructions for Manual Testing**
 
 Given below are instructions to test the app manually.
 
