@@ -134,7 +134,7 @@ Example:
 
 Adds a doctor to the clinic book.  
 * If a doctor with the same Name / Phone Number / Email is found, confirmation is needed. 
-* A doctor cannot be added if an existing pharmacist has the exact same Name, Phone Number, and Email Address.
+* A doctor cannot be added if an existing doctor has the exact same Name, Phone Number, and Email Address.
 
 Format:
 `add-doc n/NAME p/PHONE e/EMAIL`
