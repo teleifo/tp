@@ -32,7 +32,7 @@ ClinicBook is a **desktop app for managing clinic records, optimized for use via
 
    * `find n/Alice` : Finds persons whose names match the keyword.
 
-   * `add-doc n/Tan Wei Ming p/87654321 e/drtan@example.com` : Adds a doctor record.
+   * `add-doctor n/Tan Wei Ming p/87654321 e/drtan@example.com` : Adds a doctor record.
 
    * `get-history nric/S1234567D` : Retrieves the medical history for the matching patient.
 
