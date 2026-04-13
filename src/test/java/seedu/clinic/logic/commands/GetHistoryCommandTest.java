@@ -65,6 +65,37 @@ public class GetHistoryCommandTest {
     }
 
     @Test
+    public void execute_matchingPatient_multipleDiagnoses_showsMostRecentFirst() {
+        Model model = createModelWithDiagnosesOutOfOrder();
+        Model expectedModel = new ModelManager(model.getClinicBook(), new UserPrefs());
+
+        GetHistoryCommand command = new GetHistoryCommand("S1234567D");
+        command.execute(expectedModel);
+
+        String lineSep = System.lineSeparator();
+        String expectedMessage = "Medical history for Alice Tan (NRIC: S1234567D)" + lineSep
+                + "Date of birth: 1990-01-01" + lineSep
+                + "Diagnoses:" + lineSep
+                + "  1. Flu (Visit date: 2027-03-01, Diagnosed by ID: 2)" + lineSep
+                + "     Symptoms: fever, cough" + lineSep
+                + "     Prescriptions:" + lineSep
+                + "       - Paracetamol, dosage: 500mg, frequency: 3 times daily, prescribed by ID: N/A, "
+                + "dispensed by ID: 4" + lineSep
+                + "  2. Flu (Visit date: 2026-03-01, Diagnosed by ID: 2)" + lineSep
+                + "     Symptoms: fever, cough" + lineSep
+                + "     Prescriptions:" + lineSep
+                + "       - Paracetamol, dosage: 500mg, frequency: 3 times daily, prescribed by ID: N/A, "
+                + "dispensed by ID: 4" + lineSep
+                + "  3. Flu (Visit date: 2025-03-01, Diagnosed by ID: 2)" + lineSep
+                + "     Symptoms: fever, cough" + lineSep
+                + "     Prescriptions:" + lineSep
+                + "       - Paracetamol, dosage: 500mg, frequency: 3 times daily, prescribed by ID: N/A, "
+                + "dispensed by ID: 4" + lineSep
+                + "Lab/Imaging Tests: none ordered.";
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+    }
+
+    @Test
     public void execute_nonMatchingPatient_foundNoPatient() {
         Model model = createModelWithSampleRecords();
         Model expectedModel = new ModelManager(model.getClinicBook(), new UserPrefs());
@@ -115,5 +146,34 @@ public class GetHistoryCommandTest {
                 9));
 
         return new ModelManager(clinicBook, new UserPrefs());
+    }
+
+    private static Model createModelWithDiagnosesOutOfOrder() {
+        ClinicBook clinicBook = new ClinicBook();
+        Patient alice = new Patient(
+                new Name("Alice Tan"),
+                new Phone("91234567"),
+                new Email("alice@example.com"),
+                new Address("123 Clementi Rd"),
+                Set.of(),
+                new NRIC("S1234567D"),
+                LocalDate.of(1990, 1, 1),
+                Sex.FEMALE,
+                1);
+
+        alice.addDiagnosis(createDiagnosis(LocalDate.of(2026, 3, 1)));
+        alice.addDiagnosis(createDiagnosis(LocalDate.of(2027, 3, 1)));
+        alice.addDiagnosis(createDiagnosis(LocalDate.of(2025, 3, 1)));
+
+        clinicBook.addPerson(alice);
+        return new ModelManager(clinicBook, new UserPrefs());
+    }
+
+    private static Diagnosis createDiagnosis(LocalDate visitDate) {
+        Diagnosis diagnosis = new Diagnosis("Flu", visitDate, 2);
+        diagnosis.addSymptom("fever");
+        diagnosis.addSymptom("cough");
+        diagnosis.addPrescription(new Prescription("Paracetamol", "500mg", "3 times daily", 4));
+        return diagnosis;
     }
 }
