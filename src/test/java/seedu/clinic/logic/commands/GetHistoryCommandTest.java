@@ -71,7 +71,7 @@ public class GetHistoryCommandTest {
         GetHistoryCommand command = new GetHistoryCommand("S1234567D");
         command.execute(expectedModel);
 
-        String lineSep = System.lineSeparator();
+        String lineSep = "\n";
         String expectedMessage = "Medical history for Alice Tan (NRIC: S1234567D)" + lineSep
                 + "Date of birth: 1990-01-01" + lineSep
                 + "Diagnoses:" + lineSep
