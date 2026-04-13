@@ -9,7 +9,7 @@ title: Developer Guide
 
 ## **Acknowledgements**
 
-* AI tools, including Deepseek and Codex, are used for assisting architecture design and coding.
+* Yat Long: AI tools, including Deepseek and Codex, were used to assist with the architecture design and development. This includes making the design pattern more aligned with OOP standard so that code can be reused. They also provide support in building PlantUML diagrams. All suggestion are reviewed before implementing.
 
 ## **Setting up, getting started**
 
@@ -1061,7 +1061,7 @@ testers are expected to do more *exploratory* testing.
 1. Adding a Doctor with the same name
 
    1. Prerequisite: A Doctor with the same name, e.g. `Dr Tom Chan`, is in the ClinicBook.
-   2. Test case: `add-doc n/Dr Tom Chan p/... e/...` Expected: A warning message with the Doctor with the same name is returned. Enter again to add the new record.
+   2. Test case: `add-doc n/Dr Tom Chan p/87654321 e/drtan@example.com` Expected: A warning message with the Doctor of the same name is returned. Enter again to add the new record.
 
 ### Saving data
 
