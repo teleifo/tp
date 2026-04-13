@@ -2,20 +2,20 @@
 layout: page
 title: Developer Guide
 ---
-* Table of Contents
-  {:toc}
-
----
 
 ## **Acknowledgements**
 
+This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
+
+### AI Assistance
+
 * Yat Long: AI tools, including Deepseek and Codex, were used to assist with the architecture design and development. This includes making the design pattern more aligned with OOP standard so that code can be reused. They also provide support in building PlantUML diagrams. All suggestion are reviewed before implementing.
+
+* Yong Rui: AI tools, including Codex and Cursor, were used to assist with development and documentation tasks, including refactoring the separate patient, pharmacist, and doctor arrays into a unified person array with role-specific behaviour, and checking affected files for consistency and correctness, which helped resolve several MVP bugs. They also supported the addition of a GitHub Actions workflow to automate PR milestone assignment from linked issues, assisted with PlantUML diagrams, cross-checked documentation against the codebase, refined test cases into valid and invalid partitions, and identified edge cases that could break commands. All suggestions were reviewed and adapted before inclusion.
 
 ## **Setting up, getting started**
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
-
----
 
 ## **Design**
 
@@ -157,8 +157,6 @@ The `Storage` component,
 ### Common classes
 
 Classes used by multiple components are in the `seedu.clinic.commons` package.
-
----
 
 ## **Implementation**
 
@@ -362,14 +360,6 @@ The following activity diagram summarizes what happens when a user executes a ne
   * Pros: Will use less memory (e.g., for `delete`, just save the person being deleted).
   * Cons: We must ensure that the implementation of each individual command is correct.
 
-_{more aspects and alternatives to be added}_
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
-
----
-
 ## **Documentation, logging, testing, configuration, dev-ops**
 
 * [Documentation guide](Documentation.md)
@@ -377,8 +367,6 @@ _{Explain here how the data archiving feature will be implemented}_
 * [Logging guide](Logging.md)
 * [Configuration guide](Configuration.md)
 * [DevOps guide](DevOps.md)
-
----
 
 ## **Appendix: Requirements**
 
@@ -1010,7 +998,6 @@ Use case ends.
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Patient Record**: A record containing a patient's personal information and medical history in ClinicBook.
 * **Prescription**: A written order from a doctor specifying medication, dosage, and administration instructions for a patient's treatment
-* **Private contact detail**: A contact detail that is not meant to be shared with others
 * **Symptom**: Physical or mental signs experienced by a patient that indicate a medical condition or disease
 * **Duplicate Record**: A record with the same NRIC / Name / Phone Number
 * **Audit Trail**: A chronological record of significant system actions (e.g., prescription changes, dispensing, purge operations), including actor and timestamp.
@@ -1019,7 +1006,7 @@ Use case ends.
 * **NRIC**: National Registration Identity Card number used as a unique identifier for individuals in the system.
 * **System User**: Any individual registered in ClinicBook, such as a patient, doctor, or pharmacist.
 
----
+## **Appendix: Instructions for Manual Testing**
 
 ## **Appendix: Effort**
 
@@ -1057,7 +1044,20 @@ testers are expected to do more *exploratory* testing.
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
    2. Re-launch the app by double-clicking the jar file.<br>
       Expected: The most recent window size and location is retained.
-3. _{ more test cases … }_
+
+### Finding persons
+
+Prerequisite: Start with the initial sample data from a clean launch, before running commands that add, delete, or clear
+records.
+
+1. Test case: `find n/alex lim`<br>
+   Expected: Two persons are listed, `Alex Yeoh` and `Jane Lim`.
+2. Test case: `find p/98765432`<br>
+   Expected: One person is listed, `Lee Mei`.
+3. Test case: `find nric/S1234567D`<br>
+   Expected: One patient is listed, `Alex Yeoh`.
+4. Test case: `find Alex`<br>
+   Expected: No person list update is performed. The result display shows an invalid command format message.
 
 ### Deleting a person
 
@@ -1070,7 +1070,6 @@ testers are expected to do more *exploratory* testing.
       Expected: No person is deleted. Error details are shown in the status message. Status bar remains the same.
    4. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size).<br>
       Expected: Similar to the previous test case.
-2. _{ more test cases … }_
 
 ### Adding a Doctor
 
@@ -1078,10 +1077,3 @@ testers are expected to do more *exploratory* testing.
 
    1. Prerequisite: A Doctor with the same name, e.g. `Dr Tom Chan`, is in the ClinicBook.
    2. Test case: `add-doc n/Dr Tom Chan p/87654321 e/drtan@example.com` Expected: A warning message with the Doctor of the same name is returned. Enter again to add the new record.
-
-### Saving data
-
-1. Dealing with missing/corrupted data files
-
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
-2. _{ more test cases … }_
