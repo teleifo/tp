@@ -46,7 +46,9 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label email;
     @FXML
-    private FlowPane tags;
+    private FlowPane allergies;
+    @FXML
+    private FlowPane sex;
 
     /**
      * Creates a {@code PersonCard} with the given {@code Person} and index to display.
@@ -58,21 +60,23 @@ public class PersonCard extends UiPart<Region> {
         rowNumber.setText(displayedIndex + ".");
         personIdLabel.setText("(ID: " + person.getId() + ")");
         name.setText(person.getName().fullName);
-        if (person instanceof Patient) {
-            nric.setText("NRIC: " + ((Patient) person).getNric().value);
+        if (person instanceof Patient patient) {
+            nric.setText("NRIC: " + patient.getNric().value);
+            address.setText(person.getAddress().value);
+            patient.getAllergies().stream()
+                .sorted(Comparator.comparing(tag -> tag.tagName))
+                .forEach(tag -> allergies.getChildren().add(new Label(tag.tagName)));
+            sex.getChildren().add(new Label(patient.getSex().getDisplayName()));
         } else {
             nric.setManaged(false);
             nric.setVisible(false);
+            address.setManaged(false);
+            address.setVisible(false);
+            sex.setManaged(false);
+            sex.setVisible(false);
         }
         phone.setText(person.getPhone().value);
-        address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
         role.setText(person.getRole());
-
-        if (person instanceof Patient patient) {
-            patient.getAllergies().stream()
-                .sorted(Comparator.comparing(tag -> tag.tagName))
-                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-        }
     }
 }

@@ -32,8 +32,9 @@
             <Region fx:constant="USE_PREF_SIZE" />
           </minWidth>
         </Label>
+        <FlowPane fx:id="sex" />
       </HBox>
-      <FlowPane fx:id="tags" />
+      <FlowPane fx:id="allergies" />
       <Label fx:id="nric" styleClass="cell_small_label" text="\$nric" />
       <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" />
       <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
