@@ -45,7 +45,7 @@ public class ParserUtil {
     }
 
     /**
-     * Parses {@code personId} into a stable person ID and returns it. Leading and trailing whitespaces will be
+     * Parses {@code personId} into a person ID and returns it. Leading and trailing whitespaces will be
      * trimmed.
      *
      * @throws ParseException if the specified ID is invalid (not non-zero unsigned integer).

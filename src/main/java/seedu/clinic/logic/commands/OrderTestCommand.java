@@ -49,7 +49,7 @@ public class OrderTestCommand extends Command {
 
     /**
      * Creates an OrderTestCommand to order the specified {@code LabTest}
-     * for the patient with the given stable person ID.
+     * for the patient with the given person ID.
      */
     public OrderTestCommand(int patientId, LabTest labTest) {
         requireNonNull(labTest);

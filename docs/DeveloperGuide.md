@@ -2,22 +2,22 @@
 layout: page
 title: Developer Guide
 ---
-* Table of Contents
-  {:toc}
-
----
 
 ## **Acknowledgements**
 
-* {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
 
----
+### AI Assistance
+
+* Yat Long: AI tools, including Deepseek and Codex, were used to assist with the architecture design and development. This includes making the design pattern more aligned with OOP standard so that code can be reused. They also provide support in building PlantUML diagrams. All suggestion are reviewed before implementing.
+
+* Yong Rui: AI tools, including Codex and Cursor, were used to assist with development and documentation tasks, including refactoring the separate patient, pharmacist, and doctor arrays into a unified person array with role-specific behaviour, and checking affected files for consistency and correctness, which helped resolve several MVP bugs. They also supported the addition of a GitHub Actions workflow to automate PR milestone assignment from linked issues, assisted with PlantUML diagrams, cross-checked documentation against the codebase, refined test cases into valid and invalid partitions, and identified edge cases that could break commands. All suggestions were reviewed and adapted before inclusion.
+
+* Donavan: AI tools (Claude and Copilot) were used to assist with development, bug findings, provide insights on areas of enhancement during Pull Requests reviews. All suggestions were reviewed and adapted before inclusion.
 
 ## **Setting up, getting started**
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
-
----
 
 ## **Design**
 
@@ -160,8 +160,6 @@ The `Storage` component,
 
 Classes used by multiple components are in the `seedu.clinic.commons` package.
 
----
-
 ## **Implementation**
 
 This section describes some noteworthy details on how certain features are implemented.
@@ -183,13 +181,14 @@ The sequence diagram below shows the execution flow for `find n/Alice Bob`.
 
 <img src="images/FindSequenceDiagram.png" width="800" />
 
+<div markdown="span" class="alert alert-info">:information_source: **Note:** This is a partial sequence diagram. For simplicity, it omits some intermediate objects and lower-level interactions within the `Model` component.</div>
+
 1. `LogicManager` forwards the raw user input to `ClinicBookParser`.
-2. `ClinicBookParser` recognises the `find` command word and delegates argument parsing to `FindCommandParser`.
-3. `FindCommandParser` tokenizes and validates the arguments, then converts the selected search criterion into a
-   `PersonMatchesFindCriteriaPredicate`.
-4. `FindCommand` stores that predicate and passes it to `Model#updateFilteredPersonList(...)` during execution.
-5. `ModelManager` applies the predicate to its internal `FilteredList<Person>`, which in turn updates the list shown
-   in the UI.
+2. `ClinicBookParser` recognises the `find` command word, creates a `FindCommandParser`, and delegates argument parsing to it.
+3. `FindCommandParser` validates the selected search criterion and creates a `FindCommand` containing a predicate that
+   represents the search criteria.
+4. During execution, `FindCommand` passes that predicate to the `Model` component to update the filtered person list.
+5. Within the `Model` component, lower-level list-update details are omitted from the diagram; conceptually, the predicate is applied to the filtered person list.
 
 This design is intentionally stateful. Commands that act on the currently displayed list can be chained after
 `find` without any extra plumbing, because the filtered list becomes the shared source of truth for follow-up
@@ -216,15 +215,14 @@ to contain at least one usable criterion.
 
 #### Matching Semantics
 
-The class diagram below focuses on `PersonMatchesFindCriteriaPredicate` and the classes directly involved in storing,
-applying, and evaluating `find`'s matching state.
+The (partial) class diagram below focuses on `FindCommand`, `PersonMatchesFindCriteriaPredicate`, and the relevant
+person hierarchy. Lower-level model implementation details are omitted for simplicity.
 
 <img src="images/FindClassDiagram.png" width="760" />
 
-After parsing succeeds, `FindCommand` stores a `PersonMatchesFindCriteriaPredicate`. The predicate stores `find`'s
-matching state as `nameKeywords`, `phone`, and `nric`, with unused criteria left empty. During execution,
-`FindCommand` passes that predicate through the `Model` interface. Internally, `ModelManager` applies it to the
-`FilteredList<Person>` that backs the displayed person list.
+After parsing, `FindCommand` encapsulates a `PersonMatchesFindCriteriaPredicate` that captures the search criteria.
+The predicate determines whether each person in the list matches those criteria: name and phone checks apply to any
+person, while the NRIC criterion applies only to `Patient` instances. During execution, `FindCommand` passes the predicate to the `Model` component to update the filtered person list.
 
 The patient-only NRIC branch is the most distinctive part of the predicate:
 
@@ -364,14 +362,6 @@ The following activity diagram summarizes what happens when a user executes a ne
   * Pros: Will use less memory (e.g., for `delete`, just save the person being deleted).
   * Cons: We must ensure that the implementation of each individual command is correct.
 
-_{more aspects and alternatives to be added}_
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
-
----
-
 ## **Documentation, logging, testing, configuration, dev-ops**
 
 * [Documentation guide](Documentation.md)
@@ -379,8 +369,6 @@ _{Explain here how the data archiving feature will be implemented}_
 * [Logging guide](Logging.md)
 * [Configuration guide](Configuration.md)
 * [DevOps guide](DevOps.md)
-
----
 
 ## **Appendix: Requirements**
 
@@ -1012,7 +1000,6 @@ Use case ends.
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Patient Record**: A record containing a patient's personal information and medical history in ClinicBook.
 * **Prescription**: A written order from a doctor specifying medication, dosage, and administration instructions for a patient's treatment
-* **Private contact detail**: A contact detail that is not meant to be shared with others
 * **Symptom**: Physical or mental signs experienced by a patient that indicate a medical condition or disease
 * **Duplicate Record**: A record with the same NRIC / Name / Phone Number
 * **Audit Trail**: A chronological record of significant system actions (e.g., prescription changes, dispensing, purge operations), including actor and timestamp.
@@ -1021,9 +1008,24 @@ Use case ends.
 * **NRIC**: National Registration Identity Card number used as a unique identifier for individuals in the system.
 * **System User**: Any individual registered in ClinicBook, such as a patient, doctor, or pharmacist.
 
+## **Appendix: Instructions for Manual Testing**
+
+## **Appendix: Effort**
+
+ClinicBook required a higher level of effort compared to AB3. While AB3 manages a single main entity type, ClinicBook manages multiple role-specific person types: patients, doctors, and pharmacists. This increased complexity across the model, commands, validation, storage, UI, and test coverage, as many features needed to preserve shared `Person` behaviour while enforcing role-specific constraints.
+
+The main implementation challenge was redesigning AB3's contact-management workflow into a clinic workflow. Patient records required additional medical data such as NRIC, date of birth, sex, allergies, diagnoses, prescriptions, and lab or imaging test orders. 
+Clinical commands such as `diagnosis`, `ordertest`, and `get-history` also required validation across different records. 
+For example, the app had to ensure that a diagnosis targets a patient, is diagnosed by a doctor,
+and may include prescriptions dispensed by pharmacists. These requirements led to more complex parsing, model operations, and error handling compared to AB3's original name-based contact commands.
+
+A significant amount of effort was saved by reusing AB3 as the project base. AB3 provided the initial JavaFX UI structure, command parsing architecture, JSON storage approach, Gradle setup, testing framework, and documentation structure. This reduced the effort required for general application infrastructure, allowing the team to focus on clinic-specific functionality. The team's adaptation work is reflected especially in the person subtype model, role-specific add commands, diagnosis and prescription handling, lab/imaging test ordering, subtype-aware JSON adapters, and command parsers for clinic workflows.
+
+Despite starting from AB3, ClinicBook achieved a broader domain model and a more integrated workflow. The final product supports registering patients, doctors, and pharmacists, searching by name, phone, or NRIC, recording diagnoses and prescriptions, ordering lab or imaging tests, and retrieving patient history. These features required coordinated changes across the Logic, Model, Storage, UI, testing, and documentation components.
+
 ---
 
-## **Appendix: Instructions for manual testing**
+## **Appendix: Instructions for Manual Testing**
 
 Given below are instructions to test the app manually.
 
@@ -1044,7 +1046,20 @@ testers are expected to do more *exploratory* testing.
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
    2. Re-launch the app by double-clicking the jar file.<br>
       Expected: The most recent window size and location is retained.
-3. _{ more test cases … }_
+
+### Finding persons
+
+Prerequisite: Start with the initial sample data from a clean launch, before running commands that add, delete, or clear
+records.
+
+1. Test case: `find n/alex lim`<br>
+   Expected: Two persons are listed, `Alex Yeoh` and `Jane Lim`.
+2. Test case: `find p/98765432`<br>
+   Expected: One person is listed, `Lee Mei`.
+3. Test case: `find nric/S1234567D`<br>
+   Expected: One patient is listed, `Alex Yeoh`.
+4. Test case: `find Alex`<br>
+   Expected: No person list update is performed. The result display shows an invalid command format message.
 
 ### Deleting a person
 
@@ -1057,11 +1072,11 @@ testers are expected to do more *exploratory* testing.
       Expected: No person is deleted. Error details are shown in the status message. Status bar remains the same.
    4. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size).<br>
       Expected: Similar to the previous test case.
-2. _{ more test cases … }_
 
-### Saving data
+### Adding a Doctor
 
-1. Dealing with missing/corrupted data files
+1. Adding a Doctor with the same name
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
-2. _{ more test cases … }_
+   1. Prerequisite: A Doctor with the same name, e.g. `Dr Tom Chan`, is in the ClinicBook.
+   2. Test case: `add-doctor n/Dr Tom Chan p/87654321 e/drtan@example.com` Expected: A warning message with the Doctor of the same name is returned. Enter again to add the new record.
+

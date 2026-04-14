@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -19,6 +20,8 @@ import seedu.clinic.model.tag.Tag;
  */
 public class Patient extends Person {
     public static final String ROLE = "Patient";
+    private static final Comparator<Diagnosis> DIAGNOSIS_REVERSE_CHRONOLOGICAL_ORDER =
+            Comparator.comparing(Diagnosis::getVisitDate).reversed();
 
     private final Set<Tag> allergies;
     private final NRIC nric;
@@ -100,6 +103,7 @@ public class Patient extends Person {
     public void addDiagnosis(Diagnosis diagnosis) {
         requireAllNonNull(diagnosis);
         diagnoses.add(diagnosis);
+        diagnoses.sort(DIAGNOSIS_REVERSE_CHRONOLOGICAL_ORDER);
     }
 
     /**

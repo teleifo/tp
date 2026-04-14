@@ -23,13 +23,22 @@ public class UiManager implements Ui {
     private static final String ICON_APPLICATION = "/images/clinicbook_32.png";
 
     private Logic logic;
+    private final String startupWarningMessage;
     private MainWindow mainWindow;
 
     /**
      * Creates a {@code UiManager} with the given {@code Logic}.
      */
     public UiManager(Logic logic) {
+        this(logic, "");
+    }
+
+    /**
+     * Creates a {@code UiManager} with the given {@code Logic} and startup warning message.
+     */
+    public UiManager(Logic logic, String startupWarningMessage) {
         this.logic = logic;
+        this.startupWarningMessage = startupWarningMessage;
     }
 
     @Override
@@ -43,6 +52,7 @@ public class UiManager implements Ui {
             mainWindow = new MainWindow(primaryStage, logic);
             mainWindow.show(); //This should be called before creating other UI parts
             mainWindow.fillInnerParts();
+            mainWindow.showStartupWarning(startupWarningMessage);
 
         } catch (Throwable e) {
             logger.severe(StringUtil.getDetails(e));
