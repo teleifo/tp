@@ -943,6 +943,16 @@ A significant amount of effort was saved by reusing AB3 as the project base. AB3
 
 Despite starting from AB3, ClinicBook achieved a broader domain model and a more integrated workflow. The final product supports registering patients, doctors, and pharmacists, searching by name, phone, or NRIC, recording diagnoses and prescriptions, ordering lab or imaging tests, and retrieving patient history. These features required coordinated changes across the Logic, Model, Storage, UI, testing, and documentation components.
 
+### Planned Enhancements
+
+1. **Add login and multi-role support:** Due to `Constraint-Single-User`, a login feature for `Patient`, `Doctor`, and `Pharmacist` roles was not implemented. As such, NFR 9 (role-based access) is deferred to a future version. Additionally, the current app allows creating a `Doctor` and a `Pharmacist` with exactly the same name, phone number, and email address, resulting in two staff records with identical identity details under different roles. This makes staff records ambiguous and increases the risk of confusing which staff member is being referenced in later workflows (e.g. diagnosis, dispensing). A future version should enforce a cross-role uniqueness constraint on staff contact details, or at minimum present an explicit warning before allowing such records to be created.
+
+2. **Add shorter command aliases:** Common commands such as `add-patient`, `add-doc`, and `add-pharmacist` are verbose for frequent use. A future version should introduce shorter aliases (e.g. `ap`, `ad`, `aph`) so that power users can enter commands more efficiently without needing to type the full command word.
+
+3. **Extend `delete` to support deletion by stable ID:** The current `delete` command operates on the displayed list index (e.g. `delete 3`), which changes as the list is filtered or reordered. This promotes confusion between ![1776144853134](image/DeveloperGuide/1776144853134.png)the display index and the stable internal ID. A future version should support a `delete id/ID` syntax (e.g. `delete id/12`) so that records can be deleted unambiguously by their stable identifier regardless of the current list view.
+
+4. **Prevent duplicate diagnosis entries:** The app currently allows the exact same diagnosis record (identical description, visit date, symptoms, medication, dosage, frequency, and dispense quantity) to be added repeatedly for the same patient, with all copies appearing in the patient's medical history. Since diagnosis records form part of the permanent medical history, accidental duplication clutters the record and may cause clinical confusion. A future version should detect exact duplicate diagnosis entries and either reject them outright or require explicit confirmation before recording a second identical entry.
+
 ---
 
 ## **Appendix: Instructions for Manual Testing**
