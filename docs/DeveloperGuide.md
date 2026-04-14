@@ -943,7 +943,9 @@ A significant amount of effort was saved by reusing AB3 as the project base. AB3
 
 Despite starting from AB3, ClinicBook achieved a broader domain model and a more integrated workflow. The final product supports registering patients, doctors, and pharmacists, searching by name, phone, or NRIC, recording diagnoses and prescriptions, ordering lab or imaging tests, and retrieving patient history. These features required coordinated changes across the Logic, Model, Storage, UI, testing, and documentation components.
 
-### Planned Enhancements
+## **Appendix: Planned Enhancements**
+
+Team size: 5
 
 1. **Add login and multi-role support:** Due to `Constraint-Single-User`, a login feature for `Patient`, `Doctor`, and `Pharmacist` roles was not implemented. As such, NFR 9 (role-based access) is deferred to a future version. Additionally, the current app allows creating a `Doctor` and a `Pharmacist` with exactly the same name, phone number, and email address, resulting in two staff records with identical identity details under different roles. This makes staff records ambiguous and increases the risk of confusing which staff member is being referenced in later workflows (e.g. diagnosis, dispensing). A future version should enforce a cross-role uniqueness constraint on staff contact details, or at minimum present an explicit warning before allowing such records to be created.
 
@@ -953,15 +955,14 @@ Despite starting from AB3, ClinicBook achieved a broader domain model and a more
 
 4. **Prevent duplicate diagnosis entries:** The app currently allows the exact same diagnosis record (identical description, visit date, symptoms, medication, dosage, frequency, and dispense quantity) to be added repeatedly for the same patient, with all copies appearing in the patient's medical history. Since diagnosis records form part of the permanent medical history, accidental duplication clutters the record and may cause clinical confusion. A future version should detect exact duplicate diagnosis entries and either reject them outright or require explicit confirmation before recording a second identical entry.
 
----
+5. **Require confirmation before clearing all records:** The current `clear` command immediately deletes all records. This is risky because the command affects the entire clinic book. We plan to make `clear` show a confirmation message first, such as `This will delete 18 records. Press Enter again to confirm, or enter list to cancel.`
+
+6. **Allow `find` to restrict name and phone searches by role:** The current `find n/KEYWORDS` and `find p/PHONE` commands search all persons, so patient searches can also show doctors and pharmacists with matching names or phone numbers. We plan to add an optional role filter, for example `find role/patient n/Alex` or `find role/doctor p/87654321`, while keeping the existing unfiltered `find` behavior unchanged.
+
 
 ## **Appendix: Instructions for Manual Testing**
 
-Given below are a few guided checks for the clinic-specific features added beyond AB3. These are not exhaustive.
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** These instructions only provide a starting point for testers to work on;
-testers are expected to do more *exploratory* testing.
-</div>
+The instructions below are only a starting point. Testers are expected to perform additional exploratory testing.
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:**
 Run the app from a fresh folder, or delete the existing `data/clinicbook.json` before launch, so that the sample data is loaded.
