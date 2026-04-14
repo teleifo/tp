@@ -36,7 +36,7 @@ ClinicBook is a **desktop app for managing clinic records, optimized for use via
 
    * `get-history nric/S1234567D` : Retrieves the medical history for the matching patient.
 
-   * `ordertest id/1 test/Blood Test testtype/LAB vd/2026-04-08 ordered/2` : Orders a lab test for patient with ID 1, ordered by doctor with ID 2.
+   * `order-test id/1 test/Blood Test testtype/LAB vd/2026-04-08 ordered/2` : Orders a lab test for patient with ID 1, ordered by doctor with ID 2.
 
    * `delete 3` : Deletes the 3rd record shown in the current list.
 
