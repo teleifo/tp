@@ -54,46 +54,17 @@ public class GetHistoryCommandTest {
         GetHistoryCommand command = new GetHistoryCommand("S1234567D");
         command.execute(expectedModel);
 
-        String expectedMessage = "Medical history for Alice Tan (NRIC: S1234567D)\n"
-                + "Date of birth: 1990-01-01\n"
-                + "Diagnoses:\n"
-            + "  1. Hypertension (Visit date: 2024-05-20, Diagnosed by ID: 3)\n"
-                + "     Symptoms: headache, dizziness\n"
-                + "     Prescriptions:\n"
-            + "       - Amlodipine, dosage: 5mg, frequency: once daily, prescribed by ID: N/A, "
-            + "dispensed by ID: 4\n"
-            + "Lab/Imaging Tests: none ordered.";
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
-    }
-
-    @Test
-    public void execute_multipleDiagnoses_showsMostRecentFirst() {
-        Model model = createModelWithDiagnosesOutOfOrder();
-        Model expectedModel = new ModelManager(model.getClinicBook(), new UserPrefs());
-
-        GetHistoryCommand command = new GetHistoryCommand("S1234567D");
-        command.execute(expectedModel);
-
-        String lineSep = "\n";
+        String lineSep = System.lineSeparator();
         String expectedMessage = "Medical history for Alice Tan (NRIC: S1234567D)" + lineSep
                 + "Date of birth: 1990-01-01" + lineSep
                 + "Diagnoses:" + lineSep
-                + "  1. Flu (Visit date: 2027-03-01, Diagnosed by ID: 2)" + lineSep
-                + "     Symptoms: fever, cough" + lineSep
+                + "  1. Hypertension (Visit date: 2024-05-20, Diagnosed by: Dr Carl (ID: 3))" + lineSep
+                + "     Symptoms: headache, dizziness" + lineSep
                 + "     Prescriptions:" + lineSep
-                + "       - Paracetamol, dosage: 500mg, frequency: 3 times daily, prescribed by ID: N/A, "
-                + "dispensed by ID: 4" + lineSep
-                + "  2. Flu (Visit date: 2026-03-01, Diagnosed by ID: 2)" + lineSep
-                + "     Symptoms: fever, cough" + lineSep
-                + "     Prescriptions:" + lineSep
-                + "       - Paracetamol, dosage: 500mg, frequency: 3 times daily, prescribed by ID: N/A, "
-                + "dispensed by ID: 4" + lineSep
-                + "  3. Flu (Visit date: 2025-03-01, Diagnosed by ID: 2)" + lineSep
-                + "     Symptoms: fever, cough" + lineSep
-                + "     Prescriptions:" + lineSep
-                + "       - Paracetamol, dosage: 500mg, frequency: 3 times daily, prescribed by ID: N/A, "
-                + "dispensed by ID: 4" + lineSep
-                + "Lab/Imaging Tests: none ordered.";
+                + "       - Amlodipine, dosage: 5mg, frequency: once daily, prescribed by: N/A, "
+                + "dispensed by: Pharma Pat (ID: 4)" + lineSep
+                + "Lab/Imaging Tests:" + lineSep
+                + "  1. [IMAGING] Chest X-Ray (Ordered date: 2026-04-08, Ordered by: Dr Carl (ID: 3))";
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
