@@ -70,8 +70,6 @@ public class AddDiagnosisCommand extends Command {
             "Diagnosis description should not be blank.";
     public static final String MESSAGE_EMPTY_SYMPTOM =
             "Symptoms should not be blank.";
-    public static final String MESSAGE_INVALID_FREQUENCY_SLASH =
-            "Frequency cannot contain '/'. Perhaps use \"per\" or other alternatives?";
 
     private final int patientId;
     private final Diagnosis diagnosis;

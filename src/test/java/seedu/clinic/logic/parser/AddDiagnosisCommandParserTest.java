@@ -161,18 +161,31 @@ public class AddDiagnosisCommandParserTest {
     }
 
     @Test
-    public void parse_frequencyContainingSlash_throwsFriendlyParseException() {
-        String userInput = " id/1 desc/Flu vd/2026-03-01 diagnosed/2"
-                + " sym/fever med/Paracetamol dose/500mg freq/1/day dispensed/4";
-
-        assertParseFailure(parser, userInput, AddDiagnosisCommand.MESSAGE_INVALID_FREQUENCY_SLASH);
-    }
-
-    @Test
-    public void parse_frequencyContainingDosePrefix_throwsFriendlyParseException() {
+    public void parse_frequencyWithDoseUnit_success() throws Exception {
         String userInput = " id/1 desc/Flu vd/2026-03-01 diagnosed/2"
                 + " sym/fever med/Paracetamol dose/500mg freq/1 dose/day dispensed/4";
 
-        assertParseFailure(parser, userInput, AddDiagnosisCommand.MESSAGE_MISSING_MEDICATION_DETAILS);
+        AddDiagnosisCommand command = parser.parse(userInput);
+        assertTrue(command.toString().contains("Flu"));
+    }
+
+    @Test
+    public void parse_multipleMedicationsWithFrequencyDoseUnit_success() throws Exception {
+        String userInput = " id/1 desc/Flu vd/2026-03-01 diagnosed/2"
+                + " sym/fever med/Paracetamol dose/500mg freq/1 dose/day dispensed/4"
+                + " med/Ibuprofen dose/400mg freq/2 dose/tablet dispensed/4";
+
+        AddDiagnosisCommand command = parser.parse(userInput);
+        assertTrue(command.toString().contains("Flu"));
+    }
+
+    @Test
+    public void parse_mixedMedicationsWithPartialFrequencyDoseUnit_success() throws Exception {
+        String userInput = " id/1 desc/Flu vd/2026-03-01 diagnosed/2"
+                + " sym/fever med/Paracetamol dose/500mg freq/1 dose/day dispensed/4"
+                + " med/Ibuprofen dose/400mg freq/2 times daily dispensed/4";
+
+        AddDiagnosisCommand command = parser.parse(userInput);
+        assertTrue(command.toString().contains("Flu"));
     }
 }

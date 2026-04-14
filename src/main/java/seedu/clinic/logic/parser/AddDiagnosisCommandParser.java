@@ -78,9 +78,6 @@ public class AddDiagnosisCommandParser implements Parser<AddDiagnosisCommand> {
         List<String> medNames = argMultimap.getAllValues(PREFIX_MEDICATION);
         List<String> dosages = argMultimap.getAllValues(PREFIX_DOSAGE);
         List<String> frequencies = argMultimap.getAllValues(PREFIX_FREQ);
-        if (frequencies.stream().anyMatch(freq -> freq.contains("/"))) {
-            throw new ParseException(AddDiagnosisCommand.MESSAGE_INVALID_FREQUENCY_SLASH);
-        }
         List<Integer> dispensedByList = new ArrayList<>();
         for (String value : argMultimap.getAllValues(PREFIX_DISPENSED_BY)) {
             dispensedByList.add(parsePositivePersonId(value, AddDiagnosisCommand.MESSAGE_INVALID_PHARMACIST));
@@ -90,11 +87,62 @@ public class AddDiagnosisCommandParser implements Parser<AddDiagnosisCommand> {
 
         if (prescriptionCount == 0) {
             throw new ParseException(AddDiagnosisCommand.MESSAGE_MISSING_MEDICATION);
-        } else {
-            if (dosages.size() != prescriptionCount || frequencies.size() != prescriptionCount
-                    || dispensedByList.size() != prescriptionCount) {
-                throw new ParseException(AddDiagnosisCommand.MESSAGE_MISSING_MEDICATION_DETAILS);
+        }
+
+        if (dosages.size() > prescriptionCount && frequencies.size() == prescriptionCount) {
+            int firstFreqPos = args.indexOf(" freq/");
+            int firstDosePos = args.indexOf(" dose/");
+
+            if (firstFreqPos != -1 && firstDosePos != -1 && firstDosePos < firstFreqPos) {
+                java.util.regex.Pattern unitDosePattern = java.util.regex.Pattern.compile(" freq/\\S+ dose/");
+                java.util.regex.Matcher matcher = unitDosePattern.matcher(args);
+
+                java.util.List<Integer> freqsWithUnitDose = new java.util.ArrayList<>();
+                while (matcher.find()) {
+                    String before = args.substring(0, matcher.start());
+                    int freqIdx = countMatches(before, " freq/");
+                    freqsWithUnitDose.add(freqIdx);
+                }
+
+                java.util.List<Integer> dosePositions = new java.util.ArrayList<>();
+                int pos = 0;
+                while ((pos = args.indexOf(" dose/", pos)) >= 0) {
+                    dosePositions.add(pos);
+                    pos++;
+                }
+
+                java.util.List<Integer> freqPositions = new java.util.ArrayList<>();
+                pos = 0;
+                while ((pos = args.indexOf(" freq/", pos)) >= 0) {
+                    freqPositions.add(pos);
+                    pos++;
+                }
+
+                java.util.List<Integer> dosIndicesToRemove = new java.util.ArrayList<>();
+                for (int freqIdx : freqsWithUnitDose) {
+                    int dosCount = 0;
+                    for (int dosePos : dosePositions) {
+                        if (dosePos < freqPositions.get(freqIdx)) {
+                            dosCount++;
+                        }
+                    }
+
+                    if (dosCount < dosages.size()) {
+                        frequencies.set(freqIdx, frequencies.get(freqIdx) + " dose/" + dosages.get(dosCount));
+                        dosIndicesToRemove.add(dosCount);
+                    }
+                }
+
+                java.util.Collections.sort(dosIndicesToRemove, java.util.Collections.reverseOrder());
+                for (int idx : dosIndicesToRemove) {
+                    dosages.remove(idx);
+                }
             }
+        }
+
+        if (dosages.size() != prescriptionCount || frequencies.size() != prescriptionCount
+                || dispensedByList.size() != prescriptionCount) {
+            throw new ParseException(AddDiagnosisCommand.MESSAGE_MISSING_MEDICATION_DETAILS);
         }
 
         List<Prescription> prescriptions = new ArrayList<>();
@@ -135,5 +183,18 @@ public class AddDiagnosisCommandParser implements Parser<AddDiagnosisCommand> {
         }
 
         return ParserUtil.parsePersonId(trimmedId);
+    }
+
+    /**
+     * Counts the number of non-overlapping occurrences of a given pattern in a string.
+     */
+    private static int countMatches(String text, String pattern) {
+        int count = 0;
+        int index = 0;
+        while ((index = text.indexOf(pattern, index)) >= 0) {
+            count++;
+            index += pattern.length();
+        }
+        return count;
     }
 }
