@@ -1041,12 +1041,12 @@ testers are expected to do more *exploratory* testing.
 1. Initial launch
 
    1. Download the jar file and copy it into an empty folder.
-   2. Double-click the jar file.<br>
+   2. Double-click the jar file. If double-clicking does not work, open a command terminal, `cd` into the folder containing the jar file, and run `java -jar JAR_FILE_NAME.jar`, replacing `JAR_FILE_NAME.jar` with the downloaded jar file name.<br>
       Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 2. Saving window preferences
 
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
-   2. Re-launch the app by double-clicking the jar file.<br>
+   2. Re-launch the app using the same method used for the initial launch.<br>
       Expected: The most recent window size and location is retained.
 
 ### Finding persons

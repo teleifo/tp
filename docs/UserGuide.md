@@ -21,7 +21,7 @@ ClinicBook is a **desktop app for managing clinic records, optimized for use via
 
 1. Copy the file to the folder you want to use as the _home folder_ for your ClinicBook.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar clinicbook.jar` command to run the application.<br>
+1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar JAR_FILE_NAME.jar` command to run the application, replacing `JAR_FILE_NAME.jar` with the name of the downloaded jar file. For example, if the file is named `clinicbook.jar`, use `java -jar clinicbook.jar`.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
@@ -268,6 +268,9 @@ Furthermore, certain edits can cause the ClinicBook to behave in unexpected ways
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+3. **Double-clicking the jar file** may not work on some systems. If this happens, open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar JAR_FILE_NAME.jar` command instead, replacing `JAR_FILE_NAME.jar` with the name of the downloaded jar file. For example, if the file is named `clinicbook.jar`, use `java -jar clinicbook.jar`.
+4. **Placing ClinicBook in a write-protected folder** may cause it to not work properly. Use a folder that you have permission to write to.
+5. **Mac users using fullscreen mode for secondary dialogs**, such as the Help Window, may encounter unexpected behavior. Avoid using fullscreen mode for these secondary windows.
 
 --------------------------------------------------------------------------------------------------------------------
 
