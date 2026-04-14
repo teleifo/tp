@@ -63,20 +63,12 @@ public class PersonCard extends UiPart<Region> {
         role.setText(person.getRole());
         name.setText(person.getName().fullName);
 
-<<<<<<< HEAD
         name.setWrapText(true);
         name.setMinWidth(0);
         keepFullyVisible(role);
         keepFullyVisible(personIdLabel);
         if (person instanceof Patient patient) {
             nric.setText("NRIC: " + patient.getNric().value);
-=======
-        allowWrapping(name);
-        HBox.setHgrow(name, Priority.ALWAYS);
-        keepFullyVisible(role);
-        if (person instanceof Patient) {
-            nric.setText("NRIC: " + ((Patient) person).getNric().value);
->>>>>>> 190629d9592f95fbb7d2d17141f9a1694bbbaa2d
             address.setText(person.getAddress().value);
             patient.getAllergies().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
@@ -95,15 +87,6 @@ public class PersonCard extends UiPart<Region> {
         role.setText(person.getRole());
         allowWrapping(address);
         allowWrapping(email);
-<<<<<<< HEAD
-=======
-
-        if (person instanceof Patient patient) {
-            patient.getAllergies().stream()
-                .sorted(Comparator.comparing(tag -> tag.tagName))
-                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-        }
->>>>>>> 190629d9592f95fbb7d2d17141f9a1694bbbaa2d
     }
 
     private static void allowWrapping(Label label) {
