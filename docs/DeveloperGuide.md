@@ -13,6 +13,10 @@ This project is based on the AddressBook-Level3 project created by the [SE-EDU i
 
 * Yong Rui: AI tools, including Codex and Cursor, were used to assist with development and documentation tasks, including refactoring the separate patient, pharmacist, and doctor arrays into a unified person array with role-specific behaviour, and checking affected files for consistency and correctness, which helped resolve several MVP bugs. They also supported the addition of a GitHub Actions workflow to automate PR milestone assignment from linked issues, assisted with PlantUML diagrams, cross-checked documentation against the codebase, refined test cases into valid and invalid partitions, and identified edge cases that could break commands. All suggestions were reviewed and adapted before inclusion.
 
+* Donavan: AI tools (Claude and Copilot) were used to assist with development, bug findings, provide insights on areas of enhancement during Pull Requests reviews. All suggestions were reviewed and adapted before inclusion.
+
+* Trevor: AI tools, including ChatGPT and Codex, were used to support various aspects of development and test creation. These tools also assisted with smaller tasks, such as locating relevant sections of code and clarifying programming concepts. All suggestions were reviewed and adapted before inclusion.
+
 ## **Setting up, getting started**
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
@@ -179,13 +183,14 @@ The sequence diagram below shows the execution flow for `find n/Alice Bob`.
 
 <img src="images/FindSequenceDiagram.png" width="800" />
 
+<div markdown="span" class="alert alert-info">:information_source: **Note:** This is a partial sequence diagram. For simplicity, it omits some intermediate objects and lower-level interactions within the `Model` component.</div>
+
 1. `LogicManager` forwards the raw user input to `ClinicBookParser`.
-2. `ClinicBookParser` recognises the `find` command word and delegates argument parsing to `FindCommandParser`.
-3. `FindCommandParser` tokenizes and validates the arguments, then converts the selected search criterion into a
-   `PersonMatchesFindCriteriaPredicate`.
-4. `FindCommand` stores that predicate and passes it to `Model#updateFilteredPersonList(...)` during execution.
-5. `ModelManager` applies the predicate to its internal `FilteredList<Person>`, which in turn updates the list shown
-   in the UI.
+2. `ClinicBookParser` recognises the `find` command word, creates a `FindCommandParser`, and delegates argument parsing to it.
+3. `FindCommandParser` validates the selected search criterion and creates a `FindCommand` containing a predicate that
+   represents the search criteria.
+4. During execution, `FindCommand` passes that predicate to the `Model` component to update the filtered person list.
+5. Within the `Model` component, lower-level list-update details are omitted from the diagram; conceptually, the predicate is applied to the filtered person list.
 
 This design is intentionally stateful. Commands that act on the currently displayed list can be chained after
 `find` without any extra plumbing, because the filtered list becomes the shared source of truth for follow-up
@@ -212,15 +217,14 @@ to contain at least one usable criterion.
 
 #### Matching Semantics
 
-The class diagram below focuses on `PersonMatchesFindCriteriaPredicate` and the classes directly involved in storing,
-applying, and evaluating `find`'s matching state.
+The (partial) class diagram below focuses on `FindCommand`, `PersonMatchesFindCriteriaPredicate`, and the relevant
+person hierarchy. Lower-level model implementation details are omitted for simplicity.
 
 <img src="images/FindClassDiagram.png" width="760" />
 
-After parsing succeeds, `FindCommand` stores a `PersonMatchesFindCriteriaPredicate`. The predicate stores `find`'s
-matching state as `nameKeywords`, `phone`, and `nric`, with unused criteria left empty. During execution,
-`FindCommand` passes that predicate through the `Model` interface. Internally, `ModelManager` applies it to the
-`FilteredList<Person>` that backs the displayed person list.
+After parsing, `FindCommand` encapsulates a `PersonMatchesFindCriteriaPredicate` that captures the search criteria.
+The predicate determines whether each person in the list matches those criteria: name and phone checks apply to any
+person, while the NRIC criterion applies only to `Patient` instances. During execution, `FindCommand` passes the predicate to the `Model` component to update the filtered person list.
 
 The patient-only NRIC branch is the most distinctive part of the predicate:
 
@@ -1115,3 +1119,25 @@ records.
    5. Invalid test case: `get-history nric/T0000000A`<br>
       Expected: The result display shows that no patient was found for the supplied NRIC.
 
+### Adding a Diagnosis
+
+1. Adding a diagnosis with valid patient, doctor, and pharmacist IDs
+
+   1. Prerequisite: Start from a clean launch with the sample data. Patient ID `1`, doctor ID `2`, and pharmacist ID `4` are present.
+   2. Test case: `diagnosis id/1 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever sym/cough med/Paracetamol dose/500mg freq/3 times daily dispensed/4`<br>
+      Expected: A success message is shown for the new diagnosis.
+2. Adding a diagnosis with a missing description
+
+   1. Prerequisite: Start from a clean launch with the sample data. Patient ID `1`, doctor ID `2`, and pharmacist ID `4` are present.
+   2. Test case: `diagnosis id/1 vd/2026-03-01 diagnosed/2 sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4`<br>
+      Expected: No diagnosis is added. The result display shows that the diagnosis description is required.
+3. Adding a diagnosis with an invalid patient ID
+
+   1. Prerequisite: Start from a clean launch with the sample data. Patient ID `1`, doctor ID `2`, and pharmacist ID `4` are present.
+   2. Test case: `diagnosis id/0 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4`<br>
+      Expected: No diagnosis is added. The result display shows that the patient ID provided is invalid.
+4. Adding a diagnosis with a future visit date
+
+   1. Prerequisite: Start from a clean launch with the sample data. Patient ID `1`, doctor ID `2`, and pharmacist ID `4` are present.
+   2. Test case: `diagnosis id/1 desc/Flu vd/2099-01-01 diagnosed/2 sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4`<br>
+      Expected: No diagnosis is added. The result display shows that the visit date cannot be later than today.

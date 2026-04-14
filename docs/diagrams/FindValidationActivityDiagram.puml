@@ -7,42 +7,45 @@ start
 :Tokenize arguments using
 `n/`, `p/`, and `nric/`;
 
-if (duplicate search prefix?) then (yes)
+if () then ([duplicate search prefix])
   :Reject with duplicate-prefix error;
   stop
+else ([else])
 endif
 
-if (exactly one search prefix
-and no preamble?) then (yes)
-else (no)
+if () then ([exactly one search prefix
+and no preamble])
+else ([else])
   :Reject with invalid
   command format;
   stop
 endif
 
-if (selected prefix is `n/`?) then (yes)
-  if (name value blank?) then (yes)
+if () then ([selected prefix is `n/`])
+  if () then ([name value blank])
     :Reject with invalid
     command format;
     stop
-  else (no)
+  else ([else])
     :Split value into
     name keywords;
   endif
-else (no)
-  if (selected prefix is `p/`?) then (yes)
+else ([else])
+  if () then ([selected prefix is `p/`])
     :Parse phone value;
-    if (phone invalid?) then (yes)
+    if () then ([phone invalid])
       :Reject with phone
       format error;
       stop
+    else ([else])
     endif
-  else (`nric/`)
+  else ([selected prefix is `nric/`])
     :Parse NRIC value;
-    if (NRIC invalid?) then (yes)
+    if () then ([NRIC invalid])
       :Reject with NRIC
       format error;
       stop
+    else ([else])
     endif
   endif
 endif

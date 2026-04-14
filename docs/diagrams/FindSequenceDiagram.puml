@@ -6,13 +6,11 @@ box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
 participant ":ClinicBookParser" as ClinicBookParser LOGIC_COLOR
 participant ":FindCommandParser" as FindCommandParser LOGIC_COLOR
-participant "c:FindCommand" as FindCommand LOGIC_COLOR
-participant "r:CommandResult" as CommandResult LOGIC_COLOR
+participant "f:FindCommand" as FindCommand LOGIC_COLOR
 end box
 
 box Model MODEL_COLOR_T1
-participant "pred:PersonMatchesFindCriteriaPredicate" as Predicate MODEL_COLOR
-participant "m:Model" as Model MODEL_COLOR
+participant ":Model" as Model MODEL_COLOR
 end box
 
 [-> LogicManager : execute("find n/Alice Bob")
@@ -31,29 +29,22 @@ deactivate FindCommandParser
 ClinicBookParser -> FindCommandParser : parse(" n/Alice Bob")
 activate FindCommandParser
 
-FindCommandParser -> FindCommandParser : tokenize and validate\narguments
-
-create Predicate
-FindCommandParser -> Predicate : create predicate for\n["Alice", "Bob"]
-activate Predicate
-
-Predicate --> FindCommandParser
-deactivate Predicate
+FindCommandParser -> FindCommandParser : tokenize, validate,\nand build predicate
 
 create FindCommand
 FindCommandParser -> FindCommand : new FindCommand(pred)
 activate FindCommand
 
-FindCommand --> FindCommandParser : c
+FindCommand --> FindCommandParser :
 deactivate FindCommand
 
-FindCommandParser --> ClinicBookParser : c
+FindCommandParser --> ClinicBookParser : f
 deactivate FindCommandParser
 'Hidden arrow to position the destroy marker below the end of the activation bar.
 FindCommandParser -[hidden]-> ClinicBookParser
 destroy FindCommandParser
 
-ClinicBookParser --> LogicManager : c
+ClinicBookParser --> LogicManager : f
 deactivate ClinicBookParser
 
 LogicManager -> FindCommand : execute(model)
@@ -65,14 +56,7 @@ activate Model
 Model --> FindCommand
 deactivate Model
 
-create CommandResult
-FindCommand -> CommandResult
-activate CommandResult
-
-CommandResult --> FindCommand
-deactivate CommandResult
-
-FindCommand --> LogicManager : r
+FindCommand --> LogicManager : result
 deactivate FindCommand
 
 [<-- LogicManager
