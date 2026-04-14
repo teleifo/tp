@@ -204,25 +204,22 @@ Format:
 Example:
 `diagnosis id/1 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever sym/cough med/Paracetamol dose/500mg freq/3 times daily dispensed/4`
 
-### Ordering a lab or imaging test : `ordertest`
+### Ordering a lab or imaging test : `order-test`
 
-Orders a lab or imaging test for a patient, referencing the ordering doctor by person `ID`.
+Orders a lab or imaging test for a patient and validates the referenced doctor by person `ID`.
 
 Format:
-`ordertest id/PATIENT_ID test/TEST_NAME testtype/TEST_TYPE vd/ORDER_DATE ordered/DOCTOR_ID`
+`order-test id/PATIENT_ID test/TEST_NAME testtype/TEST_TYPE vd/ORDERED_DATE ordered/DOCTOR_ID`
 
-* `id/` must refer to a patient's `ID`.
-* `ordered/` must refer to a doctor's `ID`.
-* `test/` is the name of the test (e.g. `Complete Blood Count`, `Chest X-Ray`).
-* `testtype/` must be either `LAB` or `IMAGING` (case-insensitive).
-* `vd/` is the date the order is placed, in `yyyy-MM-dd` format.
+* `id/` and `ordered/` use the person `ID` shown on each person card, not the displayed index.
+* `id/` must refer to a patient and `ordered/` must refer to a doctor.
+* `testtype/` must be either `LAB` or `IMAGING`.
+* `vd/` must be in `yyyy-MM-dd` format.
+* Use `order-test` as the command name.
 * Both the patient and doctor must already exist in the clinic book.
 
 Example:
-`ordertest id/1 test/Complete Blood Count testtype/LAB vd/2026-04-08 ordered/2`
-
-`ordertest id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/2`
-
+`order-test id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/2`
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Viewing ordered tests:**
@@ -284,6 +281,7 @@ Action | Format, Examples
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Diagnosis** | `diagnosis id/PATIENT_ID desc/DESCRIPTION vd/VISIT_DATE diagnosed/DOCTOR_ID sym/SYMPTOM... med/MEDICATION dose/DOSAGE freq/FREQUENCY dispensed/PHARMACIST_ID`<br> e.g., `diagnosis id/1 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4`
+**Order Test** | `order-test id/PATIENT_ID test/TEST_NAME testtype/TEST_TYPE vd/ORDERED_DATE ordered/DOCTOR_ID`<br> e.g., `order-test id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/2`
 **Find** | `find n/NAME_KEYWORDS` or `find p/PHONE` or `find nric/NRIC`<br> e.g., `find n/James Jake`
 **Get History** | `get-history nric/NRIC`<br> e.g., `get-history nric/S1234567D`
 **List** | `list`
