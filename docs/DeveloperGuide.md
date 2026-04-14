@@ -1025,11 +1025,22 @@ Despite starting from AB3, ClinicBook achieved a broader domain model and a more
 
 ## **Appendix: Instructions for Manual Testing**
 
-Given below are instructions to test the app manually.
+Given below are a few guided checks for the clinic-specific features added beyond AB3. These are not exhaustive.
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** These instructions only provide a starting point for testers to work on;
 testers are expected to do more *exploratory* testing.
+</div>
 
+<div markdown="span" class="alert alert-info">:information_source: **Note:**
+Run the app from a fresh folder, or delete the existing `data/clinicbook.json` before launch, so that the sample data is loaded.
+On a fresh sample-data launch, the stable IDs are typically:
+
+* `1` → Alex Yeoh (patient)
+* `2` → Tan Wei Ming (doctor)
+* `3` → Jane Lim (patient)
+* `4` → Lee Mei (pharmacist)
+
+If your local data differs, use the stable `ID` shown on each person card instead of the example IDs below.
 </div>
 
 ### Launch and shutdown
@@ -1077,4 +1088,30 @@ records.
 
    1. Prerequisite: A Doctor with the same name, e.g. `Dr Tom Chan`, is in the ClinicBook.
    2. Test case: `add-doctor n/Dr Tom Chan p/87654321 e/drtan@example.com` Expected: A warning message with the Doctor of the same name is returned. Enter again to add the new record.
+
+### Ordering a lab or imaging test
+
+1. Ordering a test for an existing patient
+
+   1. Prerequisite: Start from a clean launch with the default sample data. On a fresh data file, `Alex Yeoh` has ID `1` and `Tan Wei Ming` has ID `2`. If your IDs differ, adjust the commands accordingly.
+   2. Test case: `ordertest id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/2`<br>
+      Expected: A success message is shown for the new lab/imaging test order.
+   3. Test case: `ordertest id/1 test/Complete Blood Count testtype/LAB vd/2026-04-09 ordered/2`<br>
+      Expected: A success message is shown and the second test is appended to the same patient record.
+   4. Invalid test case: `ordertest id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/999`<br>
+      Expected: No test is added. The result display shows that the doctor ID is invalid.
+
+### Retrieving a patient's medical history
+
+1. Viewing history after adding a diagnosis and ordered test
+
+   1. Prerequisite: Start from a clean launch with the default sample data. On a fresh data file, `Alex Yeoh` has ID `1`, `Tan Wei Ming` has ID `2`, and `Lee Mei` has ID `4`. If your IDs differ, adjust the commands accordingly.
+   2. Test case: `diagnosis id/1 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever sym/cough med/Paracetamol dose/500mg freq/3 times daily dispensed/4`<br>
+      Expected: A success message is shown for the diagnosis.
+   3. Test case: `ordertest id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/2`<br>
+      Expected: A success message is shown for the ordered test.
+   4. Test case: `get-history nric/S1234567D`<br>
+      Expected: The result display shows `Alex Yeoh`'s medical history, including the diagnosis, prescription, and the ordered imaging test.
+   5. Invalid test case: `get-history nric/T0000000A`<br>
+      Expected: The result display shows that no patient was found for the supplied NRIC.
 
