@@ -57,9 +57,15 @@ public class PersonCard extends UiPart<Region> {
         super(FXML);
         this.person = person;
 
-        rowNumber.setText(displayedIndex + ".");
+        rowNumber.setText("Index " + displayedIndex + ".");
         personIdLabel.setText("(ID: " + person.getId() + ")");
+        role.setText(person.getRole());
         name.setText(person.getName().fullName);
+
+        name.setWrapText(true);
+        name.setMinWidth(0);
+        keepFullyVisible(role);
+        keepFullyVisible(personIdLabel);
         if (person instanceof Patient patient) {
             nric.setText("NRIC: " + patient.getNric().value);
             address.setText(person.getAddress().value);
@@ -78,5 +84,17 @@ public class PersonCard extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         email.setText(person.getEmail().value);
         role.setText(person.getRole());
+        allowWrapping(address);
+        allowWrapping(email);
+    }
+
+    private static void allowWrapping(Label label) {
+        label.setWrapText(true);
+        label.setMinWidth(0);
+        label.setMaxWidth(Double.MAX_VALUE);
+    }
+
+    private static void keepFullyVisible(Label label) {
+        label.setMinWidth(Region.USE_PREF_SIZE);
     }
 }
