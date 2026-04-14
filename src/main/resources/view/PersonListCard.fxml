@@ -19,7 +19,7 @@
         <Insets top="5" right="5" bottom="5" left="15" />
       </padding>
       <HBox spacing="6" alignment="CENTER_LEFT">
-        <Label fx:id="rowNumber" styleClass="cell_big_label" text="1.">
+        <Label fx:id="rowNumber" styleClass="cell_big_label" text="Index 1.">
           <!-- Ensures that the label text is never truncated -->
           <minWidth>
             <Region fx:constant="USE_PREF_SIZE" />

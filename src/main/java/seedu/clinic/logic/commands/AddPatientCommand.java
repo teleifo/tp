@@ -34,7 +34,7 @@ public class AddPatientCommand extends AddPersonWithDuplicateWarningCommand<Pati
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
             + PREFIX_NRIC + "S1234567D "
-            + PREFIX_DOB + "01-01-1912 "
+            + PREFIX_DOB + "1912-01-01 "
             + PREFIX_SEX + "Male "
             + PREFIX_ALLERGIES + "G6PD " + PREFIX_ALLERGIES + "Shellfish "
             + PREFIX_EMAIL + "john@gmail.com "

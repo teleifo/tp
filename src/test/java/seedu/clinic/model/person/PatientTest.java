@@ -72,6 +72,33 @@ public class PatientTest {
     }
 
     @Test
+    public void addDiagnosis_multipleDiagnoses_keepsReverseChronologicalOrder() {
+        Patient patient = new Patient(
+                new Name("Alice Patient"),
+                new Phone("91234567"),
+                new Email("alice@example.com"),
+                new Address("1 Street"),
+                Set.of(new Tag("shellfish")),
+                new NRIC("S1166846A"),
+                LocalDate.of(2000, 1, 1),
+                Sex.FEMALE,
+                14);
+
+        Diagnosis diagnosis2026 = new Diagnosis("Flu", LocalDate.of(2026, 3, 1), 2);
+        Diagnosis diagnosis2027 = new Diagnosis("Flu", LocalDate.of(2027, 3, 1), 2);
+        Diagnosis diagnosis2025 = new Diagnosis("Flu", LocalDate.of(2025, 3, 1), 2);
+
+        patient.addDiagnosis(diagnosis2026);
+        patient.addDiagnosis(diagnosis2027);
+        patient.addDiagnosis(diagnosis2025);
+
+        assertEquals(3, patient.getDiagnoses().size());
+        assertEquals(diagnosis2027, patient.getDiagnoses().get(0));
+        assertEquals(diagnosis2026, patient.getDiagnoses().get(1));
+        assertEquals(diagnosis2025, patient.getDiagnoses().get(2));
+    }
+
+    @Test
     public void equalsAndHashCode() {
         Patient first = new Patient(
                 new Name("Alice Patient"),

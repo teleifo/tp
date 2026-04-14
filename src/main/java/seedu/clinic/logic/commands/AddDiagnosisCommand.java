@@ -57,6 +57,7 @@ public class AddDiagnosisCommand extends Command {
     public static final String MESSAGE_INVALID_PATIENT = "The patient ID provided is invalid";
     public static final String MESSAGE_INVALID_DOCTOR = "The doctor ID provided is invalid";
     public static final String MESSAGE_INVALID_PHARMACIST = "The pharmacist ID provided is invalid";
+    public static final String MESSAGE_FUTURE_VISIT_DATE = "Visit date cannot be later than today.";
     public static final String MESSAGE_EMPTY_DESCRIPTION =
             "Diagnosis description should not be blank.";
     public static final String MESSAGE_EMPTY_SYMPTOM =
@@ -67,7 +68,7 @@ public class AddDiagnosisCommand extends Command {
 
     /**
      * Creates an AddDiagnosisCommand to add the specified {@code Diagnosis}
-     * to the patient with the given stable person ID.
+     * to the patient with the given person ID.
      */
     public AddDiagnosisCommand(int patientId, Diagnosis diagnosis) {
         requireNonNull(diagnosis);

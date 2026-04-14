@@ -69,7 +69,7 @@ public class LogicManagerTest {
     @Test
     public void executeConfirmationRequired_reexecuteSameCommandConfirmsAndAdds() throws Exception {
         model.addPerson(new DoctorBuilder().build());
-        String addDoctorCommand = "add-doc n/Dr Bob Tan p/85355255 e/bob@example.com";
+        String addDoctorCommand = "add-doctor n/Dr Bob Tan p/85355255 e/bob@example.com";
 
         CommandResult warningResult = logic.execute(addDoctorCommand);
         assertEquals(String.format(AddPersonWithDuplicateWarningCommand.MESSAGE_DUPLICATE_WARNING,
