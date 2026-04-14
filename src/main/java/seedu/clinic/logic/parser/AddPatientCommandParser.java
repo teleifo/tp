@@ -72,6 +72,11 @@ public class AddPatientCommandParser implements Parser<AddPatientCommand> {
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
 
         List<String> allergyValues = argMultimap.getAllValues(PREFIX_ALLERGIES);
+        if (containsMalformedAllergyValue(allergyValues)) {
+            throw new ParseException(String.format(
+                MESSAGE_INVALID_COMMAND_FORMAT,
+                AddPatientCommand.MESSAGE_USAGE));
+        }
         Set<Tag> allergies = ParserUtil.parseTags(allergyValues);
 
         Person person = new Person(name, phone, email, address);
@@ -96,12 +101,33 @@ public class AddPatientCommandParser implements Parser<AddPatientCommand> {
     }
 
     private static Sex parseSex(String sexInput) throws ParseException {
-        String normalized = sexInput.trim().toUpperCase(Locale.ROOT);
+        String trimmed = sexInput.trim();
+        if (trimmed.isEmpty()) {
+            throw new ParseException(MESSAGE_INVALID_SEX);
+        }
+
+        if (trimmed.contains(" ")) {
+            throw new ParseException(String.format(
+                    MESSAGE_INVALID_COMMAND_FORMAT,
+                    AddPatientCommand.MESSAGE_USAGE));
+        }
+
+        String normalized = trimmed.toUpperCase(Locale.ROOT);
         try {
             return Sex.valueOf(normalized);
         } catch (IllegalArgumentException e) {
             throw new ParseException(MESSAGE_INVALID_SEX, e);
         }
+    }
+
+    private static boolean containsMalformedAllergyValue(List<String> allergyValues) {
+        for (String allergyValue : allergyValues) {
+            String trimmed = allergyValue.trim();
+            if (trimmed.isEmpty() || trimmed.contains(" ") || trimmed.contains("/")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
