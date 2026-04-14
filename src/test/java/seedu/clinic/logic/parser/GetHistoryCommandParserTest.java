@@ -41,4 +41,9 @@ public class GetHistoryCommandParserTest {
         assertParseSuccess(parser, " \n nric/S1234567D", new GetHistoryCommand("S1234567D"));
         assertParseSuccess(parser, " nric/  s2345678a   ", new GetHistoryCommand("S2345678A"));
     }
+
+    @Test
+    public void parse_upperCasePrefix_returnsGetHistoryCommand() {
+        assertParseSuccess(parser, " NRIC/S1234567D", new GetHistoryCommand("S1234567D"));
+    }
 }

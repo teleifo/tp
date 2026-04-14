@@ -21,7 +21,7 @@ ClinicBook is a **desktop app for managing clinic records, optimized for use via
 
 1. Copy the file to the folder you want to use as the _home folder_ for your ClinicBook.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar clinicbook.jar` command to run the application.<br>
+1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar JAR_FILE_NAME.jar` command to run the application, replacing `JAR_FILE_NAME.jar` with the name of the downloaded jar file. For example, if the file is named `clinicbook.jar`, use `java -jar clinicbook.jar`.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
@@ -32,7 +32,7 @@ ClinicBook is a **desktop app for managing clinic records, optimized for use via
 
    * `find n/Alice` : Finds persons whose names match the keyword.
 
-   * `add-doc n/Tan Wei Ming p/87654321 e/drtan@example.com` : Adds a doctor record.
+   * `add-doctor n/Tan Wei Ming p/87654321 e/drtan@example.com` : Adds a doctor record.
 
    * `get-history nric/S1234567D` : Retrieves the medical history for the matching patient.
 
@@ -122,27 +122,27 @@ Format:
 `add-patient n/NAME nric/NRIC dob/DOB sex/SEX [allergy/ALLERGY]... e/EMAIL p/PHONE a/ADDRESS`
 
 * `n/`, `nric/`, `dob/`, `sex/`, `e/`, `p/`, and `a/` are required.
-* `dob/` must be in `dd-MM-yyyy` format.
+* `dob/` must be in `yyyy-MM-dd` format (e.g. `1990-01-31`).
 * `sex/` must be one of `MALE`, `FEMALE`, or `INTERSEX` (case-insensitive).
 * `nric/` must be a valid NRIC and must be unique among patient records.
 * `allergy/` is optional and can be repeated.
 
 Example:
-`add-patient n/John Doe nric/S1234567D dob/01-01-1990 sex/MALE allergy/Penicillin allergy/Shellfish e/johnd@example.com p/91234567 a/123 Clementi Ave 3, #04-12`
+`add-patient n/John Doe nric/S1234567D dob/1990-01-01 sex/MALE allergy/Penicillin allergy/Shellfish e/johnd@example.com p/91234567 a/123 Clementi Ave 3, #04-12`
 
-### Adding a doctor : `add-doc`
+### Adding a doctor : `add-doctor`
 
 Adds a doctor to the clinic book.  
 * If a doctor with the same Name / Phone Number / Email is found, confirmation is needed. 
 * A doctor cannot be added if an existing doctor has the exact same Name, Phone Number, and Email Address.
 
 Format:
-`add-doc n/NAME p/PHONE e/EMAIL`
+`add-doctor n/NAME p/PHONE e/EMAIL`
 
 * `n/`, `p/`, and `e/` are required.
 
 Example:
-`add-doc n/Tan Wei Ming p/87654321 e/drtan@example.com`
+`add-doctor n/Tan Wei Ming p/87654321 e/drtan@example.com`
 
 ### Adding a pharmacist : `add-pharmacist`
 
@@ -204,25 +204,22 @@ Format:
 Example:
 `diagnosis id/1 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever sym/cough med/Paracetamol dose/500mg freq/3 times daily dispensed/4`
 
-### Ordering a lab or imaging test : `ordertest`
+### Ordering a lab or imaging test : `order-test`
 
-Orders a lab or imaging test for a patient, referencing the ordering doctor by person `ID`.
+Orders a lab or imaging test for a patient and validates the referenced doctor by person `ID`.
 
 Format:
-`ordertest id/PATIENT_ID test/TEST_NAME testtype/TEST_TYPE vd/ORDER_DATE ordered/DOCTOR_ID`
+`order-test id/PATIENT_ID test/TEST_NAME testtype/TEST_TYPE vd/ORDERED_DATE ordered/DOCTOR_ID`
 
-* `id/` must refer to a patient's `ID`.
-* `ordered/` must refer to a doctor's `ID`.
-* `test/` is the name of the test (e.g. `Complete Blood Count`, `Chest X-Ray`).
-* `testtype/` must be either `LAB` or `IMAGING` (case-insensitive).
-* `vd/` is the date the order is placed, in `yyyy-MM-dd` format.
+* `id/` and `ordered/` use the person `ID` shown on each person card, not the displayed index.
+* `id/` must refer to a patient and `ordered/` must refer to a doctor.
+* `testtype/` must be either `LAB` or `IMAGING`.
+* `vd/` must be in `yyyy-MM-dd` format.
+* Use `order-test` as the command name.
 * Both the patient and doctor must already exist in the clinic book.
 
 Example:
-`ordertest id/1 test/Complete Blood Count testtype/LAB vd/2026-04-08 ordered/2`
-
-`ordertest id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/2`
-
+`order-test id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/2`
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Viewing ordered tests:**
@@ -268,6 +265,9 @@ Furthermore, certain edits can cause the ClinicBook to behave in unexpected ways
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+3. **Double-clicking the jar file** may not work on some systems. If this happens, open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar JAR_FILE_NAME.jar` command instead, replacing `JAR_FILE_NAME.jar` with the name of the downloaded jar file. For example, if the file is named `clinicbook.jar`, use `java -jar clinicbook.jar`.
+4. **Placing ClinicBook in a write-protected folder** may cause it to not work properly. Use a folder that you have permission to write to.
+5. **Mac users using fullscreen mode for secondary dialogs**, such as the Help Window, may encounter unexpected behavior. Avoid using fullscreen mode for these secondary windows.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -275,12 +275,13 @@ Furthermore, certain edits can cause the ClinicBook to behave in unexpected ways
 
 Action | Format, Examples
 --------|------------------
-**Add Patient** | `add-patient n/NAME nric/NRIC dob/DOB sex/SEX [allergy/ALLERGY]... e/EMAIL p/PHONE a/ADDRESS`<br> e.g., `add-patient n/John Doe nric/S1234567D dob/01-01-1990 sex/MALE allergy/Penicillin e/johnd@example.com p/91234567 a/123 Clementi Ave 3, #04-12`
-**Add Doctor** | `add-doc n/NAME p/PHONE e/EMAIL`<br> e.g., `add-doc n/Tan Wei Ming p/87654321 e/drtan@example.com`
+**Add Patient** | `add-patient n/NAME nric/NRIC dob/DOB sex/SEX [allergy/ALLERGY]... e/EMAIL p/PHONE a/ADDRESS`<br> e.g., `add-patient n/John Doe nric/S1234567D dob/1990-01-01 sex/MALE allergy/Penicillin e/johnd@example.com p/91234567 a/123 Clementi Ave 3, #04-12`
+**Add Doctor** | `add-doctor n/NAME p/PHONE e/EMAIL`<br> e.g., `add-doctor n/Tan Wei Ming p/87654321 e/drtan@example.com`
 **Add Pharmacist** | `add-pharmacist n/NAME e/EMAIL p/PHONE`<br> e.g., `add-pharmacist n/Lee Mei e/leemei@example.com p/98765432`
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Diagnosis** | `diagnosis id/PATIENT_ID desc/DESCRIPTION vd/VISIT_DATE diagnosed/DOCTOR_ID sym/SYMPTOM... med/MEDICATION dose/DOSAGE freq/FREQUENCY dispensed/PHARMACIST_ID`<br> e.g., `diagnosis id/1 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4`
+**Order Test** | `order-test id/PATIENT_ID test/TEST_NAME testtype/TEST_TYPE vd/ORDERED_DATE ordered/DOCTOR_ID`<br> e.g., `order-test id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/2`
 **Find** | `find n/NAME_KEYWORDS` or `find p/PHONE` or `find nric/NRIC`<br> e.g., `find n/James Jake`
 **Get History** | `get-history nric/NRIC`<br> e.g., `get-history nric/S1234567D`
 **List** | `list`

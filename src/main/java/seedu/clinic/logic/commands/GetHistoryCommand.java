@@ -2,7 +2,9 @@ package seedu.clinic.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -13,6 +15,7 @@ import seedu.clinic.model.person.Diagnosis;
 import seedu.clinic.model.person.LabTest;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.PatientHasNricPredicate;
+import seedu.clinic.model.person.Person;
 import seedu.clinic.model.person.Prescription;
 
 /**
@@ -64,54 +67,64 @@ public class GetHistoryCommand extends Command {
             return new CommandResult(String.format(MESSAGE_NO_PATIENT_FOUND, nric));
         }
 
-        return new CommandResult(formatMedicalHistory(matchedPatients));
+        return new CommandResult(formatMedicalHistory(matchedPatients, getPersonNameMap(model)));
     }
 
-    private String formatMedicalHistory(List<Patient> matchedPatients) {
+    private Map<Integer, String> getPersonNameMap(Model model) {
+        Map<Integer, String> personNameMap = new HashMap<>();
+        for (Person person : model.getClinicBook().getPersonList()) {
+            personNameMap.put(person.getId(), person.getName().toString());
+        }
+        return personNameMap;
+    }
+
+    private String formatMedicalHistory(List<Patient> matchedPatients, Map<Integer, String> personNameMap) {
+        String lineSep = System.lineSeparator();
         return matchedPatients.stream()
-                .map(this::formatPatientHistory)
-                .collect(Collectors.joining("\n\n"));
+                .map(patient -> formatPatientHistory(patient, personNameMap))
+                .collect(Collectors.joining(lineSep + lineSep));
     }
 
-    private String formatPatientHistory(Patient patient) {
+    private String formatPatientHistory(Patient patient, Map<Integer, String> personNameMap) {
         StringBuilder result = new StringBuilder();
         result.append(formatPatientHeader(patient));
-        result.append("\n");
-        result.append(formatDiagnosesList(patient.getDiagnoses()));
-        result.append("\n");
-        result.append(formatLabTestsList(patient.getLabTests()));
+        result.append(System.lineSeparator());
+        result.append(formatDiagnosesList(patient.getDiagnoses(), personNameMap));
+        result.append(System.lineSeparator());
+        result.append(formatLabTestsList(patient.getLabTests(), personNameMap));
         return result.toString();
     }
 
     private String formatPatientHeader(Patient patient) {
         StringBuilder header = new StringBuilder();
         header.append(String.format("Medical history for %s (NRIC: %s)", patient.getName(), patient.getNric().value));
-        header.append("\n");
+        header.append(System.lineSeparator());
         header.append(String.format("Date of birth: %s", patient.getDateOfBirth()));
         return header.toString();
     }
 
-    private String formatDiagnosesList(List<Diagnosis> diagnoses) {
+    private String formatDiagnosesList(List<Diagnosis> diagnoses, Map<Integer, String> personNameMap) {
         if (diagnoses.isEmpty()) {
             return "Diagnoses: none recorded.";
         }
 
         StringBuilder diagnosesSection = new StringBuilder("Diagnoses:");
         for (int index = 0; index < diagnoses.size(); index++) {
-            diagnosesSection.append("\n");
-            diagnosesSection.append(formatSingleDiagnosis(index + 1, diagnoses.get(index)));
+            diagnosesSection.append(System.lineSeparator());
+            diagnosesSection.append(formatSingleDiagnosis(index + 1, diagnoses.get(index), personNameMap));
         }
         return diagnosesSection.toString();
     }
 
-    private String formatSingleDiagnosis(int index, Diagnosis diagnosis) {
+    private String formatSingleDiagnosis(int index, Diagnosis diagnosis, Map<Integer, String> personNameMap) {
         StringBuilder diag = new StringBuilder();
-        diag.append(String.format("  %d. %s (Visit date: %s, Diagnosed by ID: %d)",
-                index, diagnosis.getDescription(), diagnosis.getVisitDate(), diagnosis.getDiagnosedBy()));
-        diag.append("\n");
+        diag.append(String.format("  %d. %s (Visit date: %s, Diagnosed by: %s)",
+                index, diagnosis.getDescription(), diagnosis.getVisitDate(),
+                formatPersonReference(diagnosis.getDiagnosedBy(), personNameMap)));
+        diag.append(System.lineSeparator());
         diag.append(formatSymptoms(diagnosis.getSymptoms()));
-        diag.append("\n");
-        diag.append(formatPrescriptionsSection(diagnosis.getPrescriptions()));
+        diag.append(System.lineSeparator());
+        diag.append(formatPrescriptionsSection(diagnosis.getPrescriptions(), personNameMap));
         return diag.toString();
     }
 
@@ -122,43 +135,53 @@ public class GetHistoryCommand extends Command {
         return "     Symptoms: " + String.join(", ", symptoms);
     }
 
-    private String formatPrescriptionsSection(List<Prescription> prescriptions) {
+    private String formatPrescriptionsSection(List<Prescription> prescriptions, Map<Integer, String> personNameMap) {
         if (prescriptions.isEmpty()) {
             return "     Prescriptions: none recorded.";
         }
 
         StringBuilder section = new StringBuilder("     Prescriptions:");
         for (Prescription p : prescriptions) {
-            section.append("\n").append("       - ").append(formatPrescription(p));
+            section.append(System.lineSeparator()).append("       - ").append(formatPrescription(p, personNameMap));
         }
         return section.toString();
     }
 
-    private String formatPrescription(Prescription prescription) {
-        return String.format("%s, dosage: %s, frequency: %s, dispensed by ID: %d",
+    private String formatPrescription(Prescription prescription, Map<Integer, String> personNameMap) {
+        String dispensedBy = formatPersonReference(prescription.getDispensedBy(), personNameMap);
+
+        return String.format("%s, dosage: %s, frequency: %s, dispensed by: %s",
                 prescription.getMedicationName(),
                 prescription.getDosage(),
                 prescription.getFrequency(),
-                prescription.getDispensedBy());
+                dispensedBy);
     }
 
-    private String formatLabTestsList(List<LabTest> labTests) {
+    private String formatLabTestsList(List<LabTest> labTests, Map<Integer, String> personNameMap) {
         if (labTests.isEmpty()) {
             return "Lab/Imaging Tests: none ordered.";
         }
 
         StringBuilder section = new StringBuilder("Lab/Imaging Tests:");
         for (int index = 0; index < labTests.size(); index++) {
-            section.append("\n");
-            section.append(formatSingleLabTest(index + 1, labTests.get(index)));
+            section.append(System.lineSeparator());
+            section.append(formatSingleLabTest(index + 1, labTests.get(index), personNameMap));
         }
         return section.toString();
     }
 
-    private String formatSingleLabTest(int index, LabTest labTest) {
-        return String.format("  %d. [%s] %s (Ordered date: %s, Ordered by ID: %d)",
+    private String formatSingleLabTest(int index, LabTest labTest, Map<Integer, String> personNameMap) {
+        return String.format("  %d. [%s] %s (Ordered date: %s, Ordered by: %s)",
                 index, labTest.getTestType(), labTest.getTestName(),
-                labTest.getOrderedDate(), labTest.getOrderedBy());
+                labTest.getOrderedDate(), formatPersonReference(labTest.getOrderedBy(), personNameMap));
+    }
+
+    private String formatPersonReference(int personId, Map<Integer, String> personNameMap) {
+        String personName = personNameMap.get(personId);
+        if (personName == null) {
+            return String.format("ID %d (name unavailable)", personId);
+        }
+        return String.format("%s (ID: %d)", personName, personId);
     }
 
     @Override

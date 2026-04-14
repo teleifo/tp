@@ -13,6 +13,7 @@ import static seedu.clinic.logic.parser.CliSyntax.PREFIX_SEX;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -35,9 +36,16 @@ import seedu.clinic.model.tag.Tag;
  */
 public class AddPatientCommandParser implements Parser<AddPatientCommand> {
 
-    private static final DateTimeFormatter DOB_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    private static final String MESSAGE_INVALID_DOB = "DOB must be in dd-MM-yyyy format.";
+    private static final DateTimeFormatter DOB_FORMATTER =
+            DateTimeFormatter.ofPattern("uuuu-MM-dd").withResolverStyle(ResolverStyle.STRICT);
+    private static final String MESSAGE_INVALID_DOB =
+            "DOB must be a valid date in yyyy-MM-dd format and cannot be later than today.";
     private static final String MESSAGE_INVALID_SEX = "Sex must be one of: MALE, FEMALE, INTERSEX.";
+    private static final String MESSAGE_NRIC_DOB_MISMATCH =
+            "NRIC/FIN's first two digits must match the last two digits of the birth year.";
+    private static final String MESSAGE_NRIC_CENTURY_MISMATCH =
+            "S-prefix NRIC must correspond to a birth year before 2000; "
+            + "T-prefix NRIC must correspond to a birth year from 2000 onwards.";
 
     /**
      * Parses the given {@code String} of arguments and returns an AddPatientCommand object.
@@ -65,6 +73,7 @@ public class AddPatientCommandParser implements Parser<AddPatientCommand> {
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         NRIC nric = parseNric(argMultimap.getValue(PREFIX_NRIC).get());
         LocalDate dob = parseDob(argMultimap.getValue(PREFIX_DOB).get());
+        validateNricDobConsistency(nric, dob);
         Sex sex = parseSex(argMultimap.getValue(PREFIX_SEX).get());
 
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
@@ -79,6 +88,22 @@ public class AddPatientCommandParser implements Parser<AddPatientCommand> {
         return new AddPatientCommand(patient);
     }
 
+    private static void validateNricDobConsistency(NRIC nric, LocalDate dob) throws ParseException {
+        char prefix = nric.value.charAt(0);
+        int birthYear = dob.getYear();
+        if (prefix == 'S' && birthYear >= 2000) {
+            throw new ParseException(MESSAGE_NRIC_CENTURY_MISMATCH);
+        }
+        if (prefix == 'T' && birthYear < 2000) {
+            throw new ParseException(MESSAGE_NRIC_CENTURY_MISMATCH);
+        }
+        String nricYearDigits = nric.value.substring(1, 3);
+        String dobYearDigits = String.format("%02d", birthYear % 100);
+        if (!nricYearDigits.equals(dobYearDigits)) {
+            throw new ParseException(MESSAGE_NRIC_DOB_MISMATCH);
+        }
+    }
+
     private static NRIC parseNric(String nricInput) throws ParseException {
         String normalized = nricInput.trim().toUpperCase(Locale.ROOT);
         if (!NRIC.isValidNric(normalized)) {
@@ -89,7 +114,11 @@ public class AddPatientCommandParser implements Parser<AddPatientCommand> {
 
     private static LocalDate parseDob(String dobInput) throws ParseException {
         try {
-            return LocalDate.parse(dobInput.trim(), DOB_FORMATTER);
+            LocalDate dob = LocalDate.parse(dobInput.trim(), DOB_FORMATTER);
+            if (dob.isAfter(LocalDate.now())) {
+                throw new ParseException(MESSAGE_INVALID_DOB);
+            }
+            return dob;
         } catch (DateTimeParseException e) {
             throw new ParseException(MESSAGE_INVALID_DOB, e);
         }

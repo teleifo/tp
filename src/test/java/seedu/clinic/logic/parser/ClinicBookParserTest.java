@@ -22,6 +22,7 @@ import seedu.clinic.logic.commands.FindCommand;
 import seedu.clinic.logic.commands.GetHistoryCommand;
 import seedu.clinic.logic.commands.HelpCommand;
 import seedu.clinic.logic.commands.ListCommand;
+import seedu.clinic.logic.commands.OrderTestCommand;
 import seedu.clinic.logic.parser.exceptions.ParseException;
 import seedu.clinic.model.person.NRIC;
 import seedu.clinic.model.person.PersonMatchesFindCriteriaPredicate;
@@ -48,6 +49,12 @@ public class ClinicBookParserTest {
     public void parseCommand_exit() throws Exception {
         assertTrue(parser.parseCommand(ExitCommand.COMMAND_WORD) instanceof ExitCommand);
         assertTrue(parser.parseCommand(ExitCommand.COMMAND_WORD + " 3") instanceof ExitCommand);
+    }
+
+    @Test
+    public void parseCommand_exitUpperCase() throws Exception {
+        assertTrue(parser.parseCommand("EXIT") instanceof ExitCommand);
+        assertTrue(parser.parseCommand("EXIT 3") instanceof ExitCommand);
     }
 
     @Test
@@ -81,6 +88,12 @@ public class ClinicBookParserTest {
     }
 
     @Test
+    public void parseCommand_getHistoryUpperCaseCommandAndPrefix() throws Exception {
+        GetHistoryCommand command = (GetHistoryCommand) parser.parseCommand("GET-HISTORY NRIC/S1234567D");
+        assertEquals(new GetHistoryCommand("S1234567D"), command);
+    }
+
+    @Test
     public void parseCommand_help() throws Exception {
         assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD) instanceof HelpCommand);
         assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD + " 3") instanceof HelpCommand);
@@ -92,6 +105,13 @@ public class ClinicBookParserTest {
                 + " sym/fever med/Paracetamol dose/500mg freq/daily dispensed/4";
         assertTrue(parser.parseCommand(AddDiagnosisCommand.COMMAND_WORD + args)
                 instanceof AddDiagnosisCommand);
+    }
+
+    @Test
+    public void parseCommand_orderTest() throws Exception {
+        String args = " id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/2";
+        assertTrue(parser.parseCommand(OrderTestCommand.COMMAND_WORD + args)
+            instanceof OrderTestCommand);
     }
 
     @Test

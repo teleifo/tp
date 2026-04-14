@@ -3,6 +3,7 @@ package seedu.clinic.logic.parser;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 /**
@@ -70,7 +71,10 @@ public class ArgumentTokenizer {
      * {@code fromIndex} = 0, this method returns 5.
      */
     private static int findPrefixPosition(String argsString, String prefix, int fromIndex) {
-        int prefixIndex = argsString.indexOf(" " + prefix, fromIndex);
+        String lowerCaseArgsString = argsString.toLowerCase(Locale.ROOT);
+        String lowerCasePrefix = prefix.toLowerCase(Locale.ROOT);
+
+        int prefixIndex = lowerCaseArgsString.indexOf(" " + lowerCasePrefix, fromIndex);
         return prefixIndex == -1 ? -1
                 : prefixIndex + 1; // +1 as offset for whitespace
     }

@@ -22,8 +22,8 @@ import seedu.clinic.model.tag.Tag;
 public class AddPatientCommandParserTest {
 
     private static final String VALID_ARGS_WITH_ALLERGIES = " n/Alice Patient"
-            + " nric/s1234567d"
-            + " dob/12-04-1992"
+            + " nric/s9234567z"
+            + " dob/1992-04-12"
             + " sex/female"
             + " allergy/peanut"
             + " allergy/shellfish"
@@ -32,16 +32,16 @@ public class AddPatientCommandParserTest {
             + " a/123, Jurong West Ave 6, #08-111";
 
     private static final String VALID_ARGS_NO_ALLERGIES = " n/Alice Patient"
-            + " nric/S1234567D"
-            + " dob/12-04-1992"
+            + " nric/S9234567Z"
+            + " dob/1992-04-12"
             + " sex/MALE"
             + " e/alice@example.com"
             + " p/94351253"
             + " a/123, Jurong West Ave 6, #08-111";
 
     private static final String VALID_ARGS_WITH_FORMATTED_PHONE = " n/John Doe"
-            + " nric/S7510505C"
-            + " dob/01-01-1990"
+            + " nric/S9012345I"
+            + " dob/1990-01-01"
             + " sex/MALE"
             + " allergy/Penicillin"
             + " allergy/Shellfish"
@@ -50,8 +50,8 @@ public class AddPatientCommandParserTest {
             + " a/123 Clementi Ave 3, #04-12";
 
     private static final String VALID_ARGS_WITH_FOREIGN_FIN = " n/John Doe"
-            + " nric/F0515994Q"
-            + " dob/01-01-1912"
+            + " nric/F1234567A"
+            + " dob/1912-01-01"
             + " sex/Male"
             + " allergy/G6PD"
             + " allergy/Shellfish"
@@ -67,7 +67,7 @@ public class AddPatientCommandParserTest {
         Patient patient = extractPatient((AddPatientCommand) parsedCommand);
 
         org.junit.jupiter.api.Assertions.assertEquals("Alice Patient", patient.getName().fullName);
-        org.junit.jupiter.api.Assertions.assertEquals("S1234567D", patient.getNric().value);
+        org.junit.jupiter.api.Assertions.assertEquals("S9234567Z", patient.getNric().value);
         org.junit.jupiter.api.Assertions.assertEquals(LocalDate.of(1992, 4, 12), patient.getDateOfBirth());
         org.junit.jupiter.api.Assertions.assertEquals(Sex.FEMALE, patient.getSex());
         org.junit.jupiter.api.Assertions.assertEquals(2, patient.getAllergies().size());
@@ -98,14 +98,14 @@ public class AddPatientCommandParserTest {
         Command parsedCommand = parser.parse(VALID_ARGS_WITH_FOREIGN_FIN);
         Patient patient = extractPatient((AddPatientCommand) parsedCommand);
 
-        org.junit.jupiter.api.Assertions.assertEquals("F0515994Q", patient.getNric().value);
+        org.junit.jupiter.api.Assertions.assertEquals("F1234567A", patient.getNric().value);
     }
 
     @Test
     public void parse_missingRequiredPrefix_failure() {
         String missingSex = " n/Alice Patient"
                 + " nric/S1234567D"
-                + " dob/12-04-1992"
+                + " dob/1992-04-12"
                 + " e/alice@example.com"
                 + " p/94351253"
                 + " a/123, Jurong West Ave 6, #08-111";
@@ -127,7 +127,7 @@ public class AddPatientCommandParserTest {
         String duplicateNric = " n/Alice Patient"
                 + " nric/S1234567D"
                 + " nric/S7654321D"
-                + " dob/12-04-1992"
+                + " dob/1992-04-12"
                 + " sex/FEMALE"
                 + " e/alice@example.com"
                 + " p/94351253"
@@ -140,7 +140,7 @@ public class AddPatientCommandParserTest {
     public void parse_invalidNric_failure() {
         String invalidNric = " n/Alice Patient"
                 + " nric/INVALID"
-                + " dob/12-04-1992"
+                + " dob/1992-04-12"
                 + " sex/FEMALE"
                 + " e/alice@example.com"
                 + " p/94351253"
@@ -153,20 +153,93 @@ public class AddPatientCommandParserTest {
     public void parse_invalidDob_failure() {
         String invalidDob = " n/Alice Patient"
                 + " nric/S1234567D"
+                + " dob/12-04-1992"
+                + " sex/FEMALE"
+                + " e/alice@example.com"
+                + " p/94351253"
+                + " a/123, Jurong West Ave 6, #08-111";
+
+        assertParseFailure(parser, invalidDob,
+                "DOB must be a valid date in yyyy-MM-dd format and cannot be later than today.");
+    }
+
+    @Test
+    public void parse_invalidChronologicalDob_failure() {
+        String invalidChronologicalDob = " n/Alice Patient"
+                + " nric/S1234567D"
+                + " dob/2023-02-30"
+                + " sex/FEMALE"
+                + " e/alice@example.com"
+                + " p/94351253"
+                + " a/123, Jurong West Ave 6, #08-111";
+
+        assertParseFailure(parser, invalidChronologicalDob,
+                "DOB must be a valid date in yyyy-MM-dd format and cannot be later than today.");
+    }
+
+    @Test
+    public void parse_futureDob_failure() {
+        String futureDob = " n/Alice Patient"
+                + " nric/S1234567D"
+                + " dob/2099-01-01"
+                + " sex/FEMALE"
+                + " e/alice@example.com"
+                + " p/94351253"
+                + " a/123, Jurong West Ave 6, #08-111";
+
+        assertParseFailure(parser, futureDob,
+                "DOB must be a valid date in yyyy-MM-dd format and cannot be later than today.");
+    }
+
+    @Test
+    public void parse_sPrefixNricWithPost2000Dob_failure() {
+        String sPrefixPost2000 = " n/Alice Patient"
+                + " nric/S0312345F"
+                + " dob/2003-05-15"
+                + " sex/FEMALE"
+                + " e/alice@example.com"
+                + " p/94351253"
+                + " a/123, Jurong West Ave 6, #08-111";
+
+        assertParseFailure(parser, sPrefixPost2000,
+                "S-prefix NRIC must correspond to a birth year before 2000; "
+                + "T-prefix NRIC must correspond to a birth year from 2000 onwards.");
+    }
+
+    @Test
+    public void parse_tPrefixNricWithPre2000Dob_failure() {
+        String tPrefixPre2000 = " n/Alice Patient"
+                + " nric/T9012345E"
+                + " dob/1990-06-20"
+                + " sex/FEMALE"
+                + " e/alice@example.com"
+                + " p/94351253"
+                + " a/123, Jurong West Ave 6, #08-111";
+
+        assertParseFailure(parser, tPrefixPre2000,
+                "S-prefix NRIC must correspond to a birth year before 2000; "
+                + "T-prefix NRIC must correspond to a birth year from 2000 onwards.");
+    }
+
+    @Test
+    public void parse_nricDobMismatch_failure() {
+        String mismatchedNricDob = " n/Alice Patient"
+                + " nric/S1234567D"
                 + " dob/1992-04-12"
                 + " sex/FEMALE"
                 + " e/alice@example.com"
                 + " p/94351253"
                 + " a/123, Jurong West Ave 6, #08-111";
 
-        assertParseFailure(parser, invalidDob, "DOB must be in dd-MM-yyyy format.");
+        assertParseFailure(parser, mismatchedNricDob,
+                "NRIC/FIN's first two digits must match the last two digits of the birth year.");
     }
 
     @Test
     public void parse_invalidSex_failure() {
         String invalidSex = " n/Alice Patient"
-                + " nric/S1234567D"
-                + " dob/12-04-1992"
+                + " nric/S9234567Z"
+                + " dob/1992-04-12"
                 + " sex/unknown"
                 + " e/alice@example.com"
                 + " p/94351253"
@@ -178,8 +251,8 @@ public class AddPatientCommandParserTest {
     @Test
     public void parse_invalidAllergyTag_failure() {
         String invalidAllergy = " n/Alice Patient"
-                + " nric/S1234567D"
-                + " dob/12-04-1992"
+                + " nric/S9234567Z"
+                + " dob/1992-04-12"
                 + " sex/FEMALE"
                 + " allergy/bad*tag"
                 + " e/alice@example.com"
@@ -192,8 +265,8 @@ public class AddPatientCommandParserTest {
     @Test
     public void parse_mistypedAllergyPrefix_failure() {
         String mistypedAllergyPrefix = " n/John Doe"
-                + " nric/S7630902G"
-                + " dob/01-01-1990"
+                + " nric/S9012345I"
+                + " dob/1990-01-01"
                 + " sex/MALE"
                 + " allergy/Penicillin all/Shellfish"
                 + " e/johnd@example.com"
@@ -206,8 +279,8 @@ public class AddPatientCommandParserTest {
     @Test
     public void parse_blankSex_failure() {
         String blankSex = " n/Alice Patient"
-                + " nric/S1234567D"
-                + " dob/12-04-1992"
+                + " nric/S9234567Z"
+                + " dob/1992-04-12"
                 + " sex/   "
                 + " e/alice@example.com"
                 + " p/94351253"
