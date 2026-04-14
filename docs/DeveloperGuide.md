@@ -1017,7 +1017,7 @@ Use case ends.
 ClinicBook required a higher level of effort compared to AB3. While AB3 manages a single main entity type, ClinicBook manages multiple role-specific person types: patients, doctors, and pharmacists. This increased complexity across the model, commands, validation, storage, UI, and test coverage, as many features needed to preserve shared `Person` behaviour while enforcing role-specific constraints.
 
 The main implementation challenge was redesigning AB3's contact-management workflow into a clinic workflow. Patient records required additional medical data such as NRIC, date of birth, sex, allergies, diagnoses, prescriptions, and lab or imaging test orders. 
-Clinical commands such as `diagnosis`, `ordertest`, and `get-history` also required validation across different records. 
+Clinical commands such as `diagnosis`, `order-test`, and `get-history` also required validation across different records. 
 For example, the app had to ensure that a diagnosis targets a patient, is diagnosed by a doctor,
 and may include prescriptions dispensed by pharmacists. These requirements led to more complex parsing, model operations, and error handling compared to AB3's original name-based contact commands.
 
@@ -1037,14 +1037,14 @@ testers are expected to do more *exploratory* testing.
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:**
 Run the app from a fresh folder, or delete the existing `data/clinicbook.json` before launch, so that the sample data is loaded.
-On a fresh sample-data launch, the stable IDs are typically:
+On a fresh sample-data launch, the IDs are typically:
 
 * `1` → Alex Yeoh (patient)
 * `2` → Tan Wei Ming (doctor)
 * `3` → Jane Lim (patient)
 * `4` → Lee Mei (pharmacist)
 
-If your local data differs, use the stable `ID` shown on each person card instead of the example IDs below.
+If your local data differs, use the `ID` shown on each person card instead of the example IDs below.
 </div>
 
 ### Launch and shutdown
@@ -1098,11 +1098,11 @@ records.
 1. Ordering a test for an existing patient
 
    1. Prerequisite: Start from a clean launch with the default sample data. On a fresh data file, `Alex Yeoh` has ID `1` and `Tan Wei Ming` has ID `2`. If your IDs differ, adjust the commands accordingly.
-   2. Test case: `ordertest id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/2`<br>
+   2. Test case: `order-test id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/2`<br>
       Expected: A success message is shown for the new lab/imaging test order.
-   3. Test case: `ordertest id/1 test/Complete Blood Count testtype/LAB vd/2026-04-09 ordered/2`<br>
+   3. Test case: `order-test id/1 test/Complete Blood Count testtype/LAB vd/2026-04-09 ordered/2`<br>
       Expected: A success message is shown and the second test is appended to the same patient record.
-   4. Invalid test case: `ordertest id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/999`<br>
+   4. Invalid test case: `order-test id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/999`<br>
       Expected: No test is added. The result display shows that the doctor ID is invalid.
 
 ### Retrieving a patient's medical history
@@ -1112,7 +1112,7 @@ records.
    1. Prerequisite: Start from a clean launch with the default sample data. On a fresh data file, `Alex Yeoh` has ID `1`, `Tan Wei Ming` has ID `2`, and `Lee Mei` has ID `4`. If your IDs differ, adjust the commands accordingly.
    2. Test case: `diagnosis id/1 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever sym/cough med/Paracetamol dose/500mg freq/3 times daily dispensed/4`<br>
       Expected: A success message is shown for the diagnosis.
-   3. Test case: `ordertest id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/2`<br>
+   3. Test case: `order-test id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/2`<br>
       Expected: A success message is shown for the ordered test.
    4. Test case: `get-history nric/S1234567D`<br>
       Expected: The result display shows `Alex Yeoh`'s medical history, including the diagnosis, prescription, and the ordered imaging test.
