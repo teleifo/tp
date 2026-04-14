@@ -151,6 +151,13 @@ public class MainWindow extends UiPart<Stage> {
         primaryStage.show();
     }
 
+    void showStartupWarning(String warningMessage) {
+        if (warningMessage.isBlank()) {
+            return;
+        }
+        resultDisplay.setFeedbackToUser(warningMessage);
+    }
+
     /**
      * Closes the application.
      */

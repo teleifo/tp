@@ -22,7 +22,7 @@ import seedu.clinic.model.person.Person;
  */
 public class OrderTestCommand extends Command {
 
-    public static final String COMMAND_WORD = "ordertest";
+    public static final String COMMAND_WORD = "order-test";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Orders a lab or imaging test for a patient. "
@@ -49,7 +49,7 @@ public class OrderTestCommand extends Command {
 
     /**
      * Creates an OrderTestCommand to order the specified {@code LabTest}
-     * for the patient with the given stable person ID.
+     * for the patient with the given person ID.
      */
     public OrderTestCommand(int patientId, LabTest labTest) {
         requireNonNull(labTest);

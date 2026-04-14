@@ -76,9 +76,9 @@ public class GetHistoryCommand extends Command {
     private String formatPatientHistory(Patient patient) {
         StringBuilder result = new StringBuilder();
         result.append(formatPatientHeader(patient));
-        result.append(System.lineSeparator());
+        result.append("\n");
         result.append(formatDiagnosesList(patient.getDiagnoses()));
-        result.append(System.lineSeparator());
+        result.append("\n");
         result.append(formatLabTestsList(patient.getLabTests()));
         return result.toString();
     }
@@ -86,7 +86,7 @@ public class GetHistoryCommand extends Command {
     private String formatPatientHeader(Patient patient) {
         StringBuilder header = new StringBuilder();
         header.append(String.format("Medical history for %s (NRIC: %s)", patient.getName(), patient.getNric().value));
-        header.append(System.lineSeparator());
+        header.append("\n");
         header.append(String.format("Date of birth: %s", patient.getDateOfBirth()));
         return header.toString();
     }
@@ -98,7 +98,7 @@ public class GetHistoryCommand extends Command {
 
         StringBuilder diagnosesSection = new StringBuilder("Diagnoses:");
         for (int index = 0; index < diagnoses.size(); index++) {
-            diagnosesSection.append(System.lineSeparator());
+            diagnosesSection.append("\n");
             diagnosesSection.append(formatSingleDiagnosis(index + 1, diagnoses.get(index)));
         }
         return diagnosesSection.toString();
@@ -108,9 +108,9 @@ public class GetHistoryCommand extends Command {
         StringBuilder diag = new StringBuilder();
         diag.append(String.format("  %d. %s (Visit date: %s, Diagnosed by ID: %d)",
                 index, diagnosis.getDescription(), diagnosis.getVisitDate(), diagnosis.getDiagnosedBy()));
-        diag.append(System.lineSeparator());
+        diag.append("\n");
         diag.append(formatSymptoms(diagnosis.getSymptoms()));
-        diag.append(System.lineSeparator());
+        diag.append("\n");
         diag.append(formatPrescriptionsSection(diagnosis.getPrescriptions()));
         return diag.toString();
     }
@@ -129,7 +129,7 @@ public class GetHistoryCommand extends Command {
 
         StringBuilder section = new StringBuilder("     Prescriptions:");
         for (Prescription p : prescriptions) {
-            section.append(System.lineSeparator()).append("       - ").append(formatPrescription(p));
+            section.append("\n").append("       - ").append(formatPrescription(p));
         }
         return section.toString();
     }
@@ -154,7 +154,7 @@ public class GetHistoryCommand extends Command {
 
         StringBuilder section = new StringBuilder("Lab/Imaging Tests:");
         for (int index = 0; index < labTests.size(); index++) {
-            section.append(System.lineSeparator());
+            section.append("\n");
             section.append(formatSingleLabTest(index + 1, labTests.get(index)));
         }
         return section.toString();

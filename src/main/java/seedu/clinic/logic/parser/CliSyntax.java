@@ -6,7 +6,7 @@ package seedu.clinic.logic.parser;
 public class CliSyntax {
 
     /* Prefix definitions */
-    public static final Prefix PREFIX_ID = new Prefix("id/"); // stable person ID
+    public static final Prefix PREFIX_ID = new Prefix("id/"); // person ID
     public static final Prefix PREFIX_NAME = new Prefix("n/");
     public static final Prefix PREFIX_NRIC = new Prefix("nric/");
     public static final Prefix PREFIX_PHONE = new Prefix("p/");

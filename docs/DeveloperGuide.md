@@ -2,22 +2,24 @@
 layout: page
 title: Developer Guide
 ---
-* Table of Contents
-  {:toc}
-
----
 
 ## **Acknowledgements**
 
-* {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
 
----
+### AI Assistance
+
+* Yat Long: AI tools, including Deepseek and Codex, were used to assist with the architecture design and development. This includes making the design pattern more aligned with OOP standard so that code can be reused. They also provide support in building PlantUML diagrams. All suggestion are reviewed before implementing.
+
+* Yong Rui: AI tools, including Codex and Cursor, were used to assist with development and documentation tasks, including refactoring the separate patient, pharmacist, and doctor arrays into a unified person array with role-specific behaviour, and checking affected files for consistency and correctness, which helped resolve several MVP bugs. They also supported the addition of a GitHub Actions workflow to automate PR milestone assignment from linked issues, assisted with PlantUML diagrams, cross-checked documentation against the codebase, refined test cases into valid and invalid partitions, and identified edge cases that could break commands. All suggestions were reviewed and adapted before inclusion.
+
+* Donavan: AI tools (Claude and Copilot) were used to assist with development, bug findings, provide insights on areas of enhancement during Pull Requests reviews. All suggestions were reviewed and adapted before inclusion.
+
+* Trevor: AI tools, including ChatGPT and Codex, were used to support various aspects of development and test creation. These tools also assisted with smaller tasks, such as locating relevant sections of code and clarifying programming concepts. All suggestions were reviewed and adapted before inclusion.
 
 ## **Setting up, getting started**
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
-
----
 
 ## **Design**
 
@@ -97,16 +99,16 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 
 ![Interactions Inside the Logic Component for the delete 1 Command](images/DeleteSequenceDiagram.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues until the end of the diagram.
 </div>
 
 How the `Logic` component works:
 
-1. When `Logic` is called upon to execute a command, it is passed to an `ClinicBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
-2. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which is executed by the `LogicManager`.
-3. The command can communicate with the `Model` when it is executed (e.g. to delete a person).`<br>`
+1. When `Logic` is called upon to execute a command, it is passed to a `ClinicBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
+2. This results in a `Command` object (more precisely, an object of one of its subclasses, e.g., `DeleteCommand`) which is executed by the `LogicManager`.
+3. The command can communicate with the `Model` when it is executed (e.g., to delete a person).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
-4. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
+4. The result of the command execution is encapsulated as a `CommandResult` object which is returned from `Logic`.
 
 Here are the other classes in `Logic` (omitted from the class diagram above) that are used for parsing a user command:
 
@@ -114,8 +116,8 @@ Here are the other classes in `Logic` (omitted from the class diagram above) tha
 
 How the parsing works:
 
-* When called upon to parse a user command, the `ClinicBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `DeleteCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `DeleteCommand`) which the `ClinicBookParser` returns back as a `Command` object.
-* All `XYZCommandParser` classes (e.g., `DeleteCommandParser`, `FindCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
+* When called upon to parse a user command, the `ClinicBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name, e.g., `DeleteCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `DeleteCommand`) which the `ClinicBookParser` returns as a `Command` object.
+* All `XYZCommandParser` classes (e.g., `DeleteCommandParser`, `FindCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g., during testing.
 
 ### Model component
 
@@ -125,9 +127,9 @@ How the parsing works:
 
 The `Model` component,
 
-* stores the clinic book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
-* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
+* stores the clinic book data, i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
+* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g., the UI can be bound to this list so that the UI automatically updates when the data in the list changes.
+* stores a `UserPrefs` object that represents the user's preferences. This is exposed to the outside via the `ReadOnlyUserPrefs` interface.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
 The class diagram below focuses on the `Person` inheritance hierarchy used by the model.
@@ -153,14 +155,12 @@ The class diagram below focuses on the `Patient` specialisation and its related 
 The `Storage` component,
 
 * can save both clinic book data and user preference data in JSON format, and read them back into corresponding objects.
-* inherits from both `ClinicBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
+* is defined by the `Storage` interface, which extends both `ClinicBookStorage` and `UserPrefsStorage`. `StorageManager` implements `Storage`, so it can be used where either storage interface is expected.
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
 
 ### Common classes
 
 Classes used by multiple components are in the `seedu.clinic.commons` package.
-
----
 
 ## **Implementation**
 
@@ -183,13 +183,14 @@ The sequence diagram below shows the execution flow for `find n/Alice Bob`.
 
 <img src="images/FindSequenceDiagram.png" width="800" />
 
+<div markdown="span" class="alert alert-info">:information_source: **Note:** This is a partial sequence diagram. For simplicity, it omits some intermediate objects and lower-level interactions within the `Model` component.</div>
+
 1. `LogicManager` forwards the raw user input to `ClinicBookParser`.
-2. `ClinicBookParser` recognises the `find` command word and delegates argument parsing to `FindCommandParser`.
-3. `FindCommandParser` tokenizes and validates the arguments, then converts the selected search criterion into a
-   `PersonMatchesFindCriteriaPredicate`.
-4. `FindCommand` stores that predicate and passes it to `Model#updateFilteredPersonList(...)` during execution.
-5. `ModelManager` applies the predicate to its internal `FilteredList<Person>`, which in turn updates the list shown
-   in the UI.
+2. `ClinicBookParser` recognises the `find` command word, creates a `FindCommandParser`, and delegates argument parsing to it.
+3. `FindCommandParser` validates the selected search criterion and creates a `FindCommand` containing a predicate that
+   represents the search criteria.
+4. During execution, `FindCommand` passes that predicate to the `Model` component to update the filtered person list.
+5. Within the `Model` component, lower-level list-update details are omitted from the diagram; conceptually, the predicate is applied to the filtered person list.
 
 This design is intentionally stateful. Commands that act on the currently displayed list can be chained after
 `find` without any extra plumbing, because the filtered list becomes the shared source of truth for follow-up
@@ -216,15 +217,14 @@ to contain at least one usable criterion.
 
 #### Matching Semantics
 
-The class diagram below focuses on `PersonMatchesFindCriteriaPredicate` and the classes directly involved in storing,
-applying, and evaluating `find`'s matching state.
+The (partial) class diagram below focuses on `FindCommand`, `PersonMatchesFindCriteriaPredicate`, and the relevant
+person hierarchy. Lower-level model implementation details are omitted for simplicity.
 
 <img src="images/FindClassDiagram.png" width="760" />
 
-After parsing succeeds, `FindCommand` stores a `PersonMatchesFindCriteriaPredicate`. The predicate stores `find`'s
-matching state as `nameKeywords`, `phone`, and `nric`, with unused criteria left empty. During execution,
-`FindCommand` passes that predicate through the `Model` interface. Internally, `ModelManager` applies it to the
-`FilteredList<Person>` that backs the displayed person list.
+After parsing, `FindCommand` encapsulates a `PersonMatchesFindCriteriaPredicate` that captures the search criteria.
+The predicate determines whether each person in the list matches those criteria: name and phone checks apply to any
+person, while the NRIC criterion applies only to `Patient` instances. During execution, `FindCommand` passes the predicate to the `Model` component to update the filtered person list.
 
 The patient-only NRIC branch is the most distinctive part of the predicate:
 
@@ -281,106 +281,13 @@ Keeping the role filter inside `find` is preferable to introducing `find-patient
 * The current predicate already contains subtype-aware logic for NRIC lookups.
 * A future `role/` prefix would extend the existing predicate more cleanly than multiplying command words.
 
-### \[Proposed\] Undo/redo feature
-
-#### Proposed Implementation
-
-The proposed undo/redo mechanism is facilitated by `VersionedClinicBook`. It extends `ClinicBook` with an undo/redo history, stored internally as an `clinicBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
-
-* `VersionedClinicBook#commit()` — Saves the current clinic book state in its history.
-* `VersionedClinicBook#undo()` — Restores the previous clinic book state from its history.
-* `VersionedClinicBook#redo()` — Restores a previously undone clinic book state from its history.
-
-These operations are exposed in the `Model` interface as `Model#commitClinicBook()`, `Model#undoClinicBook()` and `Model#redoClinicBook()` respectively.
-
-Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
-
-Step 1. The user launches the application for the first time. The `VersionedClinicBook` will be initialized with the initial clinic book state, and the `currentStatePointer` pointing to that single clinic book state.
-
-![UndoRedoState0](images/UndoRedoState0.png)
-
-Step 2. The user executes `delete 5` command to delete the 5th person in the clinic book. The `delete` command calls `Model#commitClinicBook()`, causing the modified state of the clinic book after the `delete 5` command executes to be saved in the `clinicBookStateList`, and the `currentStatePointer` is shifted to the newly inserted clinic book state.
-
-![UndoRedoState1](images/UndoRedoState1.png)
-
-Step 3. The user executes `add-patient n/David …` to add a new patient. The `add-patient` command also calls `Model#commitClinicBook()`, causing another modified clinic book state to be saved into the `clinicBookStateList`.
-
-![UndoRedoState2](images/UndoRedoState2.png)
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If a command fails its execution, it will not call `Model#commitClinicBook()`, so the clinic book state will not be saved into the `clinicBookStateList`.
-
-</div>
-
-Step 4. The user now decides that adding the patient was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoClinicBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous clinic book state, and restores the clinic book to that state.
-
-![UndoRedoState3](images/UndoRedoState3.png)
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial ClinicBook state, then there are no previous ClinicBook states to restore. The `undo` command uses `Model#canUndoClinicBook()` to check if this is the case. If so, it will return an error to the user rather
-than attempting to perform the undo.
-
-</div>
-
-The following sequence diagram shows how an undo operation goes through the `Logic` component:
-
-![UndoSequenceDiagram](images/UndoSequenceDiagram-Logic.png)
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-
-</div>
-
-Similarly, how an undo operation goes through the `Model` component is shown below:
-
-![UndoSequenceDiagram](images/UndoSequenceDiagram-Model.png)
-
-The `redo` command does the opposite — it calls `Model#redoClinicBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the clinic book to that state.
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index `clinicBookStateList.size() - 1`, pointing to the latest clinic book state, then there are no undone ClinicBook states to restore. The `redo` command uses `Model#canRedoClinicBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
-
-</div>
-
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the clinic book, such as `list`, will usually not call `Model#commitClinicBook()`, `Model#undoClinicBook()` or `Model#redoClinicBook()`. Thus, the `clinicBookStateList` remains unchanged.
-
-![UndoRedoState4](images/UndoRedoState4.png)
-
-Step 6. The user executes `clear`, which calls `Model#commitClinicBook()`. Since the `currentStatePointer` is not pointing at the end of the `clinicBookStateList`, all clinic book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add-patient n/David …` command. This is the behavior that most modern desktop applications follow.
-
-![UndoRedoState5](images/UndoRedoState5.png)
-
-The following activity diagram summarizes what happens when a user executes a new command:
-
-<img src="images/CommitActivityDiagram.png" width="250" />
-
-#### Design considerations:
-
-**Aspect: How undo & redo executes:**
-
-* **Alternative 1 (current choice):** Saves the entire clinic book.
-
-  * Pros: Easy to implement.
-  * Cons: May have performance issues in terms of memory usage.
-* **Alternative 2:** Individual command knows how to undo/redo by
-  itself.
-
-  * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
-  * Cons: We must ensure that the implementation of each individual command are correct.
-
-_{more aspects and alternatives to be added}_
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
-
----
-
-## **Documentation, logging, testing, configuration, dev-ops**
+## **Documentation, Logging, Testing, Configuration, and DevOps**
 
 * [Documentation guide](Documentation.md)
 * [Testing guide](Testing.md)
 * [Logging guide](Logging.md)
 * [Configuration guide](Configuration.md)
 * [DevOps guide](DevOps.md)
-
----
 
 ## **Appendix: Requirements**
 
@@ -396,7 +303,7 @@ Clinic staff who manage patient and vendor information as part of daily clinic o
 
 **Value proposition**:
 
-- Digitises and reduce paper-based records
+- Digitises and reduces paper-based records
 - Faster information retrieval
 - Reduced human error (illegible handwriting, duplicate entries, etc.)
 - Easy to learn and use, designed for staff with basic computer skills
@@ -474,7 +381,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
   * 4a1. ClinicBook shows the potential duplicate record.
   * Use case ends.
-* 4b. ClinicBook find a duplicate record with the same name or phone number
+* 4b. ClinicBook finds a duplicate record with the same name or phone number
 
   * 4b1. ClinicBook shows the potential duplicate record.
   * 4b2. ClinicBook requests for confirmation.
@@ -993,9 +900,9 @@ Use case ends.
 ### Non-Functional Requirements
 
 1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2. Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4. All operations should complete within 2 seconds
+2. Should be able to hold up to 1000 persons without noticeable sluggishness in performance for typical usage.
+3. A user with above-average typing speed for regular English text (i.e., not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+4. All operations should complete within 2 seconds.
 5. The system supports only one user accessing the data at a time.
 6. Data should persist unless the user deletes the data file.
 7. The system should be able to recover gracefully from unexpected shutdowns without data loss for committed transactions.
@@ -1012,7 +919,6 @@ Use case ends.
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Patient Record**: A record containing a patient's personal information and medical history in ClinicBook.
 * **Prescription**: A written order from a doctor specifying medication, dosage, and administration instructions for a patient's treatment
-* **Private contact detail**: A contact detail that is not meant to be shared with others
 * **Symptom**: Physical or mental signs experienced by a patient that indicate a medical condition or disease
 * **Duplicate Record**: A record with the same NRIC / Name / Phone Number
 * **Audit Trail**: A chronological record of significant system actions (e.g., prescription changes, dispensing, purge operations), including actor and timestamp.
@@ -1021,46 +927,134 @@ Use case ends.
 * **NRIC**: National Registration Identity Card number used as a unique identifier for individuals in the system.
 * **System User**: Any individual registered in ClinicBook, such as a patient, doctor, or pharmacist.
 
+## **Appendix: Instructions for Manual Testing**
+
+## **Appendix: Effort**
+
+ClinicBook required a higher level of effort compared to AB3. While AB3 manages a single main entity type, ClinicBook manages multiple role-specific person types: patients, doctors, and pharmacists. This increased complexity across the model, commands, validation, storage, UI, and test coverage, as many features needed to preserve shared `Person` behaviour while enforcing role-specific constraints.
+
+The main implementation challenge was redesigning AB3's contact-management workflow into a clinic workflow. Patient records required additional medical data such as NRIC, date of birth, sex, allergies, diagnoses, prescriptions, and lab or imaging test orders. 
+Clinical commands such as `diagnosis`, `order-test`, and `get-history` also required validation across different records. 
+For example, the app had to ensure that a diagnosis targets a patient, is diagnosed by a doctor,
+and may include prescriptions dispensed by pharmacists. These requirements led to more complex parsing, model operations, and error handling compared to AB3's original name-based contact commands.
+
+A significant amount of effort was saved by reusing AB3 as the project base. AB3 provided the initial JavaFX UI structure, command parsing architecture, JSON storage approach, Gradle setup, testing framework, and documentation structure. This reduced the effort required for general application infrastructure, allowing the team to focus on clinic-specific functionality. The team's adaptation work is reflected especially in the person subtype model, role-specific add commands, diagnosis and prescription handling, lab/imaging test ordering, subtype-aware JSON adapters, and command parsers for clinic workflows.
+
+Despite starting from AB3, ClinicBook achieved a broader domain model and a more integrated workflow. The final product supports registering patients, doctors, and pharmacists, searching by name, phone, or NRIC, recording diagnoses and prescriptions, ordering lab or imaging tests, and retrieving patient history. These features required coordinated changes across the Logic, Model, Storage, UI, testing, and documentation components.
+
 ---
 
-## **Appendix: Instructions for manual testing**
+## **Appendix: Instructions for Manual Testing**
 
-Given below are instructions to test the app manually.
+Given below are a few guided checks for the clinic-specific features added beyond AB3. These are not exhaustive.
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** These instructions only provide a starting point for testers to work on;
 testers are expected to do more *exploratory* testing.
+</div>
 
+<div markdown="span" class="alert alert-info">:information_source: **Note:**
+Run the app from a fresh folder, or delete the existing `data/clinicbook.json` before launch, so that the sample data is loaded.
+On a fresh sample-data launch, the IDs are typically:
+
+* `1` → Alex Yeoh (patient)
+* `2` → Tan Wei Ming (doctor)
+* `3` → Jane Lim (patient)
+* `4` → Lee Mei (pharmacist)
+
+If your local data differs, use the `ID` shown on each person card instead of the example IDs below.
 </div>
 
 ### Launch and shutdown
 
 1. Initial launch
 
-   1. Download the jar file and copy into an empty folder
-   2. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   1. Download the jar file and copy it into an empty folder.
+   2. Double-click the jar file. If double-clicking does not work, open a command terminal, `cd` into the folder containing the jar file, and run `java -jar JAR_FILE_NAME.jar`, replacing `JAR_FILE_NAME.jar` with the downloaded jar file name.<br>
+      Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 2. Saving window preferences
 
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
-   2. Re-launch the app by double-clicking the jar file.`<br>`
+   2. Re-launch the app using the same method used for the initial launch.<br>
       Expected: The most recent window size and location is retained.
-3. _{ more test cases … }_
+
+### Finding persons
+
+Prerequisite: Start with the initial sample data from a clean launch, before running commands that add, delete, or clear
+records.
+
+1. Test case: `find n/alex lim`<br>
+   Expected: Two persons are listed, `Alex Yeoh` and `Jane Lim`.
+2. Test case: `find p/98765432`<br>
+   Expected: One person is listed, `Lee Mei`.
+3. Test case: `find nric/S1234567D`<br>
+   Expected: One patient is listed, `Alex Yeoh`.
+4. Test case: `find Alex`<br>
+   Expected: No person list update is performed. The result display shows an invalid command format message.
 
 ### Deleting a person
 
 1. Deleting a person while all persons are being shown
 
    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
-   2. Test case: `delete 1<br>`
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
-   3. Test case: `delete 0<br>`
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
-   4. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)`<br>`
-      Expected: Similar to previous.
-2. _{ more test cases … }_
+   2. Test case: `delete 1`<br>
+      Expected: First contact is deleted from the list. Details of the deleted contact are shown in the status message. Timestamp in the status bar is updated.
+   3. Test case: `delete 0`<br>
+      Expected: No person is deleted. Error details are shown in the status message. Status bar remains the same.
+   4. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size).<br>
+      Expected: Similar to the previous test case.
 
-### Saving data
+### Adding a Doctor
 
-1. Dealing with missing/corrupted data files
+1. Adding a Doctor with the same name
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
-2. _{ more test cases … }_
+   1. Prerequisite: A Doctor with the same name, e.g. `Dr Tom Chan`, is in the ClinicBook.
+   2. Test case: `add-doctor n/Dr Tom Chan p/87654321 e/drtan@example.com` Expected: A warning message with the Doctor of the same name is returned. Enter again to add the new record.
+
+### Ordering a lab or imaging test
+
+1. Ordering a test for an existing patient
+
+   1. Prerequisite: Start from a clean launch with the default sample data. On a fresh data file, `Alex Yeoh` has ID `1` and `Tan Wei Ming` has ID `2`. If your IDs differ, adjust the commands accordingly.
+   2. Test case: `order-test id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/2`<br>
+      Expected: A success message is shown for the new lab/imaging test order.
+   3. Test case: `order-test id/1 test/Complete Blood Count testtype/LAB vd/2026-04-09 ordered/2`<br>
+      Expected: A success message is shown and the second test is appended to the same patient record.
+   4. Invalid test case: `order-test id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/999`<br>
+      Expected: No test is added. The result display shows that the doctor ID is invalid.
+
+### Retrieving a patient's medical history
+
+1. Viewing history after adding a diagnosis and ordered test
+
+   1. Prerequisite: Start from a clean launch with the default sample data. On a fresh data file, `Alex Yeoh` has ID `1`, `Tan Wei Ming` has ID `2`, and `Lee Mei` has ID `4`. If your IDs differ, adjust the commands accordingly.
+   2. Test case: `diagnosis id/1 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever sym/cough med/Paracetamol dose/500mg freq/3 times daily dispensed/4`<br>
+      Expected: A success message is shown for the diagnosis.
+   3. Test case: `order-test id/1 test/Chest X-Ray testtype/IMAGING vd/2026-04-08 ordered/2`<br>
+      Expected: A success message is shown for the ordered test.
+   4. Test case: `get-history nric/S1234567D`<br>
+      Expected: The result display shows `Alex Yeoh`'s medical history, including the diagnosis, prescription, and the ordered imaging test.
+   5. Invalid test case: `get-history nric/T0000000A`<br>
+      Expected: The result display shows that no patient was found for the supplied NRIC.
+
+### Adding a Diagnosis
+
+1. Adding a diagnosis with valid patient, doctor, and pharmacist IDs
+
+   1. Prerequisite: Start from a clean launch with the sample data. Patient ID `1`, doctor ID `2`, and pharmacist ID `4` are present.
+   2. Test case: `diagnosis id/1 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever sym/cough med/Paracetamol dose/500mg freq/3 times daily dispensed/4`<br>
+      Expected: A success message is shown for the new diagnosis.
+2. Adding a diagnosis with a missing description
+
+   1. Prerequisite: Start from a clean launch with the sample data. Patient ID `1`, doctor ID `2`, and pharmacist ID `4` are present.
+   2. Test case: `diagnosis id/1 vd/2026-03-01 diagnosed/2 sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4`<br>
+      Expected: No diagnosis is added. The result display shows that the diagnosis description is required.
+3. Adding a diagnosis with an invalid patient ID
+
+   1. Prerequisite: Start from a clean launch with the sample data. Patient ID `1`, doctor ID `2`, and pharmacist ID `4` are present.
+   2. Test case: `diagnosis id/0 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4`<br>
+      Expected: No diagnosis is added. The result display shows that the patient ID provided is invalid.
+4. Adding a diagnosis with a future visit date
+
+   1. Prerequisite: Start from a clean launch with the sample data. Patient ID `1`, doctor ID `2`, and pharmacist ID `4` are present.
+   2. Test case: `diagnosis id/1 desc/Flu vd/2099-01-01 diagnosed/2 sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4`<br>
+      Expected: No diagnosis is added. The result display shows that the visit date cannot be later than today.
