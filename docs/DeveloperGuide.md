@@ -17,6 +17,8 @@ This project is based on the AddressBook-Level3 project created by the [SE-EDU i
 
 * Trevor: AI tools, including ChatGPT and Codex, were used to support various aspects of development and test creation. These tools also assisted with smaller tasks, such as locating relevant sections of code and clarifying programming concepts. All suggestions were reviewed and adapted before inclusion.
 
+* Veon: AI tools (Claude) were used to assist with implementation and development of testcases. These tools were used to assist in locate the areas of code to be modified for a feature enhancement. All suggestions were reviewed and adapted before inclusion.
+
 ## **Setting up, getting started**
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
