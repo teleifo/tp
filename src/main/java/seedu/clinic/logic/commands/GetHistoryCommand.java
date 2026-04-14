@@ -97,7 +97,7 @@ public class GetHistoryCommand extends Command {
     private String formatPatientHeader(Patient patient) {
         StringBuilder header = new StringBuilder();
         header.append(String.format("Medical history for %s (NRIC: %s)", patient.getName(), patient.getNric().value));
-        header.append(System.lineSeparator());
+        header.append("\n");
         header.append(String.format("Date of birth: %s", patient.getDateOfBirth()));
         return header.toString();
     }

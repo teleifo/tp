@@ -25,7 +25,6 @@ public class NRICTest {
 
         assertFalse(NRIC.isValidNric(""));
         assertFalse(NRIC.isValidNric(" "));
-        assertFalse(NRIC.isValidNric("F1234567D"));
         assertFalse(NRIC.isValidNric("S123456D"));
         assertFalse(NRIC.isValidNric("S1234A67D"));
         assertFalse(NRIC.isValidNric("S1234567A"));
@@ -33,6 +32,10 @@ public class NRICTest {
 
         assertTrue(NRIC.isValidNric("S1234567D"));
         assertTrue(NRIC.isValidNric("T1234567J"));
+        assertTrue(NRIC.isValidNric("F1234567D"));
+        assertTrue(NRIC.isValidNric("G1234567D"));
+        assertTrue(NRIC.isValidNric("M1234567B"));
+        assertTrue(NRIC.isValidNric("F0515994Q"));
     }
 
     @Test

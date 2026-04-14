@@ -4,15 +4,16 @@ import static java.util.Objects.requireNonNull;
 import static seedu.clinic.commons.util.AppUtil.checkArgument;
 
 /**
- * Represents a Singapore NRIC in the address book.
+ * Represents a Singapore NRIC/FIN in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidNric(String)}
  */
 @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
 public class NRIC {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "NRICs should start with S or T, followed by 7 digits, and end with a valid checksum letter";
-    public static final String VALIDATION_REGEX = "[ST]\\d{7}[A-Z]";
+            "NRICs/FINs should start with S, T, F, G, or M, followed by 7 digits, and end with a letter. "
+                    + "S/T values must end with a valid checksum letter.";
+    public static final String VALIDATION_REGEX = "[STFGM]\\d{7}[A-Z]";
     private static final int[] WEIGHTS = {2, 7, 6, 5, 4, 3, 2};
     private static final String CHECKSUM_CHARACTERS = "JZIHGFEDCBA";
 
@@ -30,11 +31,15 @@ public class NRIC {
     }
 
     /**
-     * Returns true if a given string is a valid Singapore NRIC.
+     * Returns true if a given string is a valid Singapore NRIC/FIN.
      */
     public static boolean isValidNric(String test) {
         if (!test.matches(VALIDATION_REGEX)) {
             return false;
+        }
+
+        if (test.charAt(0) == 'F' || test.charAt(0) == 'G' || test.charAt(0) == 'M') {
+            return true;
         }
 
         int offset = test.charAt(0) == 'T' ? 4 : 0;

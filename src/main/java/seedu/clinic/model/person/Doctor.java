@@ -91,7 +91,7 @@ public class Doctor extends Person {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder("Doctor")
                 .add("name", getName())
                 .add("id", getId())
                 .add("phone", getPhone())

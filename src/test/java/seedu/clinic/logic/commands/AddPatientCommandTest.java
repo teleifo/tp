@@ -161,7 +161,7 @@ public class AddPatientCommandTest {
     public void toStringMethod() {
         Patient patient = createPatient("Alice Pauline", "T1234567J");
         AddPatientCommand addPatientCommand = new AddPatientCommand(patient);
-        String expected = AddPatientCommand.class.getCanonicalName() + "{Patient=" + patient + "}";
+        String expected = AddPatientCommand.class.getSimpleName() + "{Patient=" + patient + "}";
         assertEquals(expected, addPatientCommand.toString());
     }
 

@@ -136,7 +136,7 @@ public class ClinicBookTest {
 
     @Test
     public void toStringMethod() {
-        String expected = ClinicBook.class.getCanonicalName() + "{persons=" + clinicBook.getPersonList() + "}";
+        String expected = ClinicBook.class.getSimpleName() + "{persons=" + clinicBook.getPersonList() + "}";
         assertEquals(expected, clinicBook.toString());
     }
 

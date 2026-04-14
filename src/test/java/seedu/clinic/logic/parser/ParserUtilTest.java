@@ -31,8 +31,10 @@ public class ParserUtilTest {
 
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_PHONE = "123456";
+    private static final String VALID_COMPLEX_PHONE = "1234 5678 (HP) 1111-3333 (Office)";
     private static final String VALID_ADDRESS = "123 Main Street #0505";
     private static final String VALID_EMAIL = "rachel@example.com";
+    private static final String VALID_COMPLEX_EMAIL = "test++a@gmail.com";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
 
@@ -123,6 +125,12 @@ public class ParserUtilTest {
     }
 
     @Test
+    public void parsePhone_validComplexValue_returnsPhone() throws Exception {
+        Phone expectedPhone = new Phone(VALID_COMPLEX_PHONE);
+        assertEquals(expectedPhone, ParserUtil.parsePhone(VALID_COMPLEX_PHONE));
+    }
+
+    @Test
     public void parseAddress_null_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> ParserUtil.parseAddress((String) null));
     }
@@ -166,6 +174,12 @@ public class ParserUtilTest {
         String emailWithWhitespace = WHITESPACE + VALID_EMAIL + WHITESPACE;
         Email expectedEmail = new Email(VALID_EMAIL);
         assertEquals(expectedEmail, ParserUtil.parseEmail(emailWithWhitespace));
+    }
+
+    @Test
+    public void parseEmail_validValueWithConsecutiveSpecialCharacters_returnsEmail() throws Exception {
+        Email expectedEmail = new Email(VALID_COMPLEX_EMAIL);
+        assertEquals(expectedEmail, ParserUtil.parseEmail(VALID_COMPLEX_EMAIL));
     }
 
     @Test

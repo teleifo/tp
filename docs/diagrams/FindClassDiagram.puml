@@ -1,0 +1,42 @@
+@startuml
+!include style.puml
+show members
+hide empty members
+left to right direction
+skinparam arrowThickness 1.1
+skinparam arrowColor #4D4D4D
+skinparam classAttributeIconSize 0
+skinparam class {
+    BackgroundColor #FFFFFF
+    BorderColor #4D4D4D
+    FontColor #111111
+    StereotypeFontColor #111111
+}
+
+package Logic {
+Class "{abstract}\nCommand" as Command
+Class FindCommand
+}
+
+package Model {
+Class "PersonMatchesFindCriteriaPredicate" as Predicate {
+    nameKeywords
+    phone
+    nric
+}
+Class Person
+Class Patient
+}
+
+FindCommand --|> Command
+FindCommand --> Predicate
+
+Predicate ..> Person
+Patient --|> Person
+Predicate -[hidden]right-> Person
+Predicate -[hidden]down-> Patient
+note right of Patient
+  NRIC search applies
+  only to Patient
+end note
+@enduml

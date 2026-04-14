@@ -1,0 +1,64 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":ClinicBookParser" as ClinicBookParser LOGIC_COLOR
+participant ":FindCommandParser" as FindCommandParser LOGIC_COLOR
+participant "f:FindCommand" as FindCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("find n/Alice Bob")
+activate LogicManager
+
+LogicManager -> ClinicBookParser : parseCommand("find n/Alice Bob")
+activate ClinicBookParser
+
+create FindCommandParser
+ClinicBookParser -> FindCommandParser
+activate FindCommandParser
+
+FindCommandParser --> ClinicBookParser
+deactivate FindCommandParser
+
+ClinicBookParser -> FindCommandParser : parse(" n/Alice Bob")
+activate FindCommandParser
+
+FindCommandParser -> FindCommandParser : tokenize, validate,\nand build predicate
+
+create FindCommand
+FindCommandParser -> FindCommand : new FindCommand(pred)
+activate FindCommand
+
+FindCommand --> FindCommandParser :
+deactivate FindCommand
+
+FindCommandParser --> ClinicBookParser : f
+deactivate FindCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+FindCommandParser -[hidden]-> ClinicBookParser
+destroy FindCommandParser
+
+ClinicBookParser --> LogicManager : f
+deactivate ClinicBookParser
+
+LogicManager -> FindCommand : execute(model)
+activate FindCommand
+
+FindCommand -> Model : updateFilteredPersonList(pred)
+activate Model
+
+Model --> FindCommand
+deactivate Model
+
+FindCommand --> LogicManager : result
+deactivate FindCommand
+
+[<-- LogicManager
+deactivate LogicManager
+@enduml

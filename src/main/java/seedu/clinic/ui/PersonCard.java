@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import seedu.clinic.model.person.Patient;
 import seedu.clinic.model.person.Person;
@@ -55,9 +56,13 @@ public class PersonCard extends UiPart<Region> {
         super(FXML);
         this.person = person;
 
-        rowNumber.setText(displayedIndex + ".");
+        rowNumber.setText("Index " + displayedIndex + ".");
         personIdLabel.setText("(ID: " + person.getId() + ")");
+        role.setText(person.getRole());
         name.setText(person.getName().fullName);
+        allowWrapping(name);
+        HBox.setHgrow(name, Priority.ALWAYS);
+        keepFullyVisible(role);
         if (person instanceof Patient) {
             nric.setText("NRIC: " + ((Patient) person).getNric().value);
         } else {
@@ -67,12 +72,23 @@ public class PersonCard extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
-        role.setText(person.getRole());
+        allowWrapping(address);
+        allowWrapping(email);
 
         if (person instanceof Patient patient) {
             patient.getAllergies().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
         }
+    }
+
+    private static void allowWrapping(Label label) {
+        label.setWrapText(true);
+        label.setMinWidth(0);
+        label.setMaxWidth(Double.MAX_VALUE);
+    }
+
+    private static void keepFullyVisible(Label label) {
+        label.setMinWidth(Region.USE_PREF_SIZE);
     }
 }

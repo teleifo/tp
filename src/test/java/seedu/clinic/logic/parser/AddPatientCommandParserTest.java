@@ -39,6 +39,26 @@ public class AddPatientCommandParserTest {
             + " p/94351253"
             + " a/123, Jurong West Ave 6, #08-111";
 
+    private static final String VALID_ARGS_WITH_FORMATTED_PHONE = " n/John Doe"
+            + " nric/S7510505C"
+            + " dob/01-01-1990"
+            + " sex/MALE"
+            + " allergy/Penicillin"
+            + " allergy/Shellfish"
+            + " e/johnd@example.com"
+            + " p/1234 5678 (HP) 1111-3333 (Office)"
+            + " a/123 Clementi Ave 3, #04-12";
+
+    private static final String VALID_ARGS_WITH_FOREIGN_FIN = " n/John Doe"
+            + " nric/F0515994Q"
+            + " dob/01-01-1912"
+            + " sex/Male"
+            + " allergy/G6PD"
+            + " allergy/Shellfish"
+            + " e/john@gmail.com"
+            + " p/90010000"
+            + " a/123 Marina Terrace";
+
     private final AddPatientCommandParser parser = new AddPatientCommandParser();
 
     @Test
@@ -62,6 +82,23 @@ public class AddPatientCommandParserTest {
 
         org.junit.jupiter.api.Assertions.assertEquals(Sex.MALE, patient.getSex());
         org.junit.jupiter.api.Assertions.assertTrue(patient.getAllergies().isEmpty());
+    }
+
+    @Test
+    public void parse_formattedPhone_success() throws Exception {
+        Command parsedCommand = parser.parse(VALID_ARGS_WITH_FORMATTED_PHONE);
+        Patient patient = extractPatient((AddPatientCommand) parsedCommand);
+
+        org.junit.jupiter.api.Assertions.assertEquals("1234 5678 (HP) 1111-3333 (Office)",
+                patient.getPhone().value);
+    }
+
+    @Test
+    public void parse_foreignFin_success() throws Exception {
+        Command parsedCommand = parser.parse(VALID_ARGS_WITH_FOREIGN_FIN);
+        Patient patient = extractPatient((AddPatientCommand) parsedCommand);
+
+        org.junit.jupiter.api.Assertions.assertEquals("F0515994Q", patient.getNric().value);
     }
 
     @Test
@@ -150,6 +187,20 @@ public class AddPatientCommandParserTest {
                 + " a/123, Jurong West Ave 6, #08-111";
 
         assertParseFailure(parser, invalidAllergy, Tag.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_mistypedAllergyPrefix_failure() {
+        String mistypedAllergyPrefix = " n/John Doe"
+                + " nric/S7630902G"
+                + " dob/01-01-1990"
+                + " sex/MALE"
+                + " allergy/Penicillin all/Shellfish"
+                + " e/johnd@example.com"
+                + " p/91234567"
+                + " a/123 Clementi Ave 3, #04-12";
+
+        assertParseFailure(parser, mistypedAllergyPrefix, Tag.MESSAGE_CONSTRAINTS);
     }
 
     @Test

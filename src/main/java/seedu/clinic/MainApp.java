@@ -36,15 +36,21 @@ import seedu.clinic.ui.UiManager;
  */
 public class MainApp extends Application {
 
-    public static final Version VERSION = new Version(0, 2, 2, true);
+    public static final Version VERSION = new Version(1, 6, 0, true);
 
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
+    private static final String DATA_FILE_LOAD_ERROR_WARNING_FORMAT = "Warning: The data file %s could not be loaded "
+            + "because it is invalid or malformed.%n"
+            + "ClinicBook has started with an empty clinic book.%n"
+            + "If you want to recover existing data, close ClinicBook and fix or restore the data file before entering "
+            + "any commands. Entering commands may overwrite the data file.";
 
     protected Ui ui;
     protected Logic logic;
     protected Storage storage;
     protected Model model;
     protected Config config;
+    private String startupWarningMessage = "";
 
     @Override
     public void init() throws Exception {
@@ -64,7 +70,7 @@ public class MainApp extends Application {
 
         logic = new LogicManager(model, storage);
 
-        ui = new UiManager(logic);
+        ui = new UiManager(logic, startupWarningMessage);
     }
 
     /**
@@ -87,6 +93,7 @@ public class MainApp extends Application {
         } catch (DataLoadingException e) {
             logger.warning("Data file at " + storage.getClinicBookFilePath() + " could not be loaded."
                     + " Will be starting with an empty ClinicBook.");
+            startupWarningMessage = String.format(DATA_FILE_LOAD_ERROR_WARNING_FORMAT, storage.getClinicBookFilePath());
             initialData = new ClinicBook();
         }
 

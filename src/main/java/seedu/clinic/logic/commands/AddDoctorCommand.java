@@ -12,7 +12,7 @@ import seedu.clinic.model.person.Doctor;
  */
 public class AddDoctorCommand extends AddPersonWithDuplicateWarningCommand<Doctor> {
 
-    public static final String COMMAND_WORD = "add-doc";
+    public static final String COMMAND_WORD = "add-doctor";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a doctor to the clinic book. "
             + "Parameters: "
