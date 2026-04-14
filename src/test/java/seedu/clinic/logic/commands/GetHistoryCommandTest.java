@@ -61,7 +61,7 @@ public class GetHistoryCommandTest {
                 + "  1. Hypertension (Visit date: 2024-05-20, Diagnosed by: Dr Carl (ID: 3))" + lineSep
                 + "     Symptoms: headache, dizziness" + lineSep
                 + "     Prescriptions:" + lineSep
-                + "       - Amlodipine, dosage: 5mg, frequency: once daily, prescribed by: N/A, "
+                + "       - Amlodipine, dosage: 5mg, frequency: once daily, "
                 + "dispensed by: Pharma Pat (ID: 4)" + lineSep
                 + "Lab/Imaging Tests:" + lineSep
                 + "  1. [IMAGING] Chest X-Ray (Ordered date: 2026-04-08, Ordered by: Dr Carl (ID: 3))";
@@ -83,17 +83,17 @@ public class GetHistoryCommandTest {
                 + "  1. Flu (Visit date: 2027-03-01, Diagnosed by: Dr Carl (ID: 3))" + lineSep
                 + "     Symptoms: fever, cough" + lineSep
                 + "     Prescriptions:" + lineSep
-                + "       - Paracetamol, dosage: 500mg, frequency: 3 times daily, prescribed by: N/A, "
+                + "       - Paracetamol, dosage: 500mg, frequency: 3 times daily, "
                 + "dispensed by: Pharma Pat (ID: 4)" + lineSep
                 + "  2. Flu (Visit date: 2026-03-01, Diagnosed by: Dr Carl (ID: 3))" + lineSep
                 + "     Symptoms: fever, cough" + lineSep
                 + "     Prescriptions:" + lineSep
-                + "       - Paracetamol, dosage: 500mg, frequency: 3 times daily, prescribed by: N/A, "
+                + "       - Paracetamol, dosage: 500mg, frequency: 3 times daily, "
                 + "dispensed by: Pharma Pat (ID: 4)" + lineSep
                 + "  3. Flu (Visit date: 2025-03-01, Diagnosed by: Dr Carl (ID: 3))" + lineSep
                 + "     Symptoms: fever, cough" + lineSep
                 + "     Prescriptions:" + lineSep
-                + "       - Paracetamol, dosage: 500mg, frequency: 3 times daily, prescribed by: N/A, "
+                + "       - Paracetamol, dosage: 500mg, frequency: 3 times daily, "
                 + "dispensed by: Pharma Pat (ID: 4)" + lineSep
                 + "Lab/Imaging Tests: none ordered.";
         assertCommandSuccess(command, model, expectedMessage, expectedModel);

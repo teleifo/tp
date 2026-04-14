@@ -934,8 +934,8 @@ Use case ends.
 
 ClinicBook required a higher level of effort compared to AB3. While AB3 manages a single main entity type, ClinicBook manages multiple role-specific person types: patients, doctors, and pharmacists. This increased complexity across the model, commands, validation, storage, UI, and test coverage, as many features needed to preserve shared `Person` behaviour while enforcing role-specific constraints.
 
-The main implementation challenge was redesigning AB3's contact-management workflow into a clinic workflow. Patient records required additional medical data such as NRIC, date of birth, sex, allergies, diagnoses, prescriptions, and lab or imaging test orders. 
-Clinical commands such as `diagnosis`, `order-test`, and `get-history` also required validation across different records. 
+The main implementation challenge was redesigning AB3's contact-management workflow into a clinic workflow. Patient records required additional medical data such as NRIC, date of birth, sex, allergies, diagnoses, prescriptions, and lab or imaging test orders.
+Clinical commands such as `diagnosis`, `order-test`, and `get-history` also required validation across different records.
 For example, the app had to ensure that a diagnosis targets a patient, is diagnosed by a doctor,
 and may include prescriptions dispensed by pharmacists. These requirements led to more complex parsing, model operations, and error handling compared to AB3's original name-based contact commands.
 

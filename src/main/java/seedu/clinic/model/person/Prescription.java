@@ -24,7 +24,6 @@ public class Prescription {
     private final String frequency;
     private final int prescribedBy; // NOT USED
     private final int dispensedBy;
-    private final boolean isDispensed;
 
     /**
      * Constructs a {@code Prescription}.
@@ -47,7 +46,6 @@ public class Prescription {
         this.frequency = frequency;
         this.prescribedBy = prescribedBy;
         this.dispensedBy = dispensedBy;
-        this.isDispensed = false;
     }
 
     /**
@@ -84,22 +82,13 @@ public class Prescription {
         return dispensedBy;
     }
 
-    /**
-     * Returns whether this prescription has been dispensed.
-     */
-    public boolean isDispensed() {
-        return isDispensed;
-    }
-
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("medicationName", medicationName)
                 .add("dosage", dosage)
                 .add("frequency", frequency)
-                .add("prescribedBy", prescribedBy)
                 .add("dispensedBy", dispensedBy)
-                .add("isDispensed", isDispensed)
                 .toString();
     }
 
@@ -118,12 +107,11 @@ public class Prescription {
                 && dosage.equals(otherPrescription.dosage)
                 && frequency.equals(otherPrescription.frequency)
                 && prescribedBy == otherPrescription.prescribedBy
-                && dispensedBy == otherPrescription.dispensedBy
-                && isDispensed == otherPrescription.isDispensed;
+                && dispensedBy == otherPrescription.dispensedBy;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(medicationName, dosage, frequency, prescribedBy, dispensedBy, isDispensed);
+        return Objects.hash(medicationName, dosage, frequency, prescribedBy, dispensedBy);
     }
 }

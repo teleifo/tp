@@ -1,7 +1,6 @@
 package seedu.clinic.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.clinic.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.clinic.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.clinic.testutil.Assert.assertThrows;
 
@@ -16,6 +15,10 @@ public class AddDiagnosisCommandParserTest {
 
     private final AddDiagnosisCommandParser parser = new AddDiagnosisCommandParser();
 
+    private static String withUsage(String message) {
+        return message + "\n" + AddDiagnosisCommand.MESSAGE_USAGE;
+    }
+
     @Test
     public void parse_allFieldsPresent_success() throws Exception {
         String userInput = " id/1 desc/Flu vd/2026-03-01 diagnosed/2"
@@ -26,38 +29,71 @@ public class AddDiagnosisCommandParserTest {
     }
 
     @Test
-    public void parse_missingRequiredPrefix_throwsParseException() {
+    public void parse_missingDescription_throwsSpecificParseException() {
         String userInput = " id/1 vd/2026-03-01 diagnosed/2 sym/fever"
                 + " med/Paracetamol dose/500mg freq/3 times daily dispensed/4";
-        assertThrows(ParseException.class,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddDiagnosisCommand.MESSAGE_USAGE), () ->
-                        parser.parse(userInput));
+        assertParseFailure(parser, userInput, withUsage(AddDiagnosisCommand.MESSAGE_MISSING_DESCRIPTION));
+    }
+
+    @Test
+    public void parse_missingPatientId_throwsSpecificParseException() {
+        String userInput = " desc/Flu vd/2026-03-01 diagnosed/2"
+                + " sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4";
+
+        assertParseFailure(parser, userInput, withUsage(AddDiagnosisCommand.MESSAGE_MISSING_PATIENT_ID));
+    }
+
+    @Test
+    public void parse_missingVisitDate_throwsSpecificParseException() {
+        String userInput = " id/1 desc/Flu diagnosed/2"
+                + " sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4";
+
+        assertParseFailure(parser, userInput, withUsage(AddDiagnosisCommand.MESSAGE_MISSING_VISIT_DATE));
+    }
+
+    @Test
+    public void parse_missingDiagnosedBy_throwsSpecificParseException() {
+        String userInput = " id/1 desc/Flu vd/2026-03-01"
+                + " sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4";
+
+        assertParseFailure(parser, userInput, withUsage(AddDiagnosisCommand.MESSAGE_MISSING_DOCTOR));
     }
 
     @Test
     public void parse_noSymptoms_throwsParseException() {
         String userInput = " id/1 desc/Flu vd/2026-03-01 diagnosed/2"
                 + " med/Paracetamol dose/500mg freq/3 times daily dispensed/4";
-        assertThrows(ParseException.class,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddDiagnosisCommand.MESSAGE_USAGE), () ->
-                        parser.parse(userInput));
+        assertParseFailure(parser, userInput, AddDiagnosisCommand.MESSAGE_MISSING_SYMPTOM);
     }
 
     @Test
     public void parse_noPrescriptions_throwsParseException() {
         String userInput = " id/1 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever";
-        assertThrows(ParseException.class,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddDiagnosisCommand.MESSAGE_USAGE), () ->
-                        parser.parse(userInput));
+        assertParseFailure(parser, userInput, AddDiagnosisCommand.MESSAGE_MISSING_MEDICATION);
     }
 
     @Test
-    public void parse_mismatchedPrescriptionFields_throwsParseException() {
+    public void parse_missingDosage_throwsSpecificParseException() {
         String userInput = " id/1 desc/Flu vd/2026-03-01 diagnosed/2"
-                + " sym/fever med/Paracetamol dose/500mg";
-        assertThrows(ParseException.class,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddDiagnosisCommand.MESSAGE_USAGE), () ->
-                        parser.parse(userInput));
+                + " sym/fever med/Paracetamol freq/3 times daily dispensed/4";
+
+        assertParseFailure(parser, userInput, AddDiagnosisCommand.MESSAGE_MISSING_MEDICATION_DETAILS);
+    }
+
+    @Test
+    public void parse_missingFrequency_throwsSpecificParseException() {
+        String userInput = " id/1 desc/Flu vd/2026-03-01 diagnosed/2"
+                + " sym/fever med/Paracetamol dose/500mg dispensed/4";
+
+        assertParseFailure(parser, userInput, AddDiagnosisCommand.MESSAGE_MISSING_MEDICATION_DETAILS);
+    }
+
+    @Test
+    public void parse_missingDispensedBy_throwsSpecificParseException() {
+        String userInput = " id/1 desc/Flu vd/2026-03-01 diagnosed/2"
+                + " sym/fever med/Paracetamol dose/500mg freq/3 times daily";
+
+        assertParseFailure(parser, userInput, AddDiagnosisCommand.MESSAGE_MISSING_MEDICATION_DETAILS);
     }
 
     @Test
@@ -122,5 +158,34 @@ public class AddDiagnosisCommandParserTest {
                 + " sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/-4";
 
         assertParseFailure(parser, userInput, AddDiagnosisCommand.MESSAGE_INVALID_PHARMACIST);
+    }
+
+    @Test
+    public void parse_frequencyWithDoseUnit_success() throws Exception {
+        String userInput = " id/1 desc/Flu vd/2026-03-01 diagnosed/2"
+                + " sym/fever med/Paracetamol dose/500mg freq/1 dose/day dispensed/4";
+
+        AddDiagnosisCommand command = parser.parse(userInput);
+        assertTrue(command.toString().contains("Flu"));
+    }
+
+    @Test
+    public void parse_multipleMedicationsWithFrequencyDoseUnit_success() throws Exception {
+        String userInput = " id/1 desc/Flu vd/2026-03-01 diagnosed/2"
+                + " sym/fever med/Paracetamol dose/500mg freq/1 dose/day dispensed/4"
+                + " med/Ibuprofen dose/400mg freq/2 dose/tablet dispensed/4";
+
+        AddDiagnosisCommand command = parser.parse(userInput);
+        assertTrue(command.toString().contains("Flu"));
+    }
+
+    @Test
+    public void parse_mixedMedicationsWithPartialFrequencyDoseUnit_success() throws Exception {
+        String userInput = " id/1 desc/Flu vd/2026-03-01 diagnosed/2"
+                + " sym/fever med/Paracetamol dose/500mg freq/1 dose/day dispensed/4"
+                + " med/Ibuprofen dose/400mg freq/2 times daily dispensed/4";
+
+        AddDiagnosisCommand command = parser.parse(userInput);
+        assertTrue(command.toString().contains("Flu"));
     }
 }

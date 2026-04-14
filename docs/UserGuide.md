@@ -13,8 +13,8 @@ ClinicBook is a **desktop app for managing clinic records, optimized for use via
 ## Quick start
 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).  
-   **Windows users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationWindows.html).  
+   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+   **Windows users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationWindows.html).
    **Linux users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationLinux.html).
 
 1. Download the latest `.jar` file from [here](https://github.com/AY2526S2-CS2103-T11-3/tp/releases).
@@ -132,8 +132,8 @@ Example:
 
 ### Adding a doctor : `add-doctor`
 
-Adds a doctor to the clinic book.  
-* If a doctor with the same Name / Phone Number / Email is found, confirmation is needed. 
+Adds a doctor to the clinic book.
+* If a doctor with the same Name / Phone Number / Email is found, confirmation is needed.
 * A doctor cannot be added if an existing doctor has the exact same Name, Phone Number, and Email Address.
 
 Format:
@@ -146,7 +146,7 @@ Example:
 
 ### Adding a pharmacist : `add-pharmacist`
 
-Adds a pharmacist to the clinic book.   
+Adds a pharmacist to the clinic book.
 * If a pharmacist with the same Name / Phone Number / Email is found, confirmation is needed.
 * A pharmacist cannot be added if an existing pharmacist has the exact same Name, Phone Number, and Email Address.
 

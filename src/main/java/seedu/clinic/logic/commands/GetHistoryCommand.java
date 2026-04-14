@@ -148,16 +148,12 @@ public class GetHistoryCommand extends Command {
     }
 
     private String formatPrescription(Prescription prescription, Map<Integer, String> personNameMap) {
-        String prescribedBy = prescription.getPrescribedBy() == 0
-            ? "N/A"
-            : formatPersonReference(prescription.getPrescribedBy(), personNameMap);
         String dispensedBy = formatPersonReference(prescription.getDispensedBy(), personNameMap);
 
-        return String.format("%s, dosage: %s, frequency: %s, prescribed by: %s, dispensed by: %s",
+        return String.format("%s, dosage: %s, frequency: %s, dispensed by: %s",
                 prescription.getMedicationName(),
                 prescription.getDosage(),
                 prescription.getFrequency(),
-                prescribedBy,
                 dispensedBy);
     }
 
