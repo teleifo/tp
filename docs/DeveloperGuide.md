@@ -1082,3 +1082,25 @@ records.
    1. Prerequisite: A Doctor with the same name, e.g. `Dr Tom Chan`, is in the ClinicBook.
    2. Test case: `add-doctor n/Dr Tom Chan p/87654321 e/drtan@example.com` Expected: A warning message with the Doctor of the same name is returned. Enter again to add the new record.
 
+### Adding a Diagnosis
+
+1. Adding a diagnosis with valid patient, doctor, and pharmacist IDs
+
+   1. Prerequisite: Start from a clean launch with the sample data. Patient ID `1`, doctor ID `2`, and pharmacist ID `4` are present.
+   2. Test case: `diagnosis id/1 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever sym/cough med/Paracetamol dose/500mg freq/3 times daily dispensed/4`<br>
+      Expected: A success message is shown for the new diagnosis.
+2. Adding a diagnosis with a missing description
+
+   1. Prerequisite: Start from a clean launch with the sample data. Patient ID `1`, doctor ID `2`, and pharmacist ID `4` are present.
+   2. Test case: `diagnosis id/1 vd/2026-03-01 diagnosed/2 sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4`<br>
+      Expected: No diagnosis is added. The result display shows that the diagnosis description is required.
+3. Adding a diagnosis with an invalid patient ID
+
+   1. Prerequisite: Start from a clean launch with the sample data. Patient ID `1`, doctor ID `2`, and pharmacist ID `4` are present.
+   2. Test case: `diagnosis id/0 desc/Flu vd/2026-03-01 diagnosed/2 sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4`<br>
+      Expected: No diagnosis is added. The result display shows that the patient ID provided is invalid.
+4. Adding a diagnosis with a future visit date
+
+   1. Prerequisite: Start from a clean launch with the sample data. Patient ID `1`, doctor ID `2`, and pharmacist ID `4` are present.
+   2. Test case: `diagnosis id/1 desc/Flu vd/2099-01-01 diagnosed/2 sym/fever med/Paracetamol dose/500mg freq/3 times daily dispensed/4`<br>
+      Expected: No diagnosis is added. The result display shows that the visit date cannot be later than today.
